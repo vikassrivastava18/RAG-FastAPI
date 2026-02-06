@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #343a40;
+        }
+
+        .form-control:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+
+        .btn-primary {
+            background-color: #0d6efd;
+            border: none;
+            padding: 10px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+            transform: translateY(-1px);
+        }
+
+        #errorMessage {
+            transition: all 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <h2>Admin Login</h2>
+        <form id="loginForm" novalidate>
+            <div class="mb-3">
+                <label for="username" class="form-label">Email</label>
+                <input type="email" class="form-control" id="username" name="username" required
+                    placeholder="" autocomplete="username">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required
+                    placeholder="" autocomplete="current-password">
+                <!-- <div class="form-text">Must be at least 8 characters long</div> -->
+            </div>
+            <button type="submit" class="btn btn-primary w-100 py-2">
+                <span class="spinner-border spinner-border-sm d-none" id="spinner" role="status"
+                    aria-hidden="true"></span>
+                <span id="loginText">Login</span>
+            </button>
+        </form>
+        <div id="errorMessage" class="alert alert-danger mt-3 d-none"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#loginForm').submit(function (e) {
+                e.preventDefault();
+
+                // Show loading spinner
+                $('#spinner').removeClass('d-none');
+                $('#loginText').text('Logging in...');
+                $('#errorMessage').addClass('d-none');
+
+                // Get form data
+                const context= {
+                    "username": $('#username').val(),
+                    "password": $('#password').val()
+                };
+
+                // Make AJAX request
+                $.ajax({
+                    url: '/auth/login/',
+                    method: 'POST',
+                    data: context,
+                    success: function (response, status, xhr) {
+                        // On successful login, redirect comes from server
+                        window.location.href = '/admin/';
+                    },
+                    error: function (xhr, status, error) {
+                        // Hide spinner
+                        $('#spinner').addClass('d-none');
+                        $('#loginText').text('Login');
+
+                        // Show error message
+                        const errorMessage = $('#errorMessage');
+                        if (xhr.status === 401) {
+                            errorMessage.text('Invalid username or password');
+                        } else {
+                            errorMessage.text('An error occurred. Please try again.');
+                        }
+                        errorMessage.removeClass('d-none');
+
+                        // Add shake animation to form
+                        $('.login-container').css('animation', 'shake 0.5s');
+                        setTimeout(() => {
+                            $('.login-container').css('animation', '');
+                        }, 500);
+                    }
+                });
+            });
+        });
+
+
+
+
+    </script>
+
+    <!-- <script>
+    $(document).ready(function () {
+        $('#loginForm').submit(function (e) {
+            e.preventDefault();
+            console.log("Form submission intercepted"); // Debug log
+            
+            const $form = $(this);
+            const $submitBtn = $form.find('button[type="submit"]');
+            const $spinner = $('#spinner');
+            const $loginText = $('#loginText');
+            
+            // Show loading state
+            $spinner.removeClass('d-none');
+            $loginText.text('Logging in...');
+            $submitBtn.prop('disabled', true);
+
+            const formData = {
+                username: $('#username').val().trim(),
+                password: $('#password').val().trim()
+            };
+
+            console.log("Form data:", formData); // Debug log
+
+            // Basic validation
+            if (!formData.username || !formData.password) {
+                showError('Please enter both email and password');
+                resetButtonState();
+                return;
+            }
+
+            // Email format validation
+            if (!isValidEmail(formData.username)) {
+                showError('Please enter a valid email address');
+                resetButtonState();
+                return;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '/login',
+                data: $form.serialize(),
+                success: function (response, status, xhr) {
+                    console.log("Login successful, response:", response); // Debug log
+                    console.log("Status:", status); // Debug log
+                    console.log("XHR:", xhr); // Debug log
+                    
+                    // Default redirect if none specified
+                    const redirectUrl = response.redirect || '/admin';
+                    console.log("Redirecting to:", redirectUrl); // Debug log
+                    
+                    window.location.href = redirectUrl;
+                },
+                error: function (xhr, status, error) {
+                    console.error("Login error:", error); // Debug log
+                    console.error("Status:", status); // Debug log
+                    console.error("XHR:", xhr); // Debug log
+                    
+                    let errorMessage = 'An error occurred. Please try again.';
+                    
+                    if (xhr.status === 401) {
+                        errorMessage = 'Invalid email or password';
+                    } else if (xhr.status === 422) {
+                        errorMessage = 'Validation error: ';
+                        if (xhr.responseJSON?.errors) {
+                            errorMessage += Object.values(xhr.responseJSON.errors).join(', ');
+                        } else {
+                            errorMessage += 'Please check your input';
+                        }
+                    }
+                    
+                    showError(errorMessage);
+                    resetButtonState();
+                },
+                complete: function () {
+                    console.log("Request completed"); // Debug log
+                }
+            });
+        });
+
+        function showError(message) {
+            console.log("Showing error:", message); // Debug log
+            const $error = $('#errorMessage');
+            $error.html(message).removeClass('d-none');
+            setTimeout(() => {
+                $error.addClass('d-none');
+            }, 5000);
+        }
+        
+        function resetButtonState() {
+            $('#spinner').addClass('d-none');
+            $('#loginText').text('Login');
+            $('button[type="submit"]').prop('disabled', false);
+        }
+        
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+    });
+</script>
+  -->
+</body>
+
+</html>
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <h2>Admin Login</h2>
+        <form id="loginForm">
+            <div class="mb-3">
+                <label for="username" class="form-label">Email</label>
+                <input type="email" class="form-control" id="username" required placeholder="admin@example.com">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" required placeholder="SecurePass123!">
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+        <div id="errorMessage" class="alert alert-danger mt-3 d-none"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#loginForm').submit(function (e) {
+                e.preventDefault();
+
+                const username = $('#username').val();
+                const password = $('#password').val();
+
+                // Basic client-side validation
+                if (!username || !password) {
+                    showError('Please enter both email and password');
+                    return;
+                }
+
+                // Make AJAX request to login endpoint
+                $.ajax({
+                    type: 'POST',
+                    url: '/login',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'Basic ' + btoa(username + ':' + password));
+                    },
+                    success: function () {
+                        window.location.href = '/admin';
+                    },
+                    error: function (xhr) {
+                        if (xhr.status === 401) {
+                            showError('Invalid email or password');
+                        } else {
+                            showError('An error occurred. Please try again.');
+                        }
+                    }
+                });
+            });
+
+            function showError(message) {
+                const $error = $('#errorMessage');
+                $error.text(message).removeClass('d-none');
+            }
+        });
+
+    </script>
+</body>
+
+</html> -->

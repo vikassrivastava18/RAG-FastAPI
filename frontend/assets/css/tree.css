@@ -1,0 +1,124 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+ul,
+ol {
+    list-style-type: none;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+li {
+    padding-left: 0;
+    margin-left: 0;
+}
+
+a[href] {
+    text-decoration: none;
+    color: inherit;
+}
+
+body {
+    font-family: "Droid Sans", sans-serif;
+    font-size: 62.5%;
+}
+
+button {
+    padding: 0;
+    margin: 0;
+    border: none;
+    background-color: inherit;
+    color: inherit;
+    font-size: inherit;
+}
+
+.svg-arrow {
+    fill: inherit;
+    stroke: inherit;
+    width: inherit;
+    height: inherit;
+}
+
+.list[class$=main] {
+    font-size: 1rem;
+    color: #99a4ae;
+    min-width: 15em;
+    width: 33.3333333333%;
+}
+
+.list-item--collapse--arrow {
+    margin-top: 0.6em;
+    margin-bottom: 0.6em;
+}
+
+.list-item__header {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.list-item__body {
+    display: none;
+    padding-left: 0.65em;
+    margin-left: 0.45em;
+}
+
+.list-item__btn-arrow {
+    display: block;
+    width: 1em;
+    height: 1em;
+    margin-right: 0.2em;
+}
+
+.list-item__icon-arrow {
+    width: 1em;
+    height: 1em;
+    fill: none;
+    stroke: currentColor;
+}
+
+.list-item__icon-arrow__arrow {
+    display: block;
+    width: 1em;
+    height: 1em;
+    transform-origin: 50% 50%;
+    transition: transform 100ms ease-in-out, fill 100ms ease-in-out;
+}
+
+.list-item--collapse--arrow.is-open>.list-item__header .list-item__icon-arrow__arrow {
+    transform: rotate(90deg);
+    fill: currentColor;
+}
+
+.list-item--collapse--arrow.is-open>.list-item__body {
+    display: block;
+    border-left-style: solid;
+    border-left-width: 0.1em;
+}
+
+.list-item--collapse--arrow.is-active>.list-item__header {
+    color: #086cc4;
+}
+
+.list-item--collapse--arrow.is-active>.list-item__body {
+    border-left-color: #086cc4;
+}
+
+
+.scrollable-div {
+    max-height: 180px;
+    /* Set the height to 200px */
+    overflow-y: auto;
+    /* Add vertical scrollbar if content exceeds height */
+    /*border: 1px solid #ccc; Optional: Add a border for better visibility
+    padding: 10px;         Optional: Add some padding*/
+}
+
+
+svg {
+    position: relative;
+    bottom: 5px;
+}

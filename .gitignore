@@ -1,0 +1,11 @@
+# Remove the virtaul environment
+.venv/
+
+# Remove all log files
+*.loggit remote add origin https://github.com/vikassrivastava18/RAG-FastAPI.git
+
+# Remove all the .env files
+*.env
+
+# Remove .pyc files
+*.pyc

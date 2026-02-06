@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/assets/css/tree.css" />
+    <link rel="icon" type="image/x-icon" href="/assets/images/favicon.png" />
+    <!-- Karla Font Link-->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;700&display=swap" rel="stylesheet"> -->
+
+    <!-- powerpoint generation  -->
+    <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+
+    <!-- Bootstrap 5 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+
+    <!-- Bootstrrap Select Css -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" />
+    <!-- Style CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css" />
+
+    <!-- Font Awesom CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- selec 2 CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+  <!-- Datatable link -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css">
+  
+    <style>
+        .popup-overlay {
+            position: fixed;
+            bottom: 20px;
+            /* distance from bottom */
+            right: 20px;
+            /* distance from right */
+            width: auto;
+            /* fit content */
+            height: auto;
+            /* fit content */
+            background: transparent;
+            /* no overlay background */
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            z-index: 1000;
+            pointer-events: none;
+            /* so clicks pass through except popup-box */
+        }
+
+        .popup-box {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            pointer-events: auto;
+            /* enable clicks */
+            max-width: 300px;
+        }
+
+        #popup-close {
+            margin-top: 15px;
+            padding: 5px 15px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Chrome, Safari, Edge, Opera */
+        input.no-spinner::-webkit-outer-spin-button,
+        input.no-spinner::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input.no-spinner[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+
+        /*  */
+
+        /* Custom styles for the chapter box */
+        .chapter-box {
+            padding: 10px;
+            background: #fff;
+        }
+
+        .chapter-item {
+            margin-bottom: 10px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .chapter-header {
+            padding: 10px 15px;
+            background: #f8f9fa;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chapter-header:hover {
+            background: #e9ecef;
+        }
+
+        .chapter-title {
+            font-weight: 500;
+        }
+
+        .subtopic-list {
+            padding: 0;
+            margin: 0;
+            display: none;
+            background: #fff;
+        }
+
+        .subtopic-item {
+            padding: 8px 15px 8px 30px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .subtopic-item:hover {
+            background: #f8f9fa;
+        }
+
+        .toggle-icon {
+            font-size: 12px;
+        }
+
+        .status {
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .loading {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .pdftablecontent-container .status {
+            margin-bottom: 0px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+
+        .pdf-tablecontent {
+            padding: 0px;
+            border: none;
+
+        }
+
+        .pdf-tablecontent.showcontent {
+            padding: 12px 16px;
+            border: 1px solid #e3e3e3;
+            border-radius: 4px;
+            background-color: aliceblue;
+            height: 130px;
+            overflow: auto;
+            overflow-x: hidden;
+        }
+
+        .pdf-tablecontent.showcontent ul {
+            padding: 0px;
+            margin-bottom: 0px;
+        }
+
+        .pdf-tablecontent.showcontent ul li {
+            border: none;
+            margin-bottom: 2px;
+            font-size: 14px;
+        }
+
+        .pdf-tablecontent.showcontent .bookTitle {
+            font-size: 15px;
+        }
+
+        .pdftablecontent-container :is(.dataTables_length, .dataTables_filter, .dataTables_info, .dataTables_paginate) {
+            display: inline-block;
+            width: 50%;
+        }
+
+        .pdftablecontent-container :is(.dataTables_length, .dataTables_filter) {
+            margin-bottom: 12px;
+        }
+
+        .pdftablecontent-container :is(.dataTables_info, .dataTables_paginate) {
+            margin-top: 12px;
+        }
+
+        .pdftablecontent-container :is(.dataTables_filter, .dataTables_paginate) {
+            text-align: right;
+        }
+
+        .user-info {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .username {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .logout-link {
+            color: #4285f4;
+            text-decoration: none;
+        }
+
+        .logout-link:hover {
+            text-decoration: underline;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <div class="template-wrapper pdftablecontent-container ">
+        <div class="container " style="position: relative; top: 25px">
+            <div class="innerContainer mb-3">
+                <div class="head-section text-center">
+                    <div class="logobrand">
+                        <img src="/assets/images/logo1.png" alt="WisTech Logo" />
+                    </div>
+                </div>
+
+
+                <div class="column-wrapper CstmColumn-wrapper" id="myForm">
+                    <div class="left-column w-100" id="resizable-div">
+                        <div class="formSection pt-0" style="padding: 40px;">
+                            <div class="fieldBox">
+                                <!-- <div class="user-info">
+                                    Logged in as: <strong>{{ username }}</strong> |
+                                    <a href="/logout">Logout</a>
+                                </div> -->
+                                <!-- Right-aligned user info section -->
+                                <div class="userlogout-info"
+                                    >
+                                    <span style="font-weight: bold;">{{ username }}</span>
+                                    
+                                    <a href="/logout" class="logoutbtn"><i class="fa-solid fa-right-from-bracket "></i>Logout</a>
+                                </div>
+                                <div class="row">
+                                    <hr>
+
+                                    <div class="col-xl-6 mb-3">
+                                        <span class="labelTitle">Upload Book<span
+                                                class="required-asterisk">*</span></span>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="CstmFileUpload" style="width: 90%;">
+                                                <div class="file-upload file-uploadBook">
+                                                    <div class="file-select">
+                                                        <div class="file-select-button" id="fileName">Choose File</div>
+                                                        <div class="file-select-name" id="noFile">No file chosen...
+                                                        </div>
+                                                        <input type="file" name="chooseFile" id="chooseFile"
+                                                            accept=".pdf,.doc,.docx">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button class="Cstmprimary-btn" id="processBtn" onclick="processBook()">
+                                                Process
+                                            </button>
+                                        </div>
+
+                                        <!-- Status Message -->
+                                        <div id="statusMessage" class="mt-2"></div>
+
+                                        <!-- <div id="bookTitle" class="book-title mt-2 text-center mb-1"></div>
+
+                                        <div class="pdf-tablecontent">
+                                            <ul class="chapter-list" id="chapterList">
+                                            </ul>
+                                        </div> -->
+                                    </div>
+
+
+                                    <div class="col-xl-6 mb-3">
+
+
+
+
+                                        <!-- Book Title -->
+                                        <div id="bookTitle" class="book-title mb-1"></div>
+
+                                        <!-- Scrollable Chapter Box -->
+                                        <div class="pdf-tablecontent">
+                                            <ul class="chapter-list" id="chapterList">
+                                                <!-- Chapters will be loaded here -->
+                                            </ul>
+                                        </div>
+                                    </div>
+
+
+                                    <hr>
+                                    <div class="col-xl-6  mb-3">
+                                        <span class="labelTitle">Book Name<span
+                                                class="required-asterisk">*</span></span>
+                                        <div>
+                                            <input type="text" class="form-control" id="bookName" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6  mb-3">
+                                        <span class="labelTitle">Logo 1<span class="required-asterisk">*</span></span>
+                                        <div class="CstmFileUpload">
+                                            <div class="file-upload file-uploadOne">
+                                                <div class="file-select">
+                                                    <div class="file-select-button" id="fileName">Choose File</div>
+                                                    <div class="file-select-name" id="noFileOne">No file chosen...</div>
+                                                    <input type="file" name="logoOne" id="logoOne">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6  mb-3">
+                                        <span class="labelTitle">Logo 2</span>
+                                        <div class="CstmFileUpload">
+                                            <div class="file-upload file-uploadTwo">
+                                                <div class="file-select">
+                                                    <div class="file-select-button" id="fileName">Choose File</div>
+                                                    <div class="file-select-name" id="noFileTwo">No file chosen...</div>
+                                                    <input type="file" name="logoTwo" id="logoTwo">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-xl-6  mb-3">
+                                        <div class="position-relative">
+                                            <span class="labelTitle">Disclaimer<span
+                                                    class="required-asterisk">*</span></span>
+                                            <div>
+
+                                                <textarea class="form-control" id="disclaimer" rows="1"></textarea>
+                                                <!-- <input type="text" class="form-control" id="disclaimer" required /> -->
+                                            </div>
+                                            <small class="position-absolute top-0 end-0 mt-2">Hold Alt + 0169 for &copy;
+                                                sign </small>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-12 text-end mb-2 mt-2">
+                                        <button class=" Cstmprimary-btn" id="submitBtn">
+                                            Submit
+                                        </button>
+                                    </div>
+                                    <hr>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="divider" style="display: none;">
+                        <i class="fa-solid fa-grip-lines-vertical"></i>
+                    </div>
+                    <div class="right-column" id="fixed-div" style="display: none;">
+                        <div class="result-section">
+                            <div class="resultContent">
+                                <h4></h4>
+                                <div class="logoHead">
+                                    <img src="/assets/images/logo.png" class="w-100" alt="" />
+                                </div>
+
+                                <!-- Loader code added -->
+                                <div id="loader-overlay" class="loader-overlay"></div>
+                                <div id="loader" class="loader"></div>
+
+                                <div class="generated-content">
+                                    <pre id="result" class="p-2"
+                                        style="white-space: pre-wrap; font-family: monospace"></pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="result-footer position-absolute bottom-0 end-0 me-5" style="margin-bottom: 64px">
+                            <div class="pageNum"></div>
+
+                            <button id="downloadBtn" style="display: none" class="btn primary-btn">
+                                <i class="fa-solid fa-download me-2"></i>Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="Cstmtable-Wrapper pb-4">
+                    <table class="w-100" id="myTable">
+                        <thead>
+                            <tr>
+                                <th class="text-center">
+                                    <span>ID</span>
+                                </th>
+                                <th class="text-center">
+                                    <span>Name</span>
+
+                                </th>
+                                <th class="text-center">
+                                    <span>Logo1</span>
+
+                                </th>
+                                <th class="text-center">
+                                    <span>Logo2</span>
+
+                                </th>
+                                <th class="text-center">
+                                    <span>Chapters/Topics</span>
+                                </th>
+                                <th class="text-center">
+                                    <span>Action</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                            <!-- insert table row here -->
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- edit modal -->
+
+    <div class="modal fade" id="editBookModal" tabindex="-1" aria-labelledby="editBookModalLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editBookModalLabel">Edit Book Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editBookForm">
+                        <input type="hidden" id="editBookId">
+                        <div class="row">
+                            <div class="col">
+                                <label for="editBookName" class="form-label">Book Name <span
+                                        class="required-asterisk">*</span></label>
+                                <input type="text" class="form-control" id="editBookName" required>
+                            </div>
+                        </div>
+
+                        <div class="row editbookdetail-form">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Logo 1 <span class="required-asterisk">*</span></label>
+
+
+
+
+                                <div class="CstmFileUpload">
+                                    <div class="file-upload">
+                                           <div class="file-select">
+                                            <!-- <label class="file-select-button" for="editLogoOne" >
+                                                Choose File</label> -->
+                                            <!-- <div class="file-select-name" id="editNoFileOne">No file chosen...</div> -->
+                                            <input type="file" name="logo1" id="editLogoOne" accept="image/*">
+                                        </div>
+                                        <!-- <div class="file-select">
+                                            <div class="file-select-button" for="editLogoOne" id="editFileNameOne">
+                                                Choose File</div>
+                                            <div class="file-select-name" id="editNoFileOne">No file chosen...</div>
+                                            <input type="file" name="logo1" id="editLogoOne" accept="image/*">
+                                        </div> -->
+                                    </div>
+                                </div>
+                                <div class="mt-2" id="currentLogoOne" style="display:none;">
+                                    <small>Current: <span class="current-logo-path"></span></small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Logo 2 </label>
+                                <div class="CstmFileUpload">
+                                    <div class="file-upload">
+                                        <div class="file-select">
+                                            <!-- <div class="file-select-button" id="editFileNameTwo">Choose File</div> -->
+                                            <!-- <div class="file-select-name" id="editNoFileTwo">No file chosen...</div> -->
+                                            <input type="file" name="logo2" id="editLogoTwo" accept="image/*">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-2" id="currentLogoTwo" style="display:none;">
+                                    <small>Current: <span class="current-logo-path"></span></small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="editDiscalimer" class="form-label">Disclaimer <span
+                                        class="required-asterisk">*</span></label>
+                                <textarea class="form-control" id="editDiscalimer" rows="3" required></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button> -->
+                    <button type="button" class="Cstmprimary-btn" id="saveBookChanges">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="custom-popup" class="popup-overlay" style="display: none">
+        <div class="popup-box">
+            <p id="popup-message">This is a popup message</p>
+            <button id="popup-close">OK</button>
+        </div>
+    </div>
+    <!-- docx library -->
+    <script src="https://cdn.jsdelivr.net/npm/docx@7.1.0/build/index.min.js"></script>
+
+    <!-- jQuery (should load before Bootstrap if you’re using jQuery plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+    <!-- Bootstrap 5 JS Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <!-- Bootstrap Select (must come after jQuery and Bootstrap) -->
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js"></script>
+
+    <!-- CAPTCHA (can remain anywhere due to async/defer) -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <!-- <script src="/assets/js/main.js"></script> -->
+
+    <!-- selec 2 CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    <!-- Datatable Jquery -->
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/3.0.4/js/dataTables.responsive.js"></script>
+    <script src="https://cdn.datatables.net/responsive/3.0.4/js/responsive.dataTables.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <!-- Then include your consolidated script -->
+    <script src="/assets/js/admin.js" asp-append-version="true"></script>
+    <script>
+        // Replace with your actual API endpoint
+
+        async function processBook() {
+            const bookFile = document.getElementById('chooseFile');
+            const processBtn = document.getElementById('processBtn');
+            const statusMessage = document.getElementById('statusMessage');
+            const chapterList = document.getElementById('chapterList');
+
+
+            // $(".pdf-tablecontent").addClass("showcontent");
+
+            if (!bookFile.files || bookFile.files.length === 0) {
+                showStatus('Please select a book file first', 'error');
+                return;
+            }
+
+            try {
+
+
+
+                // Show loading state
+                processBtn.disabled = true;
+                processBtn.innerHTML = '<span class="spinner"></span> Processing...';
+                showStatus('Extracting chapters and subtopics...', 'loading');
+                chapterList.innerHTML = '';
+
+                const formData = new FormData();
+                formData.append('file', bookFile.files[0]);
+
+                // Make API call (replace with your actual endpoint)
+                const response = await fetch('https://ai.wistechopen.org/extract-chapters/', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+
+                const data = await response.json();
+                showStatus('Book processed successfully!', 'success');
+                displayChapters(data);
+
+            } catch (error) {
+                console.error('Error:', error);
+                showStatus('Error processing book: ' + error.message, 'error');
+                chapterList.innerHTML = '';
+            } finally {
+                processBtn.disabled = false;
+                processBtn.textContent = 'Process';
+            }
+        }
+
+        function displayChapters(data) {
+            const bookTitle = document.getElementById('bookTitle');
+            const chapterList = document.getElementById('chapterList');
+            $(".pdf-tablecontent").addClass("showcontent");
+            bookTitle.textContent = data.book_title || '';
+            chapterList.innerHTML = '';
+
+            if (!data.chapters || data.chapters.length === 0) {
+                chapterList.innerHTML = '<div class="status">No chapters found in this book.</div>';
+                disableBtn("submitBtn");
+                return;
+            } else {
+                enableBtn("submitBtn");
+            }
+
+            data.chapters.forEach((chapter, chapterIndex) => {
+                const chapterItem = document.createElement('li');
+                chapterItem.className = 'chapter-item';
+
+                chapterItem.innerHTML = `
+                <label class="chapter-label" for="chapter-${chapterIndex}">
+                    ${chapter.chapter_number}. ${chapter.chapter_title}
+                </label>
+                <input type="checkbox" id="chapter-${chapterIndex}" class="chapter-checkbox" style="display: none;">
+                <ul class="subtopic-list">
+                    ${chapter.subtopics.map((subtopic, subtopicIndex) => `
+                        <li class="subtopic-item">
+                            <input type="checkbox" id="subtopic-${chapterIndex}-${subtopicIndex}">
+                            <label for="subtopic-${chapterIndex}-${subtopicIndex}">${subtopic}</label>
+                        </li>
+                    `).join('')}
+                </ul>
+            `;
+
+                // Add click handler for the chapter label
+                const chapterLabel = chapterItem.querySelector('.chapter-label');
+                chapterLabel.addEventListener('click', function () {
+                    const subtopicList = this.nextElementSibling.nextElementSibling;
+                    subtopicList.style.display = subtopicList.style.display === 'block' ? 'none' : 'block';
+                });
+
+                chapterList.appendChild(chapterItem);
+            });
+        }
+
+        function showStatus(message, type) {
+            const statusMessage = document.getElementById('statusMessage');
+            statusMessage.textContent = message;
+            statusMessage.className = 'status ' + type;
+        }
+
+        // Update file name when selected
+        document.getElementById('chooseFile').addEventListener('change', function (e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : 'No file chosen...';
+            document.getElementById('noFile').textContent = fileName;
+        });
+
+        function disableBtn(id){
+            $(`#${id}`).prop( "disabled", true );
+            $(`#${id}`).css("cursor", "not-allowed");
+            $(`#${id}`).addClass("bg-secondary");
+        }
+
+        function enableBtn(id){
+            $(`#${id}`).prop( "disabled", false );
+            $(`#${id}`).css("cursor", "default");
+            $(`#${id}`).removeClass("bg-secondary");
+        }
+
+        $(document).ready(function () {
+            disableBtn("submitBtn");
+        }
+        );
+
+
+
+
+  
+    </script>
+
+
+
+
+
+</body>
+
+</html>

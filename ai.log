@@ -1,0 +1,209 @@
+2025-12-11 23:08:28,537 - ERROR - Error in quiz-response: string indices must be integers, not 'str'
+2025-12-11 23:09:56,370 - ERROR - Error in quiz-response: string indices must be integers, not 'str'
+2025-12-11 23:12:45,127 - ERROR - Error in quiz-response: string indices must be integers, not 'str'
+2025-12-11 23:18:30,634 - ERROR - Error in quiz-response: 
+2025-12-11 23:20:46,447 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-12 19:24:05,004 - WARNING - Unauthorized access attempt - user not logged in
+2025-12-12 19:24:42,085 - WARNING - Unauthorized access attempt - user not logged in
+2025-12-12 19:25:03,042 - WARNING - Unauthorized access attempt - user not logged in
+2025-12-12 19:25:03,050 - INFO - Login page accessed
+2025-12-12 19:25:04,316 - WARNING - Unauthorized access attempt - user not logged in
+2025-12-12 19:25:04,323 - INFO - Login page accessed
+2025-12-12 19:27:40,657 - INFO - Login page accessed
+2025-12-12 19:27:42,524 - INFO - Successful login for user: vmussehl@cvtc.edu
+2025-12-12 19:27:42,568 - WARNING - Unauthorized access attempt - user not logged in
+2025-12-12 19:27:42,572 - INFO - Login page accessed
+2025-12-12 19:27:51,679 - INFO - Successful login for user: vmussehl@cvtc.edu
+2025-12-12 19:27:51,691 - WARNING - Unauthorized access attempt - user not logged in
+2025-12-12 19:27:51,698 - INFO - Login page accessed
+2025-12-12 19:28:20,490 - INFO - Login page accessed
+2025-12-12 19:28:21,950 - INFO - Login page accessed
+2025-12-12 19:28:23,500 - INFO - Successful login for user: vmussehl@cvtc.edu
+2025-12-12 19:28:23,508 - WARNING - Unauthorized access attempt - user not logged in
+2025-12-12 19:28:23,513 - INFO - Login page accessed
+2025-12-12 19:29:48,114 - INFO - Login page accessed
+2025-12-12 19:29:49,644 - INFO - Successful login for user: vmussehl@cvtc.edu
+2025-12-12 19:29:51,365 - WARNING - Unauthorized access attempt - user not logged in
+2025-12-12 19:29:51,381 - INFO - Login page accessed
+2025-12-12 19:31:51,891 - INFO - Successful login for user: vmussehl@cvtc.edu
+2025-12-12 19:31:53,271 - WARNING - Unauthorized access attempt - user not logged in
+2025-12-12 19:31:53,274 - INFO - Login page accessed
+2025-12-12 19:33:10,062 - INFO - Successful login for user: vmussehl@cvtc.edu
+2025-12-12 22:12:23,207 - WARNING - Unauthorized access attempt - user not logged in
+2025-12-12 22:12:23,211 - INFO - Login page accessed
+2025-12-12 22:12:25,532 - INFO - Successful login for user: vmussehl@cvtc.edu
+2025-12-12 23:01:35,039 - WARNING - Unauthorized access attempt - user not logged in
+2025-12-12 23:01:35,042 - INFO - Login page accessed
+2025-12-12 23:01:37,443 - INFO - Successful login for user: vmussehl@cvtc.edu
+2025-12-16 22:09:08,196 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-16 22:58:40,730 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-17 18:15:56,302 - WARNING - Error in generation slide: 'PPTGenerationRequest' object has no attribute 'selections'
+2025-12-17 18:16:49,820 - WARNING - Error in generation slide: 'PPTGenerationRequest' object has no attribute 'selections'
+2025-12-17 18:53:23,901 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-17 18:53:42,205 - WARNING - Error in generation slide: 'PPTGenerationRequest' object has no attribute 'book_id'
+2025-12-17 18:59:19,910 - WARNING - Error in generation slide: 'PPTGenerationRequest' object has no attribute 'book_id'
+2025-12-17 19:01:02,596 - WARNING - Error in generation slide: 'PPTGenerationRequest' object has no attribute 'book_id'
+2025-12-18 18:31:24,211 - WARNING - Unauthorized access attempt - user not logged in
+2025-12-18 18:31:24,284 - INFO - Login page accessed
+2025-12-18 18:31:26,395 - WARNING - Unauthorized access attempt - user not logged in
+2025-12-18 18:31:26,399 - INFO - Login page accessed
+2025-12-18 18:31:28,868 - INFO - Successful login for user: vmussehl@cvtc.edu
+2025-12-18 22:23:28,815 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-18 22:25:59,054 - WARNING - Error in generation slide: 'PPTGenerationRequest' object has no attribute 'book_id'
+2025-12-18 22:26:01,369 - WARNING - Error in generation slide: 'PPTGenerationRequest' object has no attribute 'book_id'
+2025-12-18 22:28:25,597 - WARNING - Left logo error: [Errno 2] No such file or directory: '/home/vikass/Desktop/ChippewaValley/chippewa_new/core/folders/logos/logo.png'
+2025-12-18 22:28:25,598 - WARNING - Error in generation slide: Error in creating PPT: 'coroutine' object is not iterable
+2025-12-18 23:08:34,135 - WARNING - Error in generation slide: Error in creating PPT: 'coroutine' object is not iterable
+2025-12-18 23:19:37,710 - WARNING - Error in generation slide: Error in creating PPT: 'coroutine' object is not iterable
+2025-12-18 23:20:38,679 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-18 23:23:39,700 - WARNING - File name: Health Alterations.pptx, PPT path: /tmp/tmpbct7hsrm.pptx
+2025-12-18 23:24:34,151 - WARNING - Error in generation slide: Error in creating PPT: 'coroutine' object is not iterable
+2025-12-18 23:26:35,472 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-18 23:26:35,704 - WARNING - File name: Health Alterations.pptx, PPT path: /tmp/tmprt_nf7kc.pptx
+2025-12-19 16:32:00,232 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-19 16:32:00,256 - ERROR - Error in Preview slides: 'PPTPreviewRequest' object has no attribute 'state'
+2025-12-19 16:33:07,816 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-19 16:33:12,312 - WARNING - File name: Health Alterations.pptx, PPT path: /tmp/tmpq7curmm9.pptx
+2025-12-19 16:34:49,062 - WARNING - File name: Health Alterations.pptx, PPT path: /tmp/tmp4kjl464k.pptx
+2025-12-19 16:35:55,141 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-19 16:36:00,605 - WARNING - File name: Health Alterations.pptx, PPT path: /tmp/tmp47hjqbgk.pptx
+2025-12-19 16:46:55,048 - ERROR - Error in saving user details: [Errno 2] No such file or directory: 'user_data.json'
+2025-12-19 16:47:10,137 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-19 16:55:13,051 - WARNING - Unauthorized access attempt - user not logged in
+2025-12-19 16:55:13,068 - INFO - Login page accessed
+2025-12-19 16:55:24,589 - WARNING - Unauthorized access attempt - user not logged in
+2025-12-19 16:55:24,610 - INFO - Login page accessed
+2025-12-19 16:55:32,369 - INFO - Successful login for user: vmussehl@cvtc.edu
+2025-12-19 17:11:23,586 - WARNING - Unauthorized access attempt - user not logged in
+2025-12-19 17:11:23,650 - INFO - Login page accessed
+2025-12-19 17:11:26,196 - INFO - Successful login for user: vmussehl@cvtc.edu
+2025-12-24 18:10:37,247 - ERROR - Error in Adding new book: string indices must be integers, not 'str'
+2025-12-24 18:29:14,905 - ERROR - Error in saving user details: [Errno 2] No such file or directory: 'user_data.json'
+2025-12-24 18:29:20,820 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-02 11:50:08,814 - ERROR - Error in Case study: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-01-02 11:50:58,766 - ERROR - Error in Case study: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-01-02 17:27:04,553 - ERROR - Error in Case study: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-01-02 23:32:29,617 - ERROR - Error in Case study: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: fe_sendauth: no password supplied
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-01-02 23:32:42,020 - ERROR - Error in Case study: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: fe_sendauth: no password supplied
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-01-02 23:35:44,472 - ERROR - Error in Case study: (psycopg2.errors.UndefinedTable) relation "books" does not exist
+LINE 2: FROM books 
+             ^
+
+[SQL: SELECT books.id AS books_id, books.book_name AS books_book_name, books.book_file AS books_book_file, books.logo1 AS books_logo1, books.logo2 AS books_logo2, books.status AS books_status, books.disclaimer AS books_disclaimer 
+FROM books 
+WHERE books.book_name IS NOT NULL AND books.book_name != %(book_name_1)s AND books.status = true]
+[parameters: {'book_name_1': ''}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-01-02 23:43:54,805 - ERROR - Error in Adding new book: 'charmap' codec can't decode byte 0x9d in position 13755: character maps to <undefined>
+2026-01-02 23:51:51,707 - ERROR - Error in saving user details: [Errno 2] No such file or directory: 'user_data.json'
+2026-01-02 23:51:58,033 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-02 23:52:03,790 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-03 12:12:42,647 - ERROR - Error deleting book 11: 404: Book not found
+2026-01-03 12:35:47,546 - ERROR - Error deleting book 10: 404: Book not found
+2026-01-03 12:41:08,644 - ERROR - Error deleting book 11: 404: Book not found
+2026-01-03 16:28:03,289 - WARNING - Unauthorized access attempt - user not logged in
+2026-01-03 16:28:03,314 - INFO - Login page accessed
+2026-01-03 16:28:37,433 - INFO - Successful login for user: vmussehl@cvtc.edu
+2026-01-18 07:38:44,008 - ERROR - Error in Case study: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-01-18 07:38:47,843 - ERROR - Error in Case study: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-01-18 07:43:06,058 - ERROR - Error in Case study: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-01-18 07:55:36,376 - ERROR - Error in Case study: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-01-18 08:01:22,395 - ERROR - Error in Case study: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-01-18 08:02:30,624 - ERROR - Error in Case study: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-01-18 13:40:08,551 - ERROR - Error in saving user details: [Errno 2] No such file or directory: 'user_data.json'
+2026-01-18 13:40:13,376 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-18 13:40:17,819 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-20 15:48:54,590 - ERROR - Error in Case study: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-01-20 15:50:01,418 - ERROR - Error in Case study: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-01-20 15:50:06,916 - ERROR - Error in Case study: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-01-20 15:59:45,639 - ERROR - Error in Case study: (psycopg2.errors.UndefinedTable) relation "books" does not exist
+LINE 2: FROM books 
+             ^
+
+[SQL: SELECT books.id AS books_id, books.book_name AS books_book_name, books.book_file AS books_book_file, books.logo1 AS books_logo1, books.logo2 AS books_logo2, books.status AS books_status, books.disclaimer AS books_disclaimer 
+FROM books 
+WHERE books.book_name IS NOT NULL AND books.book_name != %(book_name_1)s AND books.status = true]
+[parameters: {'book_name_1': ''}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-01-20 16:01:54,165 - ERROR - Error in Case study: (psycopg2.errors.UndefinedTable) relation "books" does not exist
+LINE 2: FROM books 
+             ^
+
+[SQL: SELECT books.id AS books_id, books.book_name AS books_book_name, books.book_file AS books_book_file, books.logo1 AS books_logo1, books.logo2 AS books_logo2, books.status AS books_status, books.disclaimer AS books_disclaimer 
+FROM books 
+WHERE books.book_name IS NOT NULL AND books.book_name != %(book_name_1)s AND books.status = true]
+[parameters: {'book_name_1': ''}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-01-20 16:02:34,403 - ERROR - Error in Case study: (psycopg2.errors.UndefinedTable) relation "books" does not exist
+LINE 2: FROM books 
+             ^
+
+[SQL: SELECT books.id AS books_id, books.book_name AS books_book_name, books.book_file AS books_book_file, books.logo1 AS books_logo1, books.logo2 AS books_logo2, books.status AS books_status, books.disclaimer AS books_disclaimer 
+FROM books 
+WHERE books.book_name IS NOT NULL AND books.book_name != %(book_name_1)s AND books.status = true]
+[parameters: {'book_name_1': ''}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-01-20 16:04:32,363 - ERROR - Error in Case study: (psycopg2.errors.UndefinedTable) relation "books" does not exist
+LINE 2: FROM books 
+             ^
+
+[SQL: SELECT books.id AS books_id, books.book_name AS books_book_name, books.book_file AS books_book_file, books.logo1 AS books_logo1, books.logo2 AS books_logo2, books.status AS books_status, books.disclaimer AS books_disclaimer 
+FROM books 
+WHERE books.book_name IS NOT NULL AND books.book_name != %(book_name_1)s AND books.status = true]
+[parameters: {'book_name_1': ''}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-01-20 16:08:01,226 - ERROR - Error in Case study: (psycopg2.errors.UndefinedTable) relation "books" does not exist
+LINE 2: FROM books 
+             ^
+
+[SQL: SELECT books.id AS books_id, books.book_name AS books_book_name, books.book_file AS books_book_file, books.logo1 AS books_logo1, books.logo2 AS books_logo2, books.status AS books_status, books.disclaimer AS books_disclaimer 
+FROM books 
+WHERE books.book_name IS NOT NULL AND books.book_name != %(book_name_1)s AND books.status = true]
+[parameters: {'book_name_1': ''}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-01-20 21:47:53,646 - ERROR - Error in Case study: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-01-20 21:48:04,224 - ERROR - Error in Case study: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-01-20 22:30:08,581 - ERROR - Error deleting files for book 2: [WinError 5] Access is denied: '...'
