@@ -248,20 +248,15 @@
             <div class="innerContainer mb-3">
                 <div class="head-section text-center">
                     <div class="logobrand">
-                        <img src="/assets/images/logo1.png" alt="WisTech Logo" />
+                        <img src="/assets/images/logo1.png" alt="Logo" />
                     </div>
                 </div>
-
 
                 <div class="column-wrapper CstmColumn-wrapper" id="myForm">
                     <div class="left-column w-100" id="resizable-div">
                         <div class="formSection pt-0" style="padding: 40px;">
                             <div class="fieldBox">
-                                <!-- <div class="user-info">
-                                    Logged in as: <strong>{{ username }}</strong> |
-                                    <a href="/logout">Logout</a>
-                                </div> -->
-                                <!-- Right-aligned user info section -->
+
                                 <div class="userlogout-info"
                                     >
                                     <span style="font-weight: bold;">{{ username }}</span>
@@ -294,19 +289,8 @@
                                         <!-- Status Message -->
                                         <div id="statusMessage" class="mt-2"></div>
 
-                                        <!-- <div id="bookTitle" class="book-title mt-2 text-center mb-1"></div>
-
-                                        <div class="pdf-tablecontent">
-                                            <ul class="chapter-list" id="chapterList">
-                                            </ul>
-                                        </div> -->
                                     </div>
-
-
                                     <div class="col-xl-6 mb-3">
-
-
-
 
                                         <!-- Book Title -->
                                         <div id="bookTitle" class="book-title mb-1"></div>
@@ -590,9 +574,6 @@
             }
 
             try {
-
-
-
                 // Show loading state
                 processBtn.disabled = true;
                 processBtn.innerHTML = '<span class="spinner"></span> Processing...';
@@ -603,7 +584,7 @@
                 formData.append('file', bookFile.files[0]);
 
                 // Make API call (replace with your actual endpoint)
-                const response = await fetch('https://ai.wistechopen.org/extract-chapters/', {
+                const response = await fetch('https://ai.org/extract-chapters/', {
                     method: 'POST',
                     body: formData
                 });

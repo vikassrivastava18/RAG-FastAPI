@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-    Web Scraper for Wistech Open textbooks
+    Web Scraper for Open textbooks
     This script extracts the complete book structure with chapters and subchapters
     and saves it to a JSON file.
 """
