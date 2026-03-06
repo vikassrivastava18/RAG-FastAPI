@@ -60,6 +60,7 @@ body {
   border: 1px solid #dfdfdf;
   border-radius: 10px;
   box-shadow: 0 5px 40px rgb(0, 0, 0, 4%);
+  min-height: 80vh;
 }
 
 /* .innerContainer .head-section {
@@ -1338,6 +1339,60 @@ top: -9px;
  background-color: #e3e3e3; 
    color: var(--primary-dark-shade);
 }
+
+
+    .popup-overlay {
+      position: fixed;
+      bottom: 20px;
+      /* distance from bottom */
+      right: 20px;
+      /* distance from right */
+      width: auto;
+      /* fit content */
+      height: auto;
+      /* fit content */
+      background: transparent;
+      /* no overlay background */
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+      z-index: 1000;
+      pointer-events: none;
+      /* so clicks pass through except popup-box */
+    }
+
+    .popup-box {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      pointer-events: auto;
+      /* enable clicks */
+      max-width: 300px;
+    }
+
+    #popup-close {
+      margin-top: 15px;
+      padding: 5px 15px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* Chrome, Safari, Edge, Opera */
+    input.no-spinner::-webkit-outer-spin-button,
+    input.no-spinner::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+    input.no-spinner[type="number"] {
+      -moz-appearance: textfield;
+    }
 
 
 
