@@ -800,7 +800,7 @@ document.querySelector("#submitBtn").addEventListener("click", async (e) => {
     switch (selectedMetarialType) {
       case "caseStudy":
         const caseResults = Object.values(data.data || {});
-        resultElement.textContent = [...new Set(caseResults)].join("\n\n");
+        resultElement.innerHTML = [...new Set(caseResults)].join("\n\n");
         break;
 
       case "workSheet":

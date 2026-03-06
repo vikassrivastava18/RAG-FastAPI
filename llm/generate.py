@@ -213,6 +213,10 @@ async def generate_case_study(context: str, question_type, language, notes: Opti
 
     ### Language:
         {language}
+        
+    ### Format:
+        IMPORTANT- Return text in HTML format only. Use Header, paragraph, tables, etc. wherever necessary. 
+        Do not use Header, body or html tags, just the outputs in html tags.
 
     ### Instructions:
     - Provide an introduction to the topic.

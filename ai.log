@@ -207,3 +207,10 @@ WHERE books.book_name IS NOT NULL AND books.book_name != %(book_name_1)s AND boo
 
 (Background on this error at: https://sqlalche.me/e/20/e3q8)
 2026-01-20 22:30:08,581 - ERROR - Error deleting files for book 2: [WinError 5] Access is denied: '...'
+2026-03-05 13:20:25,426 - ERROR - Error in saving user details: [Errno 2] No such file or directory: 'user_data.json'
+2026-03-05 13:20:38,291 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-06 11:13:54,131 - ERROR - Error in saving user details: [Errno 2] No such file or directory: 'user_data.json'
+2026-03-06 11:14:07,693 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-06 11:22:10,517 - ERROR - Error in saving user details: [Errno 2] No such file or directory: 'user_data.json'
+2026-03-06 11:22:25,134 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-06 11:22:37,335 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
