@@ -32,7 +32,6 @@ uvicorn main:app --reload
 ## Project layout
 
 ```
-c:\Users\vikas\Documents\rag\chippewa_new
 ├── .env
 ├── main.py
 ├── requirements.txt
