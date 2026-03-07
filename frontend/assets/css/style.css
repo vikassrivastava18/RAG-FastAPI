@@ -60,7 +60,7 @@ body {
   border: 1px solid #dfdfdf;
   border-radius: 10px;
   box-shadow: 0 5px 40px rgb(0, 0, 0, 4%);
-  min-height: 80vh;
+  min-height: 100vh;
 }
 
 /* .innerContainer .head-section {

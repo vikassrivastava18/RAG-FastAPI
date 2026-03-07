@@ -29,7 +29,7 @@ templates = Jinja2Templates(directory="frontend")
 @book_routes.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     return templates.TemplateResponse(
-        "template.html", {"request": request, "name": "FastAPI"}
+        "home_v2.html", {"request": request, "name": "FastAPI"}
     )
 
 
