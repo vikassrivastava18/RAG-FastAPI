@@ -1,6 +1,6 @@
 <template>
       <main>
-        <div class="container mt-2" id="mainContent">
+        <div class="container my-2" id="mainContent">
             <div class="innerContainer p-2">
                 <header>
                   <HeaderComponent />                    

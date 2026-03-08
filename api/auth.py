@@ -26,7 +26,9 @@ class Token(BaseModel):
 
 
 # TODO - MAJOR BUG!!
+
 logged_in = False
+
 def verify_login():
     """Dependency to verify login status"""
     if not logged_in:

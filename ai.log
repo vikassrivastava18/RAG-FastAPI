@@ -214,3 +214,5 @@ WHERE books.book_name IS NOT NULL AND books.book_name != %(book_name_1)s AND boo
 2026-03-06 11:22:10,517 - ERROR - Error in saving user details: [Errno 2] No such file or directory: 'user_data.json'
 2026-03-06 11:22:25,134 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
 2026-03-06 11:22:37,335 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-07 22:30:23,246 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-07 22:34:39,337 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"

@@ -534,3 +534,23 @@ def get_chapters_from_llm(text: str) -> dict:
             detail=f"Error processing with LLM: {str(e)}"
         )
 
+
+def chapter_summary(text: str) -> str:
+    """Summarize a chapter using LLM"""
+    prompt = f"""You are required to summarize a chapter containing multiple subchapters
+             Summarize in a very human friendly manner. Add HTML tags around the output.
+             Use headers, paragraphs, list elements, etc for better presentation. 
+             Do not use any additional tags like, <html> <meta>, <title>, <head>, 
+             only element tags which are contained in the body of HTML page.  
+             Content: {text}"""
+
+    messages = [
+        {
+            "role": "system",
+            "content": prompt
+        }
+    ]
+
+    response = llm2.invoke(messages)
+    return response
+

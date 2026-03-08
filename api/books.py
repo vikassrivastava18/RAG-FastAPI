@@ -14,17 +14,15 @@ from db.models import Book, Chapter, Subtopic
 from db.schemas import (BookDetailFooterResponse, BookDetailResponse, 
                         ChapterRequest, PPTGenerationRequest, 
                         WorksheetRequestCompatible)
-from llm.generate import generate_worksheet, get_ppt_content_from_llm
+from llm.generate import generate_worksheet, get_ppt_content_from_llm, chapter_summary
 
 # Create Route instance
 book_routes = APIRouter() 
 # Load environment variables
 load_dotenv()
 
-
 # Configure the templates path
 templates = Jinja2Templates(directory="frontend")
-
 
 @book_routes.get("/", response_class=HTMLResponse)
 async def home(request: Request):
@@ -43,7 +41,7 @@ def get_books(order: str = "asc", db: Session = Depends(get_db)):
             Book.book_name != "",
             Book.status == True
         ).all()
-
+        print(books)
         return [{
             "id": book.id, 
             "name": book.book_name
@@ -208,12 +206,9 @@ async def get_worksheet(request: WorksheetRequestCompatible):
             status_code=500, detail=f"Error processing request: {str(e)}"
         )
 
-
 @book_routes.post("/add-book-new")
 def add_book(file_path: str,
-             sub_chaps_same_page: bool = False,
-             db: Session = Depends(get_db)
-             ):
+             db: Session = Depends(get_db)):
     try:
         # Open the file and load its content into a Python dictionary
         with open(file_path, 'r', encoding='utf-8') as file:
@@ -224,50 +219,40 @@ def add_book(file_path: str,
         db.commit() # Commit transaction
         db.refresh(new_book) 
 
-        # Add chapters and subtopics where subtopics are in the same page
-        if sub_chaps_same_page:
-            for chapter in data["chapters"]:
-                # Add chapter
-                new_chapter = Chapter(book_id=new_book.id, chapter_name=chapter["name"])
-                db.add(new_chapter)
-                db.commit()
-                db.refresh(new_chapter)
-
-                for i, subchapter in enumerate(chapter['subchapters']):
-                    name = subchapter['name']
-                    
-                    try:
-                        cont_start_ind = subchapter['content'].find(name)
-                        next_sub_name = chapter['subchapters'][i+1]['name']            
-                        cont_last_ind = subchapter['content'].find(next_sub_name)
-                        subchapter['content'] =  subchapter['content'][cont_start_ind: cont_last_ind]
-                    except IndexError:
-                        subchapter['content'] = subchapter['content'][cont_start_ind:]
-
-                    new_sub = Subtopic(chapter_id=new_chapter.id,
-                                    subtopic_name=name,
-                                    content=subchapter["content"][:4000])
-                    db.add(new_sub)
-                    db.commit()
-                    db.refresh(new_sub)
-        else:
         # Add chapters and subtopics
-            for chapter in data["chapters"]:
-                new_chapter = Chapter(book_id=new_book.id, chapter_name=chapter["name"])
-                db.add(new_chapter)
-                db.commit()
-                db.refresh(new_chapter)
+        for chapter in data["chapters"]:
+            new_chapter = Chapter(book_id=new_book.id, chapter_name=chapter["name"])
+            db.add(new_chapter)
+            db.commit()
+            db.refresh(new_chapter)
 
-                # Store subchapters
-                for subchapter in chapter["subchapters"]:
-                    sub_name = subchapter["name"]
-                    new_sub = Subtopic(chapter_id=new_chapter.id,
-                                    subtopic_name=sub_name,
-                                    content=subchapter["content"][:4000])
-                    db.add(new_sub)
-                    db.commit()
-                    db.refresh(new_sub)
+            # Store subchapters
+            for subchapter in chapter["subchapters"]:
+                sub_name = subchapter["name"]
+                new_sub = Subtopic(chapter_id=new_chapter.id,
+                                subtopic_name=sub_name,
+                                content=subchapter["content"][:4000])
+                db.add(new_sub)
+                db.commit()
+                db.refresh(new_sub)
 
     except Exception as e:
         logger.error("Error in Adding new book: %s", str(e))
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@book_routes.post("/chapter-summary")
+def save_summary(chapter_id: int,
+                 db: Session = Depends(get_db)):
+    # Fetch the first matching chapter
+    chapter = db.query(Chapter).filter(Chapter.id == chapter_id).first()
+    content = ""
+    for subtopic in chapter.subtopics:
+        content += subtopic.content + "\n"
+
+    llm_summary = chapter_summary(content)
+    return {
+        "id": chapter_id,
+        "name": chapter.chapter_name,
+        "content": llm_summary
+    }

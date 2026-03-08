@@ -34,6 +34,7 @@ class Subtopic(Base):
     subtopic_name = Column(String, nullable=False)
     content = Column(String)
     chapter = relationship("Chapter", back_populates="subtopics")
+    source = Column(String)
 
 
 class User(Base):
