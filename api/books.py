@@ -11,10 +11,16 @@ from fastapi.templating import Jinja2Templates
 from api.llm import cache
 from core.config import Session, get_db, logger, get_current_user
 from db.models import Book, Chapter, Subtopic
-from db.schemas import (BookDetailFooterResponse, BookDetailResponse, 
-                        ChapterRequest, PPTGenerationRequest, 
-                        WorksheetRequestCompatible)
-from llm.generate import generate_worksheet, get_ppt_content_from_llm, chapter_summary
+from db.schemas import (BookDetailFooterResponse,
+                        BookDetailResponse,
+                        ChapterRequest,
+                        PPTGenerationRequest,
+                        WorksheetRequestCompatible,
+                        ChapterInputRequest)
+from llm.generate import (generate_worksheet,
+                          get_ppt_content_from_llm,
+                          chapter_summary,
+                          create_quizzes)
 
 # Create Route instance
 book_routes = APIRouter() 
@@ -256,3 +262,21 @@ def save_summary(chapter_id: int,
         "name": chapter.chapter_name,
         "content": llm_summary
     }
+
+@book_routes.post("/generate-quizzes")
+def generate_quizzes(request: ChapterInputRequest,
+                     db: Session = Depends(get_db)):
+    # Fetch the first matching chapter
+    print("request", request)
+    chapter = db.query(Chapter).filter(Chapter.id == request.chapter_id).first()
+    content = []
+
+    for subtopic in chapter.subtopics:
+        content.append({"url": subtopic.source, "content": subtopic.content})
+
+    llm_quizzes = create_quizzes(content)
+    print("LLM response: ", llm_quizzes)
+    return {
+        "quizzes": llm_quizzes
+    }
+

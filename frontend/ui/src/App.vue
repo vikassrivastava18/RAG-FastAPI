@@ -58,7 +58,7 @@ export default {
     background-image: linear-gradient(#f8f8f8, #f8f8f8de), url('@/assets/Blue_Flames.jpg');
     background-size: contain;
     background-repeat: no-repeat;
-    /* background-position: bottom; */
+    background-position: top;
 }
 
 #mainContent {

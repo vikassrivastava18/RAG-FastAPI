@@ -7,6 +7,7 @@ from typing import (Optional,
 from fastapi import HTTPException
 
 from core.config import llm2, logger
+from db.schemas import ChapterContentRequest, QuizResponse
 
 
 # For Quiz Generation 
@@ -554,3 +555,85 @@ def chapter_summary(text: str) -> str:
     response = llm2.invoke(messages)
     return response
 
+
+def create_quizzes(content: ChapterContentRequest):
+    return  {
+          "quizzes": {
+            "mcq": [
+              {
+                "question": "What is the primary advantage of using CAD systems in design?",
+                "options": [
+                  "Increased speed and efficiency",
+                  "Manual drawing capabilities",
+                  "Increased cost",
+                  "Limited design perspectives"
+                ],
+                "answer": "Increased speed and efficiency",
+                "explanation": "CAD systems increase the speed, efficiency, accuracy, and modification of designs, allowing for three-dimensional modeling and easy updates.",
+                "url": "https://wtcs.pressbooks.pub/blueprintreading/chapter/chapter-1/#chapter-5-section-4"
+              },
+              {
+                "question": "Which organizations establish the standards for detail drawings?",
+                "options": [
+                  "ASME, ANSI, ISO",
+                  "NASA, ESA, JAXA",
+                  "FDA, CDC, WHO",
+                  "IEEE, ACM, IETF"
+                ],
+                "answer": "ASME, ANSI, ISO",
+                "explanation": "Standards for detail drawings are established by ASME, ANSI, and ISO to ensure accurate communication of specifications.",
+                "url": "https://wtcs.pressbooks.pub/blueprintreading/chapter/chapter-1/#chapter-5-section-5"
+              }
+            ],
+            "true_false": [
+              {
+                "question": "A 3D model can be used to create programs for CNC machines.",
+                "answer": True,
+                "explanation": "3D models can be used in software to create programs for CNC machines to produce physical parts.",
+                "url": "https://wtcs.pressbooks.pub/blueprintreading/chapter/chapter-1/#chapter-5-section-4"
+              },
+              {
+                "question": "Blueprints are still commonly used in their original blue and white format today.",
+                "answer": True,
+                "explanation": "The traditional blue and white blueprint format has been phased out with the advent of printers, plotters, and copy machines.",
+                "url": "https://wtcs.pressbooks.pub/blueprintreading/chapter/chapter-1/#chapter-5-section-7"
+              }
+            ],
+            "fill_blank": [
+              {
+                "question": "The process of manufacturing a part or component can be condensed into two categories: the design phase and the _______ phase.",
+                "answer": "production",
+                "url": "https://wtcs.pressbooks.pub/blueprintreading/chapter/chapter-1/#chapter-5-section-2"
+              },
+              {
+                "question": "The term 'print' is often used interchangeably with '_______' in many industry settings.",
+                "answer": "drawing",
+                "url": "https://wtcs.pressbooks.pub/blueprintreading/chapter/chapter-1/#chapter-5-section-6"
+              }
+            ]
+          }
+        }
+
+
+
+
+    prompt = f"""
+    You are a quiz master. Use the content of a chapter to create quizzes that help students study.
+    The content is divided into multiple subchapters, each with its source url and the text.
+    You do not need to visit the url for a subchapter, but tag every quiz with its source url.
+
+    Return the response in the format specified.    
+
+    Content: {content}
+    """
+
+    structured_llm = llm2.with_structured_output(QuizResponse)
+    messages = [
+        {
+            "role": "system",
+            "content": prompt
+        }
+    ]
+
+    response = structured_llm.invoke(messages)
+    return response

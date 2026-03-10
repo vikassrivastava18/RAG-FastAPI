@@ -48,6 +48,9 @@ class ChapterRequest(BaseModel):
     book_id: int
 
 
+class ChapterInputRequest(BaseModel):
+    chapter_id: int
+
 # Response
 class SubtopicOut(BaseModel):
     subtopic_name: str
@@ -155,3 +158,41 @@ class WorksheetRequestCompatible(BaseModel):
     email: Optional[str] = None
     textbook_name: str
     selections: List
+
+
+class SubchapterRequest(BaseModel):
+    """Schema for subchapter"""
+    url: str
+    content: str
+
+class ChapterContentRequest(BaseModel):
+    """Request model for generating quizzes using chapter content"""
+    subchapters: List[SubchapterRequest]
+
+
+class MCQ(BaseModel):
+    question: str
+    options: List[str]
+    answer: str
+    explanation: str
+    url: str
+
+
+class TrueFalse(BaseModel):
+    question: str
+    answer: bool
+    explanation: str
+    url: str
+
+
+class FillBlank(BaseModel):
+    question: str
+    answer: str
+    url: str
+
+
+class QuizResponse(BaseModel):
+    mcq: List[MCQ]
+    true_false: List[TrueFalse]
+    fill_blank: List[FillBlank]
+
