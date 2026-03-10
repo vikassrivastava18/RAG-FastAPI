@@ -27,16 +27,28 @@
             </div>
         </div>
         <div v-else>
-            <div v-html="content" class="mt-2 mb-5"></div>            
+            <div v-html="content" class="mt-2 mb-5"></div>
         </div>
-        <AIComponent />
+
+        <div v-if="!aiLoading && selectedChapter !== 0" class="container">
+            <div v-if="qizzLoaded">
+                <QuizComponent :quizzes="qizzes" />
+            </div>
+            <div v-else>
+                <button type="button" class="btn btn-primary mt-3" 
+                    id="getQuizBtn" @click="getQuizzes(2)">Test
+                    my knowledge
+                </button>
+            </div>
+
+        </div>
     </div>
 </template>
 
 <script setup>
 import { ref, onMounted, getCurrentInstance, watch } from 'vue'
+import QuizComponent from './QuizComponent.vue';
 import { baseUrl } from '../config'
-import AIComponent from './AIComponent.vue';
 import { chapterContent } from '../config';
 
 const instance = getCurrentInstance()
@@ -44,13 +56,16 @@ const proxy = instance && instance.proxy
 
 const booksUrl = baseUrl + "/books";
 const bookChaptersUrl = baseUrl + "/chapter-subtopics/";
+const quizUrl = baseUrl + "/generate-quizzes";
 
 const books = ref([])
-const selectedBook = ref('0'); // A reactive reference for the select value
+const selectedBook = ref(0); // A reactive reference for the select value
 const bookChapters = ref([]);
-const selectedChapter = ref('0')
+const selectedChapter = ref(0)
 const aiLoading = ref(false)
 const content = ref("")
+const qizzLoaded = ref(false)
+const qizzes = ref({})
 
 onMounted(() => {
     getBooks()
@@ -67,12 +82,10 @@ watch(selectedBook, (newValue) => {
 // Watch the selectedChapter ref
 watch(selectedChapter, (newValue) => {
     console.log("selectedChapter: ", newValue);
-    //   Start the AI chat!!!
-    if (!selectedChapter.value == '0') {
+    if (newValue !== 0) { // use strict numeric check
         aiLoading.value = true
         setTimeout(displayContent, 1000)
     }
-
 });
 
 function displayContent() {
@@ -80,12 +93,22 @@ function displayContent() {
     aiLoading.value = false
 }
 
+async function getQuizzes(params) {
+    const url = quizUrl;
+    const id = Number(params)
+    const res = await proxy.$axios.post(url, { "chapter_id": id })
+    // const res = await proxy.$axios.post(url, id)
+    console.log("Quiz response: ", res.data);
+    qizzLoaded.value = true
+    qizzes.value = res.data.quizzes.quizzes
+
+}
+
 async function getBooks() {
     const url = booksUrl;
     try {
         const res = await proxy.$axios.get(url)
         books.value = res.data
-        console.log("Books: ", books);
 
     } catch (error) {
         console.error('Error:', error.message)
@@ -113,4 +136,12 @@ async function getChapters(bookId) {
 /* label {
     color: cornflowerblue
 } */
+select {
+    min-width: 250px;
+}
+
+#getQuizBtn {
+    position: fixed;
+    bottom: 10px;
+}
 </style>
