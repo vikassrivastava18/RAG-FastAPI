@@ -84,8 +84,9 @@ watch(selectedChapter, (newValue) => {
     console.log("selectedChapter: ", newValue);
     if (newValue !== 0) { // use strict numeric check
         aiLoading.value = true
-        setTimeout(displayContent, 1000)
+        setTimeout(displayContent, 1000)        
     }
+    qizzLoaded.value = false
 });
 
 function displayContent() {
