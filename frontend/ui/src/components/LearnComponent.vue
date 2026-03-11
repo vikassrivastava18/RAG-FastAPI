@@ -27,7 +27,7 @@
             </div>
         </div>
         <div v-else>
-            <div v-html="content" class="mt-2 mb-5"></div>
+            <div v-html="content" class="mt-2 mb-5 p-4"></div>
         </div>
 
         <div v-if="!aiLoading && selectedChapter !== 0" class="container">
@@ -36,7 +36,7 @@
             </div>
             <div v-else>
                 <button type="button" class="btn btn-primary mt-3" 
-                    id="getQuizBtn" @click="getQuizzes(2)">Test
+                    id="getQuizBtn" @click="getQuizzes()">Test
                     my knowledge
                 </button>
             </div>
@@ -99,15 +99,20 @@ async function fetchChapterContent(chapterId) {
     aiLoading.value = false
 }
 
-async function getQuizzes(params) {
-    const url = quizUrl;
-    const id = Number(params)
-    const res = await proxy.$axios.post(url, { "chapter_id": id })
-    // const res = await proxy.$axios.post(url, id)
-    console.log("Quiz response: ", res.data);
-    qizzLoaded.value = true
-    qizzes.value = res.data.quizzes
+async function getQuizzes() {
+    document.getElementById('getQuizBtn').setAttribute('disabled', true)
 
+    const url = quizUrl;
+    try{
+        const id = Number(selectedChapter.value)
+        const res = await proxy.$axios.post(url, { "chapter_id": id })
+        qizzes.value = res.data.quizzes
+        console.log("Quiz response: ", res.data);
+    } finally {
+        qizzLoaded.value = true
+        document.getElementById('getQuizBtn').setAttribute('disabled', false)
+    }    
+    
 }
 
 async function getBooks() {
