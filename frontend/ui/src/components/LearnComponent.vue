@@ -49,7 +49,6 @@
 import { ref, onMounted, getCurrentInstance, watch } from 'vue'
 import QuizComponent from './QuizComponent.vue';
 import { baseUrl } from '../config'
-import { chapterContent } from '../config';
 
 const instance = getCurrentInstance()
 const proxy = instance && instance.proxy
@@ -57,6 +56,7 @@ const proxy = instance && instance.proxy
 const booksUrl = baseUrl + "/books";
 const bookChaptersUrl = baseUrl + "/chapter-subtopics/";
 const quizUrl = baseUrl + "/generate-quizzes";
+const chapterSummaryUrl = baseUrl + "/chapter-summary"
 
 const books = ref([])
 const selectedBook = ref(0); // A reactive reference for the select value
@@ -81,16 +81,21 @@ watch(selectedBook, (newValue) => {
 
 // Watch the selectedChapter ref
 watch(selectedChapter, (newValue) => {
+    qizzLoaded.value = false
     console.log("selectedChapter: ", newValue);
     if (newValue !== 0) { // use strict numeric check
         aiLoading.value = true
-        setTimeout(displayContent, 1000)        
-    }
-    qizzLoaded.value = false
+        fetchChapterContent(newValue)    
+    }    
 });
 
-function displayContent() {
-    content.value = chapterContent
+async function fetchChapterContent(chapterId) {
+    // content.value = chapterContent
+    const res = await proxy.$axios.post(chapterSummaryUrl, {"chapter_id": chapterId})
+    console.log("Response: ", res.data);
+    content.value = res.data.content
+    console.log("Response: ", res.data);
+    
     aiLoading.value = false
 }
 
@@ -101,7 +106,7 @@ async function getQuizzes(params) {
     // const res = await proxy.$axios.post(url, id)
     console.log("Quiz response: ", res.data);
     qizzLoaded.value = true
-    qizzes.value = res.data.quizzes.quizzes
+    qizzes.value = res.data.quizzes
 
 }
 
