@@ -1,4 +1,3 @@
-
 # openai embeddings used
 """Contains logic to store and retrieve vectors (FAISS vector store)."""
 from langchain_community.vectorstores import FAISS
@@ -7,8 +6,13 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from core.config import logger
 
-
 embedding_model = OpenAIEmbeddings()
+
+faiss_db = FAISS.load_local(
+    "data/faiss_db_new",
+    embedding_model,
+    allow_dangerous_deserialization=True
+)
 
 def store_vector_store(documents, index_path="faiss_db_new"):
     """"
@@ -22,3 +26,5 @@ def store_vector_store(documents, index_path="faiss_db_new"):
         print("book stored in vector database")
     except Exception as error:
         logger.error(f"Error in saving vector data: {error}", exc_info=True)
+
+

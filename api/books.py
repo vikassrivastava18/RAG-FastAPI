@@ -1,6 +1,6 @@
 import json
 import os
-from core.utils import create_ppt_from_content
+from utils.utils import create_ppt_from_content
 from db.query import get_content
 from dotenv import load_dotenv
 
@@ -16,7 +16,7 @@ from db.schemas import (BookDetailFooterResponse,
                         ChapterRequest,
                         PPTGenerationRequest,
                         WorksheetRequestCompatible,
-                        ChapterInputRequest)
+                        ChapterInputRequest, UserQuery)
 from llm.generate import (generate_worksheet,
                           get_ppt_content_from_llm,
                           chapter_summary,
@@ -125,7 +125,6 @@ async def get_media(file_path: str):
 @book_routes.post("/generate-ppt/")
 async def generate_ppt(request: PPTGenerationRequest, db: Session=Depends(get_db)):
     try:
-
         cache_key = f"{request.textbook_name}_{'_'.join(request.topics)}"
        
         all_slides = cache.get(cache_key)
@@ -248,20 +247,21 @@ def add_book(file_path: str,
 
 
 @book_routes.post("/chapter-summary")
-def save_summary(chapter_id: int,
+def save_summary(request: ChapterInputRequest,
                  db: Session = Depends(get_db)):
     # Fetch the first matching chapter
-    chapter = db.query(Chapter).filter(Chapter.id == chapter_id).first()
+    chapter = db.query(Chapter).filter(Chapter.id == request.chapter_id).first()
     content = ""
     for subtopic in chapter.subtopics:
         content += subtopic.content + "\n"
 
     llm_summary = chapter_summary(content)
     return {
-        "id": chapter_id,
+        "id": request.chapter_id,
         "name": chapter.chapter_name,
         "content": llm_summary
     }
+
 
 @book_routes.post("/generate-quizzes")
 def generate_quizzes(request: ChapterInputRequest,
@@ -280,3 +280,9 @@ def generate_quizzes(request: ChapterInputRequest,
         "quizzes": llm_quizzes
     }
 
+
+@book_routes.post("/answer-query")
+def answer_query(request: UserQuery):
+    print("Request: ", request)
+    docs = answer_query(request.query)
+    return docs

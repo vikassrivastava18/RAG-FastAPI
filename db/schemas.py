@@ -196,3 +196,7 @@ class QuizResponse(BaseModel):
     true_false: List[TrueFalse]
     fill_blank: List[FillBlank]
 
+
+class UserQuery(BaseModel):
+    query: str
+

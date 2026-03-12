@@ -14,7 +14,7 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 
 from llm.generate import process_llm_response
-from core.utils import extract_text_from_pdf
+from utils.utils import extract_text_from_pdf
 from core.config import logger, Session, get_db
 from db.models import Book
 from db.schemas import BookResponse

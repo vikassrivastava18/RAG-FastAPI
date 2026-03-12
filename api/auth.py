@@ -11,7 +11,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.templating import Jinja2Templates
 
 from core.config import logger, oauth2_scheme
-from core.utils import create_access_token
+from utils.utils import create_access_token
 from db.query import authenticate_user
 
 auth_routes = APIRouter()
@@ -26,7 +26,6 @@ class Token(BaseModel):
 
 
 # TODO - MAJOR BUG!!
-
 logged_in = False
 
 def verify_login():
