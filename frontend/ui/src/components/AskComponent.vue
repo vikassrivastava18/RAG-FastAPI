@@ -51,7 +51,7 @@ async function answerUserQuery() {
     #askInput {
         position: fixed;
         bottom: 10px;
-        border: 1px solid crimson;
+        border: 1px solid rgb(20, 103, 220);
         max-width: 80vw;
     }
 </style>
