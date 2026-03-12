@@ -20,7 +20,7 @@ from db.schemas import (BookDetailFooterResponse,
 from llm.generate import (generate_worksheet,
                           get_ppt_content_from_llm,
                           chapter_summary,
-                          create_quizzes)
+                          create_quizzes, answer_query_util)
 
 # Create Route instance
 book_routes = APIRouter() 
@@ -284,5 +284,6 @@ def generate_quizzes(request: ChapterInputRequest,
 @book_routes.post("/answer-query")
 def answer_query(request: UserQuery):
     print("Request: ", request)
-    docs = answer_query(request.query)
+    docs = answer_query_util(request.query)
+
     return docs

@@ -582,13 +582,30 @@ def create_quizzes(content: ChapterContentRequest):
     return response
 
 
-def answer_query(query: str):
+def answer_query_util(query: str):
     u_query = query
-    docs = faiss_db.similarity_search(u_query, k=3)
-    for doc in docs:
-        print(doc.page_content)
-        print(doc.metadata)
-    return docs
+    # filter relevant document with similarity search
+    docs = faiss_db.similarity_search(u_query, k=5)
+    content = "\n".join([doc.page_content for doc in docs])
+
+    # Get the LLM response on user query using filtered documents
+    prompt = f"""
+        Answer a user query by strictly using the contents provided
+        to you. Break the resulting content in HTML tags like paragraphs, without using <body>, <meta>, <head> tags.
+        Query: {query}
+        
+        Content: {content}
+    """
+
+    messages = [
+        {
+            "role": "system",
+            "content": prompt
+        }
+    ]
+
+    response = llm2.invoke(messages)
+    return response.content
 
 
 
