@@ -140,3 +140,5 @@
 2026-03-15 21:52:00,582 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
 2026-03-15 21:52:53,316 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
 2026-03-15 21:54:56,911 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-15 22:47:27,720 - ERROR - No such comm target registered: jupyter.widget.control
+2026-03-15 22:47:27,722 - WARNING - No such comm: da694323-af6e-4768-a51e-bbc3e5b7d3e0
