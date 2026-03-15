@@ -10,3 +10,5 @@ node_modules/
 
 # Remove .pyc files
 *.pyc
+
+utils/retrieve.ipynb

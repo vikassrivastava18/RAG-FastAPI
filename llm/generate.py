@@ -356,8 +356,8 @@ def generate_worksheet(context, question_type, language, number_of_question:Opti
         - Generate all questions in **{language}**. If the notes mention a language, prioritize that over the default language input.
         {f"- Additional Guidelines: {notes}" if notes else ""}
         - generate the answers as well for questions once all the questions display. Give the all answer at the end.
-        -Do not put answer tag in between of question types.
-        -Treat the following QuestionType {question_type} enum values with these semantic meanings when generating content:
+        -  Do not put answer tag in between of question types.
+        - Treat the following QuestionType {question_type} enum values with these semantic meanings when generating content:
         QuestionType.mcq → Generate multiple-choice questions.
         QuestionType.matching → Generate matching exercises.
         QuestionType.essay → Generate long-form essay questions.

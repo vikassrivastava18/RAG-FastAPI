@@ -63,7 +63,7 @@ llm = ChatGroq(
 
 llm2 = ChatOpenAI(
     model= GPT,
-    temperature=0.3,
+    temperature=0,
     max_tokens=None,
     timeout=None,
     max_retries=2,
