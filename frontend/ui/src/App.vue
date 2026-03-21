@@ -9,12 +9,14 @@
                 <!-- Bootstap tabs -->
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#section1">
+                        <button class="nav-link active" data-bs-toggle="tab" 
+                            data-bs-target="#section1">
                             Learn
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#section2">
+                        <button class="nav-link" data-bs-toggle="tab" 
+                            data-bs-target="#section2">
                             Ask
                         </button>
                     </li>
@@ -28,8 +30,6 @@
             </div>
         </div>
       </main>
-        
-
   
 </template>
 

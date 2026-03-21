@@ -13,4 +13,4 @@ node_modules/
 
 utils/retrieve.ipynb
 
-utils/ai.log
+*.log

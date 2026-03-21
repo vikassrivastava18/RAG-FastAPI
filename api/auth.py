@@ -82,6 +82,7 @@ async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm,
     )
     return Token(access_token=access_token, token_type="bearer")
 
+
 @auth_routes.get("/me")
 async def read_users_me(token: str = Depends(oauth2_scheme)):
     return {"token": token}

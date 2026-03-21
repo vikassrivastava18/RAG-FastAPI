@@ -3,18 +3,22 @@
         <div class="d-flex justify-content-start">
             <div class="col-xs-3">
                 <label for="bookSelect" class="control-label">Select a book</label>
-                <select name="bookSelect" id="bookSelect" v-model="selectedBook" class="form-select">
+                <select name="bookSelect" id="bookSelect" 
+                    v-model="selectedBook" class="form-select">
                     <option :key="0" :value="0">------</option>
-                    <option v-for="book of books" :key="book.id" :value="book.id" class="form-control">{{ book.name }}
+                    <option v-for="book of books" :key="book.id" 
+                        :value="book.id" class="form-control">{{ book.name }}
                     </option>
                 </select>
             </div>
             <div class="col-xs-3 ms-4">
                 <label for="chapterSelect" class="control-label">Select a Chapter</label>
-                <select name="chapterSelect" id="chapterSelect" v-model="selectedChapter" class="form-select">
+                <select name="chapterSelect" id="chapterSelect" 
+                    v-model="selectedChapter" class="form-select">
                     <option :key="0" :value="0">------</option>
-                    <option v-for="chapter of bookChapters" :key="chapter.id" :value="chapter.id">{{
-                        chapter.chapter_name }}
+                    <option v-for="chapter of bookChapters" :key="chapter.id" 
+                        :value="chapter.id">
+                        {{chapter.chapter_name }}
                     </option>
                 </select>
             </div>
@@ -40,7 +44,6 @@
                     my knowledge
                 </button>
             </div>
-
         </div>
     </div>
 </template>
@@ -91,10 +94,9 @@ watch(selectedChapter, (newValue) => {
 
 async function fetchChapterContent(chapterId) {
     // content.value = chapterContent
-    const res = await proxy.$axios.post(chapterSummaryUrl, {"chapter_id": chapterId})
-    console.log("Response: ", res.data);
+    const res = await proxy.$axios.post(chapterSummaryUrl, 
+                {"chapter_id": chapterId})
     content.value = res.data.content
-    console.log("Response: ", res.data);
     
     aiLoading.value = false
 }
@@ -107,11 +109,11 @@ async function getQuizzes() {
         const id = Number(selectedChapter.value)
         const res = await proxy.$axios.post(url, { "chapter_id": id })
         qizzes.value = res.data.quizzes
-        console.log("Quiz response: ", res.data);
     } finally {
         qizzLoaded.value = true
         document.getElementById('getQuizBtn').setAttribute('disabled', false)
     }    
+    
     
 }
 

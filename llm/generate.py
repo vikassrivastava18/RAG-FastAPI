@@ -110,7 +110,6 @@ async def generate_llm_response_quiz(content, question_type, language, notes=Non
 
 # Study guide
 async def summarizer(content, language: str, notes: Optional[str] = None):
-    
     try:
 
         formatted_prompt = f""" 
