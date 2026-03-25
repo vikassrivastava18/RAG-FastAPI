@@ -6,7 +6,7 @@
                     Ask me anything from Wistech Open books!
                 </label>
             </i>
-            <input class="form-control" id="askInput"
+            <input class="form-control py-2 my-2" id="askInput"
                 v-model="userInput" 
                 placeholder="Enter your query here..."
                 @keyup.enter="answerUserQuery"
@@ -49,9 +49,9 @@ async function answerUserQuery() {
 
 <style>
     #askInput {
-        position: fixed;
-        bottom: 10px;
+        /* position: fixed;
+        bottom: 10px; */
         border: 1px solid rgb(20, 103, 220);
-        max-width: 80vw;
+        max-width: 75vw;
     }
 </style>
