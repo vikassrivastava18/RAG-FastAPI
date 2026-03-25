@@ -7,7 +7,7 @@ from typing import (Optional,
 from fastapi import HTTPException
 
 from core.config import llm2, logger
-from db.schemas import ChapterContentRequest, QuizResponse, UserQuery
+from db.schemas import ChapterContentRequest, QuizResponse, UserQuery, QuestionResponse
 from llm.vector import faiss_db
 
 
@@ -605,6 +605,30 @@ def answer_query_util(query: str):
 
     response = llm2.invoke(messages)
     return response.content
+
+
+def create_questions(content: ChapterContentRequest):
+    prompt = f"""
+    You are a quiz master. Use the content of a chapter to create questions that help students in their study.
+    The content is divided into multiple subchapters, each with its source url and the text.
+    You do not need to visit the url for a subchapter, but tag every question with its source url and the subchapter name.
+    Return the response in the format specified.    
+    
+    Content: {content}
+    """
+
+    structured_llm = llm2.with_structured_output(QuestionResponse)
+    messages = [
+        {
+            "role": "system",
+            "content": prompt
+        }
+    ]
+
+    response = structured_llm.invoke(messages)
+    return response
+
+
 
 
 

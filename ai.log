@@ -358,3 +358,31 @@ WHERE books.book_name IS NOT NULL AND books.book_name != %(book_name_1)s AND boo
 2026-03-25 17:50:28,766 - INFO - Successfully loaded faiss with AVX2 support.
 2026-03-25 17:50:59,196 - INFO - Loading faiss with AVX2 support.
 2026-03-25 17:50:59,423 - INFO - Successfully loaded faiss with AVX2 support.
+2026-03-25 18:06:04,100 - INFO - Loading faiss with AVX2 support.
+2026-03-25 18:06:04,215 - INFO - Successfully loaded faiss with AVX2 support.
+2026-03-25 18:10:25,973 - INFO - Loading faiss with AVX2 support.
+2026-03-25 18:10:26,073 - INFO - Successfully loaded faiss with AVX2 support.
+2026-03-25 18:11:00,121 - INFO - Loading faiss with AVX2 support.
+2026-03-25 18:11:00,213 - INFO - Successfully loaded faiss with AVX2 support.
+2026-03-25 18:13:11,038 - INFO - Loading faiss with AVX2 support.
+2026-03-25 18:13:11,136 - INFO - Successfully loaded faiss with AVX2 support.
+2026-03-25 18:24:08,353 - INFO - Loading faiss with AVX2 support.
+2026-03-25 18:24:08,453 - INFO - Successfully loaded faiss with AVX2 support.
+2026-03-25 18:45:25,704 - INFO - Loading faiss with AVX2 support.
+2026-03-25 18:45:25,812 - INFO - Successfully loaded faiss with AVX2 support.
+2026-03-25 18:45:44,077 - INFO - Loading faiss with AVX2 support.
+2026-03-25 18:45:44,186 - INFO - Successfully loaded faiss with AVX2 support.
+2026-03-25 18:49:57,122 - INFO - Loading faiss with AVX2 support.
+2026-03-25 18:49:57,239 - INFO - Successfully loaded faiss with AVX2 support.
+2026-03-25 18:50:28,866 - INFO - Loading faiss with AVX2 support.
+2026-03-25 18:50:28,967 - INFO - Successfully loaded faiss with AVX2 support.
+2026-03-25 18:53:11,348 - INFO - Loading faiss with AVX2 support.
+2026-03-25 18:53:11,450 - INFO - Successfully loaded faiss with AVX2 support.
+2026-03-25 19:01:13,228 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-25 19:03:42,596 - INFO - Loading faiss with AVX2 support.
+2026-03-25 19:03:42,705 - INFO - Successfully loaded faiss with AVX2 support.
+2026-03-25 19:13:16,833 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-03-25 19:16:44,335 - INFO - Loading faiss with AVX2 support.
+2026-03-25 19:16:44,462 - INFO - Successfully loaded faiss with AVX2 support.
+2026-03-25 22:03:25,373 - INFO - Loading faiss with AVX2 support.
+2026-03-25 22:03:25,608 - INFO - Successfully loaded faiss with AVX2 support.

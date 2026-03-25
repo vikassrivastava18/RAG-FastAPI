@@ -2,20 +2,19 @@ import asyncio
 from dotenv import load_dotenv
 from cachetools import TTLCache
 
-from fastapi import (APIRouter, HTTPException, Depends)
+from fastapi import (APIRouter,
+                     HTTPException,
+                     Depends)
 
 from core.config import logger, Session, get_db
 from db.models import Chapter
 from db.query import get_content
-from llm.generate import (generate_llm_response_quiz)
-from db.schemas import (QuizRequest
-                        )
-
+from db.schemas import QuizRequest
 from db.schemas import (ChapterInputRequest,
                         UserQuery)
-
 from llm.generate import (create_quizzes,
-                          answer_query_util)
+                          answer_query_util,
+                          generate_llm_response_quiz, create_questions)
 
 # Create Route instance
 llm_routes = APIRouter() 
@@ -81,5 +80,24 @@ def generate_quizzes(request: ChapterInputRequest,
 def answer_query(request: UserQuery):
     print("Request: ", request)
     docs = answer_query_util(request.query)
-
     return docs
+
+
+@llm_routes.post("/generate-question")
+def generate_questions(request: ChapterInputRequest,
+                       db: Session = Depends(get_db)):
+    chapter = db.query(Chapter).filter(Chapter.id == request.chapter_id).first()
+    content = []
+
+    for subtopic in chapter.subtopics:
+        content.append({"url": subtopic.source, "content": subtopic.content})
+
+    llm_questions = create_questions(content)
+    # print("LLM quizzes: ", llm_questions)
+    return {
+        "questions": llm_questions
+    }
+
+
+# @llm_routes.post("start-dialogue")
+# def generate_dialogue(request)

@@ -70,3 +70,15 @@ def authenticate_user(username, password):
     if verify_password(password, user.password):
         return user
 
+
+def get_chapter_content(chapter_id: int):
+    db = Session()
+    chapter = db.query(Chapter).filter(Chapter.id == chapter_id).first()
+    content = []
+
+    for subtopic in chapter.subtopics:
+        content.append({"url": subtopic.source, "content": subtopic.content})
+
+
+
+

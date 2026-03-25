@@ -200,3 +200,20 @@ class QuizResponse(BaseModel):
 class UserQuery(BaseModel):
     query: str
 
+
+class Question(BaseModel):
+    topic: str
+    question: str
+    source: str
+
+
+class QuestionResponse(BaseModel):
+    questions: List[Question]
+
+class DialogueResponse(BaseModel):
+    questions: QuestionResponse
+    index: int
+    user_answer: str
+    hint_taken: bool
+
+# class
