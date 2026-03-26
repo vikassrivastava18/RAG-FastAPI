@@ -34,32 +34,20 @@
             <div v-html="content" class="mt-2 mb-5 p-4"></div>
         </div>
 
-        <div v-if="!aiLoading && selectedChapter !== 0" class="container">
-            <div v-if="qizzLoaded">
-                <QuizComponent :quizzes="qizzes" />
-            </div>
-            <div v-else>
-                <button type="button" class="btn btn-primary mt-3" 
-                    id="getQuizBtn" @click="getQuizzes()">Test
-                    my knowledge
-                </button>
-            </div>
-        </div>
     </div>
 </template>
 
 <script setup>
 import { ref, onMounted, getCurrentInstance, watch } from 'vue'
-import QuizComponent from './QuizComponent.vue';
 import { baseUrl } from '../config'
 
 const instance = getCurrentInstance()
 const proxy = instance && instance.proxy
 
-const booksUrl = baseUrl + "/books";
+// const booksUrl = baseUrl + "/llm";
 const bookChaptersUrl = baseUrl + "/chapter-subtopics/";
-const quizUrl = baseUrl + "/generate-quizzes";
-const chapterSummaryUrl = baseUrl + "/chapter-summary"
+
+const chapterSummaryUrl = baseUrl + "/llm/chapter-summary"
 
 const books = ref([])
 const selectedBook = ref(0); // A reactive reference for the select value
@@ -67,8 +55,7 @@ const bookChapters = ref([]);
 const selectedChapter = ref(0)
 const aiLoading = ref(false)
 const content = ref("")
-const qizzLoaded = ref(false)
-const qizzes = ref({})
+
 
 onMounted(() => {
     getBooks()
@@ -84,7 +71,6 @@ watch(selectedBook, (newValue) => {
 
 // Watch the selectedChapter ref
 watch(selectedChapter, (newValue) => {
-    qizzLoaded.value = false
     console.log("selectedChapter: ", newValue);
     if (newValue !== 0) { // use strict numeric check
         aiLoading.value = true
@@ -101,24 +87,8 @@ async function fetchChapterContent(chapterId) {
     aiLoading.value = false
 }
 
-async function getQuizzes() {
-    document.getElementById('getQuizBtn').setAttribute('disabled', true)
-
-    const url = quizUrl;
-    try{
-        const id = Number(selectedChapter.value)
-        const res = await proxy.$axios.post(url, { "chapter_id": id })
-        qizzes.value = res.data.quizzes
-    } finally {
-        qizzLoaded.value = true
-        document.getElementById('getQuizBtn').setAttribute('disabled', false)
-    }    
-    
-    
-}
-
 async function getBooks() {
-    const url = booksUrl;
+    const url = baseUrl + '/books';
     try {
         const res = await proxy.$axios.get(url)
         books.value = res.data
@@ -146,15 +116,12 @@ async function getChapters(bookId) {
 </script>
 
 <style>
-/* label {
-    color: cornflowerblue
-} */
-select {
-    min-width: 250px;
-}
+    select {
+        min-width: 250px;
+    }
 
-#getQuizBtn {
-    position: fixed;
-    bottom: 10px;
-}
+    #getQuizBtn {
+        position: fixed;
+        bottom: 10px;
+    }
 </style>

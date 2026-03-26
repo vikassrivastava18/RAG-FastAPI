@@ -2,26 +2,44 @@ import asyncio
 from dotenv import load_dotenv
 from cachetools import TTLCache
 
-from fastapi import (APIRouter,
-                     HTTPException,
-                     Depends)
+from fastapi import APIRouter, HTTPException, Depends
 
 from core.config import logger, Session, get_db
 from db.models import Chapter
 from db.query import get_content
 from db.schemas import QuizRequest
-from db.schemas import (ChapterInputRequest,
-                        UserQuery)
-from llm.generate import (create_quizzes,
-                          answer_query_util,
-                          generate_llm_response_quiz, create_questions)
+from db.schemas import ChapterInputRequest, UserQuery
+
+from llm.generate import (
+    chapter_summary,
+    create_quizzes,
+    answer_query_util,
+    generate_llm_response_quiz,
+    create_questions,
+)
 
 # Create Route instance
-llm_routes = APIRouter() 
+llm_routes = APIRouter()
 # Load environment variables
 load_dotenv()
 
 cache = TTLCache(maxsize=1000, ttl=300)  # 5 minutes
+
+
+@llm_routes.post("/chapter-summary")
+def save_summary(request: ChapterInputRequest, db: Session = Depends(get_db)):
+    # Fetch the first matching chapter
+    chapter = db.query(Chapter).filter(Chapter.id == request.chapter_id).first()
+    content = ""
+    for subtopic in chapter.subtopics:
+        content += subtopic.content + "\n"
+
+    llm_summary = chapter_summary(content)
+    return {
+        "id": request.chapter_id,
+        "name": chapter.chapter_name,
+        "content": llm_summary,
+    }
 
 
 @llm_routes.post("/quiz-response/")
@@ -29,7 +47,7 @@ async def quiz_response(request: QuizRequest):
     try:
         # Retrieve the combined chunks for the user topics
         # topics = get_topics(request.selections)
-        content = await get_content(request.selections) 
+        content = await get_content(request.selections)
         # Generate all Response for the the quiz types
         tasks = [
             generate_llm_response_quiz(
@@ -59,10 +77,8 @@ async def quiz_response(request: QuizRequest):
 
 
 @llm_routes.post("/generate-quizzes")
-def generate_quizzes(request: ChapterInputRequest,
-                     db: Session = Depends(get_db)):
+def generate_quizzes(request: ChapterInputRequest, db: Session = Depends(get_db)):
     # Fetch the first matching chapter
-    print("request", request)
     chapter = db.query(Chapter).filter(Chapter.id == request.chapter_id).first()
     content = []
 
@@ -71,9 +87,7 @@ def generate_quizzes(request: ChapterInputRequest,
 
     llm_quizzes = create_quizzes(content)
     print("LLM response: ", llm_quizzes)
-    return {
-        "quizzes": llm_quizzes
-    }
+    return {"quizzes": llm_quizzes}
 
 
 @llm_routes.post("/answer-query")
@@ -84,8 +98,7 @@ def answer_query(request: UserQuery):
 
 
 @llm_routes.post("/generate-question")
-def generate_questions(request: ChapterInputRequest,
-                       db: Session = Depends(get_db)):
+def generate_questions(request: ChapterInputRequest, db: Session = Depends(get_db)):
     chapter = db.query(Chapter).filter(Chapter.id == request.chapter_id).first()
     content = []
 
@@ -93,11 +106,10 @@ def generate_questions(request: ChapterInputRequest,
         content.append({"url": subtopic.source, "content": subtopic.content})
 
     llm_questions = create_questions(content)
-    # print("LLM quizzes: ", llm_questions)
-    return {
-        "questions": llm_questions
-    }
+
+    return {"questions": llm_questions}
 
 
-# @llm_routes.post("start-dialogue")
-# def generate_dialogue(request)
+@llm_routes.post("start-dialogue")
+def generate_dialogue(request):
+    pass
