@@ -39,6 +39,7 @@ groq_key = os.getenv("GROQ_KEY")
 GROQ = os.getenv("LLAMA_MODEL")
 GPT = os.getenv("GPT_MODEL")
 
+
 # Method for session creation used with dependency injection
 def get_db():
     db = Session()

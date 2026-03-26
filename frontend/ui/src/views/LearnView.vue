@@ -1,5 +1,6 @@
 <template>
     <div class="tab-pane fade show active p-4" id="section1">
+        <h2 class="mb-4">Summary</h2>
         <div class="d-flex justify-content-start">
             <div class="col-xs-3">
                 <label for="bookSelect" class="control-label">Select a book</label>
@@ -119,7 +120,6 @@ async function getChapters(bookId) {
     select {
         min-width: 250px;
     }
-
     #getQuizBtn {
         position: fixed;
         bottom: 10px;

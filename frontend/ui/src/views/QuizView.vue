@@ -22,74 +22,80 @@
             </div>
 
         </div>
-            <div class="container p-4" v-if="quizzLoaded">
-                <!-- MCQ -->
-                <div v-if="quizzes.mcq?.length">
-                    <h4>Multiple Choice</h4>
+        <div v-if="quizzLoading" class="d-flex justify-content-center mt-4">
+            <div class="spinner-grow text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        <div class="container p-4" v-else>
+            <!-- MCQ -->
+            <div v-if="quizzes.mcq?.length">
+                <h4>Multiple Choice</h4>
 
-                    <div v-for="(q, index) in quizzes.mcq" :key="'mcq' + index" class="card mb-3 p-3">
+                <div v-for="(q, index) in quizzes.mcq" :key="'mcq' + index" class="card mb-3 p-3">
 
-                        <p><strong>{{ index + 1 }}. {{ q.question }}</strong></p>
+                    <p><strong>{{ index + 1 }}. {{ q.question }}</strong></p>
 
-                        <div v-for="opt in q.options" :key="opt" class="form-check">
-                            <input class="form-check-input" type="radio" :name="'mcq' + index" :value="opt"
-                                v-model="answers.mcq[index]">
-                            <label class="form-check-label">
-                                {{ opt }}
-                            </label>
-                        </div>
-
-                        <ResultBlock v-if="submitted" :correct="q.answer === answers.mcq[index]" :answer="q.answer"
-                            :explanation="q.explanation" :url="q.url" />
-
+                    <div v-for="opt in q.options" :key="opt" class="form-check">
+                        <input class="form-check-input" type="radio" :name="'mcq' + index" :value="opt"
+                            v-model="answers.mcq[index]">
+                        <label class="form-check-label">
+                            {{ opt }}
+                        </label>
                     </div>
+
+                    <ResultBlock v-if="submitted" :correct="q.answer === answers.mcq[index]" :answer="q.answer"
+                        :explanation="q.explanation" :url="q.url" />
+
                 </div>
+            </div>
 
-                <!-- TRUE FALSE -->
-                <div v-if="quizzes.true_false?.length">
-                    <h4 class="mt-4">True / False</h4>
+            <!-- TRUE FALSE -->
+            <div v-if="quizzes.true_false?.length">
+                <h4 class="mt-4">True / False</h4>
 
-                    <div v-for="(q, index) in quizzes.true_false" :key="'tf' + index" class="card mb-3 p-3">
+                <div v-for="(q, index) in quizzes.true_false" :key="'tf' + index" class="card mb-3 p-3">
 
-                        <p><strong>{{ index + 1 }}. {{ q.question }}</strong></p>
+                    <p><strong>{{ index + 1 }}. {{ q.question }}</strong></p>
 
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" :name="'tf' + index" :value="true"
-                                v-model="answers.true_false[index]">
-                            <label class="form-check-label">True</label>
-                        </div>
-
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" :name="'tf' + index" :value="false"
-                                v-model="answers.true_false[index]">
-                            <label class="form-check-label">False</label>
-                        </div>
-
-                        <ResultBlock v-if="submitted" :correct="q.answer === answers.true_false[index]" :answer="q.answer"
-                            :explanation="q.explanation" :url="q.url" />
-
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" :name="'tf' + index" :value="true"
+                            v-model="answers.true_false[index]">
+                        <label class="form-check-label">True</label>
                     </div>
-                </div>
 
-                <!-- FILL BLANK -->
-                <div v-if="quizzes.fill_blank?.length">
-                    <h4 class="mt-4">Fill in the Blank</h4>
-
-                    <div v-for="(q, index) in quizzes.fill_blank" :key="'fb' + index" class="card mb-3 p-3">
-
-                        <p><strong>{{ index + 1 }}. {{ q.question }}</strong></p>
-
-                        <input type="text" class="form-control" v-model="answers.fill_blank[index]"
-                            placeholder="Enter answer">
-
-                        <ResultBlock v-if="submitted"
-                            :correct="normalize(q.answer) === normalize(answers.fill_blank[index])" :answer="q.answer"
-                            :url="q.url" />
-
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" :name="'tf' + index" :value="false"
+                            v-model="answers.true_false[index]">
+                        <label class="form-check-label">False</label>
                     </div>
+
+                    <ResultBlock v-if="submitted" :correct="q.answer === answers.true_false[index]" :answer="q.answer"
+                        :explanation="q.explanation" :url="q.url" />
+
                 </div>
-            
-            <button class="btn btn-primary mt-3" @click="submitQuiz">
+            </div>
+
+            <!-- FILL BLANK -->
+            <div v-if="quizzes.fill_blank?.length">
+                <h4 class="mt-4">Fill in the Blank</h4>
+
+                <div v-for="(q, index) in quizzes.fill_blank" :key="'fb' + index" class="card mb-3 p-3">
+
+                    <p><strong>{{ index + 1 }}. {{ q.question }}</strong></p>
+
+                    <input type="text" class="form-control" v-model="answers.fill_blank[index]"
+                        placeholder="Enter answer">
+
+                    <ResultBlock v-if="submitted"
+                        :correct="normalize(q.answer) === normalize(answers.fill_blank[index])" :answer="q.answer"
+                        :url="q.url" />
+
+                </div>
+            </div>
+
+            <button v-if="quizzes.mcq?.length || quizzes.true_false?.length || quizzes.fill_blank?.length" 
+            class="btn btn-primary mt-3" @click="submitQuiz">
                 Submit Answers
             </button>
         </div>
@@ -114,7 +120,7 @@ const selectedBook = ref(0); // A reactive reference for the select value
 const bookChapters = ref([]);
 const selectedChapter = ref(0)
 const quizzes = ref({})
-const quizzLoaded = ref(false)
+const quizzLoading = ref(false)
 
 onMounted(() => {
     getBooks()
@@ -130,7 +136,7 @@ watch(selectedBook, (newValue) => {
 
 // Watch the selectedChapter ref
 watch(selectedChapter, (newValue) => {
-    quizzLoaded.value = false
+    quizzLoading.value = true
     console.log("selectedChapter: ", newValue);
     if (newValue !== 0) { // use strict numeric check
         getQuizzes(newValue)
@@ -171,9 +177,9 @@ async function getQuizzes() {
         const id = Number(selectedChapter.value)
         const res = await proxy.$axios.post(url, { "chapter_id": id })
         quizzes.value = res.data.quizzes
-        
+
     } finally {
-        quizzLoaded.value = true
+        quizzLoading.value = false
     }
 
 }
@@ -197,6 +203,4 @@ function normalize(val) {
 
 </script>
 
-<style>
-
-</style>
+<style></style>

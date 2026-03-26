@@ -1,11 +1,11 @@
-import asyncio
+import asyncio, uuid
 from dotenv import load_dotenv
 from cachetools import TTLCache
 
 from fastapi import APIRouter, HTTPException, Depends
 
 from core.config import logger, Session, get_db
-from db.models import Chapter
+from db.models import Chapter, Dialogue
 from db.query import get_content
 from db.schemas import QuizRequest
 from db.schemas import ChapterInputRequest, UserQuery
@@ -17,6 +17,7 @@ from llm.generate import (
     generate_llm_response_quiz,
     create_questions,
 )
+
 
 # Create Route instance
 llm_routes = APIRouter()
@@ -99,17 +100,35 @@ def answer_query(request: UserQuery):
 
 @llm_routes.post("/generate-question")
 def generate_questions(request: ChapterInputRequest, db: Session = Depends(get_db)):
-    chapter = db.query(Chapter).filter(Chapter.id == request.chapter_id).first()
-    content = []
+    # chapter = db.query(Chapter).filter(Chapter.id == request.chapter_id).first()
+    # content = []
 
-    for subtopic in chapter.subtopics:
-        content.append({"url": subtopic.source, "content": subtopic.content})
+    # for subtopic in chapter.subtopics:
+    #     content.append({"url": subtopic.source, "content": subtopic.content})
 
-    llm_questions = create_questions(content)
+    # llm_questions = create_questions(content)
 
-    return {"questions": llm_questions}
+    from data.dummy import data
+    json_data = {
+        "questions": data["questions"]["questions"],
+        "index": 0,
+        "user_answer": "",
+        "hint_taken": False,
+        "llm_response": "" 
+    }
+    session_id = uuid.uuid4()
+    dialogue = Dialogue(
+        session_id = str(session_id),
+        dialogue = json_data
+    )
+    db.add(dialogue)
+    db.commit()
+    return {"questions": dialogue}
 
 
-@llm_routes.post("start-dialogue")
+@llm_routes.post("/start-dialogue")
 def generate_dialogue(request):
-    pass
+    from data.dummy import data
+
+    output = {}
+    output["questions"] = data["questions"]["questions"]

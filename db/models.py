@@ -1,4 +1,6 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy import (Column, Integer,
+                        String, Boolean,
+                        ForeignKey, JSON)
 from sqlalchemy.orm import relationship
 from core.config import Base
 
@@ -43,5 +45,11 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String)
     password = Column(String)
+
+
+class Dialogue(Base):
+    __tablename__ = "dialogues"
+    session_id = Column(String, primary_key=True, index=True)
+    dialogue = Column(JSON, nullable=True)
 
 
