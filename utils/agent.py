@@ -64,3 +64,9 @@ def evaluate(data, hint=True) -> dict:
     # print("Evaluation: ", evaluation)
     return {"role": "AI evaluation", "message": evaluation}
     
+
+def dummy_evaluate():
+    return  {
+        "role": "AI evaluation",
+        "message": "correct: your answer is correct!",
+    }

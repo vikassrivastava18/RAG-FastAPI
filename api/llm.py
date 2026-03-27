@@ -17,7 +17,7 @@ from llm.generate import (
     answer_query_util,
     generate_llm_response_quiz,
 )
-from utils.agent import evaluate
+from utils.agent import dummy_evaluate, evaluate
 
 
 # Create Route instance
@@ -121,11 +121,12 @@ def generate_questions(request: ChapterInputRequest, db: Session = Depends(get_d
 
     json_data = {
         "topic": data["questions"]["questions"][0]["topic"],
-        "question": data["questions"]["questions"][0]["question"],
+        "questions": data["questions"]["questions"],
         "index": 0,
         "user_answer": "",
         "hint_taken": False,
         "llm_response": "",
+        "state": "start"
     }
     session_id = uuid.uuid4()
     dialogue = Dialogue(session_id=str(session_id), dialogue=json_data)
@@ -154,12 +155,7 @@ def generate_dialogue(request: AnswerResponse, db: Session = Depends(get_db)):
     user_answer = request.answer
     print("User answer: ", user_answer)
     hint_available = False if data.get("hint_taken") else True
-    evaluation = {
-        "role": "AI evaluation",
-        "message": "incorrect: your answer does not address the importance of mastering isometric and orthographic views in print "
-        "reading. \n\nhere is a hint: consider how these views help in understanding and visualizing the design and features of a part,"
-        " and how they contribute to effective communication and error reduction in manufacturing.",
-    }
+    evaluation = dummy_evaluate()
     # evaluation = evaluate(
     #     data={"question": question, "notes": ai_answer, "users_answer": user_answer},
     #     hint=hint_available,
@@ -168,41 +164,85 @@ def generate_dialogue(request: AnswerResponse, db: Session = Depends(get_db)):
     answer_correct = False if "incorrect" in evaluation["message"] else True
 
     if "incorrect" in evaluation["message"]:
-        data["hint_taken"] = True
         data["user_answer"] = user_answer
         # dialogue.dialogue = data
         flag_modified(dialogue, "dialogue")
         db.commit()
         db.refresh(dialogue)
 
-        json_data = {
-            "session_id": session_id,
-            "topic": data.get("questions")[index].get("topic"),
-            "question": data.get("questions")[index].get("question"),
-            "index": index,
-            "user_answer": user_answer,
-            "hint_taken": True,
-            "llm_response": evaluation,
-            "answer_correct": False,
-        }
+        if hint_available:
+            json_data = {
+                "session_id": session_id,
+                "topic": data.get("questions")[index].get("topic"),
+                "question": data.get("questions")[index].get("question"),
+                "index": index,
+                "user_answer": user_answer,
+                "hint_taken": False,
+                "llm_response": evaluation,
+                "answer_correct": False,
+                "state": "hint"
+            }
+        else:
+            try:
+                json_data = {
+                    "session_id": session_id,
+                    "topic": data.get("questions")[index+1].get("topic"),
+                    "question": data.get("questions")[index+1].get("question"),
+                    "index": index,
+                    "user_answer": user_answer,
+                    "hint_taken": False,
+                    "llm_response": evaluation,
+                    "answer_correct": False,
+                    "state": "incorrect"
+                }
+                data["index"] += 1
+                # dialogue.dialogue = data
+                flag_modified(dialogue, "dialogue")
+                db.commit()
+                db.refresh(dialogue)
+            except IndexError:
+                json_data = {
+                    "session_id": session_id,
+                    "topic": data.get("questions")[index].get("topic"),
+                    "question": data.get("questions")[index].get("question"),
+                    "index": index,
+                    "user_answer": user_answer,
+                    "hint_taken": True,
+                    "llm_response": evaluation,
+                    "answer_correct": False,
+                    "state": "END"
+                }
 
     else:
-        # TODO: Manage index out of range
         data["user_answer"] = user_answer
-        
+        data["index"] += 1
         # dialogue.dialogue = data
         flag_modified(dialogue, "dialogue")
         db.commit()
         db.refresh(dialogue)
-        json_data = {
-            "session_id": session_id,
-            "topic": data.get("questions")[index + 1].get("topic"),
-            "question": data.get("questions")[index + 1].get("question"),
-            "index": index + 1,
-            "user_answer": user_answer,
-            "hint_taken": False,
-            "llm_response": evaluation,
-            "answer_correct": answer_correct,
-        }
+        try:
+            json_data = {
+                "session_id": session_id,
+                "topic": data.get("questions")[index + 1].get("topic"),
+                "question": data.get("questions")[index + 1].get("question"),
+                "index": index + 1,
+                "user_answer": user_answer,
+                "hint_taken": False,
+                "llm_response": evaluation,
+                "answer_correct": answer_correct,
+                "state": "correct"
+            }
+        except IndexError:
+            json_data = {
+                    "session_id": session_id,
+                    "topic": data.get("questions")[index].get("topic"),
+                    "question": data.get("questions")[index].get("question"),
+                    "index": index,
+                    "user_answer": user_answer,
+                    "hint_taken": True,
+                    "llm_response": evaluation,
+                    "answer_correct": False,
+                    "state": "END"
+                }
 
     return {"dialogue": json_data}

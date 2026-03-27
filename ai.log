@@ -548,3 +548,15 @@ WHERE books.book_name IS NOT NULL AND books.book_name != %(book_name_1)s AND boo
 2026-03-27 20:06:10,402 - INFO - Successfully loaded faiss with AVX2 support.
 2026-03-27 20:36:08,047 - INFO - Loading faiss with AVX2 support.
 2026-03-27 20:36:08,146 - INFO - Successfully loaded faiss with AVX2 support.
+2026-03-27 21:00:24,157 - INFO - Loading faiss with AVX2 support.
+2026-03-27 21:00:24,250 - INFO - Successfully loaded faiss with AVX2 support.
+2026-03-27 21:00:49,662 - INFO - Loading faiss with AVX2 support.
+2026-03-27 21:00:49,772 - INFO - Successfully loaded faiss with AVX2 support.
+2026-03-27 21:10:30,604 - INFO - Loading faiss with AVX2 support.
+2026-03-27 21:10:30,699 - INFO - Successfully loaded faiss with AVX2 support.
+2026-03-27 21:12:43,552 - INFO - Loading faiss with AVX2 support.
+2026-03-27 21:12:43,771 - INFO - Successfully loaded faiss with AVX2 support.
+2026-03-27 22:51:55,910 - INFO - Loading faiss with AVX2 support.
+2026-03-27 22:51:56,023 - INFO - Successfully loaded faiss with AVX2 support.
+2026-03-27 22:55:42,082 - INFO - Loading faiss with AVX2 support.
+2026-03-27 22:55:42,188 - INFO - Successfully loaded faiss with AVX2 support.

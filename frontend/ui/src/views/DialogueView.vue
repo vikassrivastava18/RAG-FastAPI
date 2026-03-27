@@ -25,10 +25,8 @@
     <div class="container">
         <p v-html="message" class="p-4"></p>
 
-        <input class="form-control py-2 my-2" id="askInput" 
-            v-model="userInput" placeholder="Enter your answer here..."
-            @keyup.enter="reviewAnswer"
-            :hidden="inputDisabled">
+        <input class="form-control py-2 my-2" id="askInput" v-model="userInput" placeholder="Enter your answer here..."
+            @keyup.enter="reviewAnswer" :hidden="inputDisabled">
         <div v-if="aiLoading" class="d-flex justify-content-center mt-4">
             <div class="spinner-grow text-primary" role="status">
                 <span class="visually-hidden">Loading...</span>
@@ -75,8 +73,8 @@ watch(selectedChapter, (newValue) => {
     console.log("selectedChapter: ", newValue);
     if (newValue !== 0) { // use strict numeric check
         aiLoading.value = true
-        fetchDialogue(newValue)    
-    }    
+        fetchDialogue(newValue)
+    }
 });
 
 
@@ -107,13 +105,13 @@ async function getChapters(bookId) {
 }
 
 async function fetchDialogue(chapterId) {
-    const res = await proxy.$axios.post(startDialogueUrl, 
-                {"chapter_id": chapterId})
+    const res = await proxy.$axios.post(startDialogueUrl,
+        { "chapter_id": chapterId })
     dialogue.value = res.data.dialogue
-    
+
     message.value = `🚀<b>Welcome</b>, we will be learning some importance concepts related to the chapter <b>${dialogue.value["chapter"]}</b>, 
                 starting with the  topic <b>${dialogue.value["questions"][0]["topic"]} </b>` + `<br> <br>` +
-                    `${dialogue.value["questions"][0]["question"]}`
+        `${dialogue.value["questions"][0]["question"]}`
 
     aiLoading.value = false;
     inputDisabled.value = false;
@@ -122,7 +120,8 @@ async function fetchDialogue(chapterId) {
 async function reviewAnswer() {
     // prepare a plain JSON payload (strip Vue reactivity)
     dialogue.value["user_answer"] = userInput.value;
-    const payload = {"answer": userInput.value, "session_id": dialogue.value.session_id}
+    message.value += "<br>" + userInput.value
+    const payload = { "answer": userInput.value, "session_id": dialogue.value.session_id }
     // const payload = JSON.parse(JSON.stringify(dialogue.value || {}));
     // payload.user_answer = userInput.value;
     console.log("Sending evaluate-response payload:", payload);
@@ -133,7 +132,24 @@ async function reviewAnswer() {
     try {
         const res = await proxy.$axios.post(answerReviewUrl, payload)
         console.log('Review response:', res.data)
+        const evaluation = res.data.dialogue
+        if (evaluation["state"] === "hint") {
+            message.value += "<br>" + evaluation["llm_response"]["message"]
+        }
+        else if (evaluation["state"] === "incorrect") {
+            message.value += "<br>" + evaluation["llm_response"]["message"]
+            message.value += "<br>" + evaluation["question"]
+        } else if (evaluation["state"] === "correct") {
+            message.value += "<br>" + evaluation["llm_response"]["message"]
+            message.value += "<br>" + evaluation["question"]
+        } else {
+            message.value += "<br>" + "Congratulation, you have completed the chapter"
+        }
+
+
         userInput.value = "";
+        inputDisabled.value = false
+
     } catch (error) {
         console.error('evaluate-response error:', error)
         if (error.response) {
