@@ -609,7 +609,7 @@ def answer_query_util(query: str):
 
 def create_questions(content: ChapterContentRequest):
     prompt = f"""
-    You are a quiz master. Use the content of a chapter to create questions that help students in their study.
+    You are a quiz master. Use the content of a chapter to create questions and expected answers that help students in their study.
     The content is divided into multiple subchapters, each with its source url and the text.
     You do not need to visit the url for a subchapter, but tag every question with its source url and the subchapter name.
     Return the response in the format specified.    

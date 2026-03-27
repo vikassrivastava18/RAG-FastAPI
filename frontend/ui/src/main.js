@@ -9,7 +9,8 @@ import LearnView from './views/LearnView.vue'
 const routes = [
   { path: '/', component: LearnView },
   { path: '/ask', component: () => import('./views/AskView.vue')},
-  { path: '/quiz', component: () => import('./views/QuizView.vue')}
+  { path: '/quiz', component: () => import('./views/QuizView.vue')},
+  { path: '/dialogue', component: () => import('./views/DialogueView.vue')}
 ]
 
 const router = createRouter({

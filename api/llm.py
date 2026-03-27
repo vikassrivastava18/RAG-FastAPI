@@ -1,22 +1,23 @@
 import asyncio, uuid
 from dotenv import load_dotenv
 from cachetools import TTLCache
-
+from sqlalchemy.orm.attributes import flag_modified
 from fastapi import APIRouter, HTTPException, Depends
 
 from core.config import logger, Session, get_db
 from db.models import Chapter, Dialogue
 from db.query import get_content
-from db.schemas import QuizRequest
+from db.schemas import AnswerResponse, DialogueResponse, QuizRequest
 from db.schemas import ChapterInputRequest, UserQuery
 
 from llm.generate import (
     chapter_summary,
+    create_questions,
     create_quizzes,
     answer_query_util,
     generate_llm_response_quiz,
-    create_questions,
 )
+from utils.agent import evaluate
 
 
 # Create Route instance
@@ -107,28 +108,101 @@ def generate_questions(request: ChapterInputRequest, db: Session = Depends(get_d
     #     content.append({"url": subtopic.source, "content": subtopic.content})
 
     # llm_questions = create_questions(content)
+    # return {
+    #     "chapter": "Types Of Drawing",
+    #     "questions": llm_questions,
+    #     "index": 0,
+    #     "user_answer": "",
+    #     "hint_taken": False,
+    #     "llm_response": ""
+    # }
 
     from data.dummy import data
+
     json_data = {
-        "questions": data["questions"]["questions"],
+        "topic": data["questions"]["questions"][0]["topic"],
+        "question": data["questions"]["questions"][0]["question"],
         "index": 0,
         "user_answer": "",
         "hint_taken": False,
-        "llm_response": "" 
+        "llm_response": "",
     }
     session_id = uuid.uuid4()
-    dialogue = Dialogue(
-        session_id = str(session_id),
-        dialogue = json_data
-    )
+    dialogue = Dialogue(session_id=str(session_id), dialogue=json_data)
     db.add(dialogue)
     db.commit()
-    return {"questions": dialogue}
+    json_data["session_id"] = str(session_id)
+    return {"dialogue": json_data}
 
 
-@llm_routes.post("/start-dialogue")
-def generate_dialogue(request):
-    from data.dummy import data
+@llm_routes.post("/evaluate-response")
+def generate_dialogue(request: AnswerResponse, db: Session = Depends(get_db)):
+    """
+    Fetch the JSON blob using session_id
+    Review the user answer by invoking LLM call
+    Modify the Dialogue state based on correctness
+    return Dialogue response.
+    """
+    session_id = request.session_id
+    print(session_id)
+    dialogue = db.query(Dialogue).filter(Dialogue.session_id == session_id).first()
+    # check answers correctness
+    data = dialogue.dialogue
+    index = data.get("index")
+    question = data.get("questions")[index].get("question")
+    ai_answer = data.get("questions")[index].get("answer")
+    user_answer = request.answer
+    print("User answer: ", user_answer)
+    hint_available = False if data.get("hint_taken") else True
+    evaluation = {
+        "role": "AI evaluation",
+        "message": "incorrect: your answer does not address the importance of mastering isometric and orthographic views in print "
+        "reading. \n\nhere is a hint: consider how these views help in understanding and visualizing the design and features of a part,"
+        " and how they contribute to effective communication and error reduction in manufacturing.",
+    }
+    # evaluation = evaluate(
+    #     data={"question": question, "notes": ai_answer, "users_answer": user_answer},
+    #     hint=hint_available,
+    # )
+    print("Evaluation: ", evaluation)
+    answer_correct = False if "incorrect" in evaluation["message"] else True
 
-    output = {}
-    output["questions"] = data["questions"]["questions"]
+    if "incorrect" in evaluation["message"]:
+        data["hint_taken"] = True
+        data["user_answer"] = user_answer
+        # dialogue.dialogue = data
+        flag_modified(dialogue, "dialogue")
+        db.commit()
+        db.refresh(dialogue)
+
+        json_data = {
+            "session_id": session_id,
+            "topic": data.get("questions")[index].get("topic"),
+            "question": data.get("questions")[index].get("question"),
+            "index": index,
+            "user_answer": user_answer,
+            "hint_taken": True,
+            "llm_response": evaluation,
+            "answer_correct": False,
+        }
+
+    else:
+        # TODO: Manage index out of range
+        data["user_answer"] = user_answer
+        
+        # dialogue.dialogue = data
+        flag_modified(dialogue, "dialogue")
+        db.commit()
+        db.refresh(dialogue)
+        json_data = {
+            "session_id": session_id,
+            "topic": data.get("questions")[index + 1].get("topic"),
+            "question": data.get("questions")[index + 1].get("question"),
+            "index": index + 1,
+            "user_answer": user_answer,
+            "hint_taken": False,
+            "llm_response": evaluation,
+            "answer_correct": answer_correct,
+        }
+
+    return {"dialogue": json_data}

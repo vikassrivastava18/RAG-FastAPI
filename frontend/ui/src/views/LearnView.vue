@@ -1,5 +1,5 @@
 <template>
-    <div class="tab-pane fade show active p-4" id="section1">
+    <div class="tab-pane fade show active p-2" id="section1">
         <h2 class="mb-4">Summary</h2>
         <div class="d-flex justify-content-start">
             <div class="col-xs-3">

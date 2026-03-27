@@ -1,27 +1,31 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container-fluid">
-            <router-link to="/" class="nav-link">
+    <nav class="p-2">
+        <div class="d-flex justify-content-start">
+            <router-link to="/" class="nav-link mx-4">
                 Summary
             </router-link>
-            <router-link to="/ask" class="nav-link">
+            <router-link to="/ask" class="nav-link mx-4">
                 Ask
             </router-link>
-            <router-link to="/quiz" class="nav-link">
+            <router-link to="/quiz" class="nav-link mx-4">
                 Quiz
             </router-link>
-            <!-- <router-link to="/" class="nav-link">
+            <router-link to="/dialogue" class="nav-link mx-4">
                 Dialogue
-            </router-link> -->
+            </router-link>
         </div>
     </nav>
 </template>
 
 <style>
-.navbar {
-    color: #fff;
-    background-color: rgb(67, 132, 154);
+nav {
+    /* color: #fff; */
+    background-color: rgb(98, 201, 236);
     /* text-align: left; */
+}
+.nav-link {
+    margin-right: 10px;
+    font-size: larger;
 }
 
 </style>

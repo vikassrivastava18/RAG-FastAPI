@@ -78,7 +78,6 @@ class BookDetailResponse(BaseModel):
         orm_mode = True
     
 
-
 class BookDetailFooterResponse(BaseModel):
     id: int
     notebook_name: str = Field(..., alias="book_name")
@@ -204,16 +203,24 @@ class UserQuery(BaseModel):
 class Question(BaseModel):
     topic: str
     question: str
+    answer: str
     source: str
 
 
 class QuestionResponse(BaseModel):
     questions: List[Question]
+    
 
 class DialogueResponse(BaseModel):
-    questions: QuestionResponse
+    questions: List[Question]
     index: int
+    session_id: str
     user_answer: str
     hint_taken: bool
+    llm_response: str
+    chapter: str
 
-# class
+
+class AnswerResponse(BaseModel):
+    session_id: str
+    answer: str

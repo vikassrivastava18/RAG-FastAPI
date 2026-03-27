@@ -1,62 +1,35 @@
 data = {
-        "questions": {
-            "questions": [
-                {
-                    "topic": "Multi-View Drawings",
-                    "question": "What are the benefits of mastering the interpretation of multi-view drawings in print reading?",
-                    "source": "https://wtcs.pressbooks.pub/blueprintreading/chapter/2-views-of-an-object/#chapter-253-section-2",
-                },
-                {
-                    "topic": "Pictorial Drawings",
-                    "question": "What are the different types of pictorial drawings and how do they differ in representing an object?",
-                    "source": "https://wtcs.pressbooks.pub/blueprintreading/chapter/2-views-of-an-object/#chapter-253-section-4",
-                },
-                {
-                    "topic": "Orthographic Projection Drawings",
-                    "question": "How do orthographic projection drawings ensure precise measurements and dimensioning?",
-                    "source": "https://wtcs.pressbooks.pub/blueprintreading/chapter/2-views-of-an-object/#chapter-253-section-5",
-                },
-                {
-                    "topic": "Names of the Views",
-                    "question": "Why is the relationship between views more important than the names of the views in orthographic prints?",
-                    "source": "https://wtcs.pressbooks.pub/blueprintreading/chapter/2-views-of-an-object/#chapter-253-section-7",
-                },
-                {
-                    "topic": "Projection Views",
-                    "question": "What is the difference between first-angle and third-angle projection in terms of view placement?",
-                    "source": "https://wtcs.pressbooks.pub/blueprintreading/chapter/2-views-of-an-object/#chapter-253-section-9",
-                },
-                {
-                    "topic": "Third-Angle Projection",
-                    "question": "Why is third-angle projection the standard method used in North America for multi-view drawings?",
-                    "source": "https://wtcs.pressbooks.pub/blueprintreading/chapter/2-views-of-an-object/#chapter-253-section-10",
-                },
-                {
-                    "topic": "First-Angle Projection",
-                    "question": "How does the arrangement of views in first-angle projection differ from third-angle projection?",
-                    "source": "https://wtcs.pressbooks.pub/blueprintreading/chapter/2-views-of-an-object/#chapter-253-section-11",
-                },
-                {
-                    "topic": "Introduction to Multi-View Drawings",
-                    "question": "What are the primary views of an object in multi-view drawings and how do they aid in understanding complex objects?",
-                    "source": "https://wtcs.pressbooks.pub/blueprintreading/chapter/2-views-of-an-object/#chapter-253-section-1",
-                },
-                {
-                    "topic": "Pictorial vs. Orthographic Projection Drawings",
-                    "question": "How do pictorial drawings differ from orthographic projection drawings in terms of realism and information conveyed?",
-                    "source": "https://wtcs.pressbooks.pub/blueprintreading/chapter/2-views-of-an-object/#chapter-253-section-3",
-                },
-                {
-                    "topic": "Orthographic View Placement",
-                    "question": "How are the six principal views arranged in orthographic projection, and why might not all six views be used in a part drawing?",
-                    "source": "https://wtcs.pressbooks.pub/blueprintreading/chapter/2-views-of-an-object/#chapter-253-section-6",
-                },
-                {
-                    "topic": "Height, Width, and Depth",
-                    "question": "What is the significance of using standard terms like height, width, and depth when referring to a part's size in drawings?",
-                    "source": "https://wtcs.pressbooks.pub/blueprintreading/chapter/2-views-of-an-object/#chapter-253-section-8",
-                },
-            ]
-        }
-    }
-    
+  "chapter": "Types Of Drawing",
+  "questions": {
+    "questions": [
+      {
+        "topic": "View Identification",
+        "question": "What is the importance of mastering both isometric and orthographic views in print reading?",
+        "answer": "Mastering both isometric and orthographic views allows for a comprehensive understanding of blueprints, ensuring precise and effective communication of design intent. It helps in visualizing how an actual part should appear based on print features, reducing errors and improving efficiency in manufacturing.",
+        "source": "https://wtcs.pressbooks.pub/blueprintreading/chapter/3-objects-in-different-views/#chapter-87-section-2"
+      },
+      {
+        "topic": "Sketching Orthographic Views",
+        "question": "Why is mastering orthographic drawings essential for manufacturing and design?",
+        "answer": "Mastering orthographic drawings is essential for ensuring a clear grasp of the object’s form, size, and characteristics. It improves the ability to communicate design concepts to others without relying on CAD software and enhances the ability to visualize and perceive three-dimensional shapes from an orthographic perspective.",
+        "source": "https://wtcs.pressbooks.pub/blueprintreading/chapter/3-objects-in-different-views/#chapter-87-section-3"
+      },
+      {
+        "topic": "Introduction to Views",
+        "question": "What are the different types of views mentioned in the introduction, and why are they important?",
+        "answer": "The different types of views mentioned are isometric, orthographic, dimetric, and trimetric views. They are important because they help in identifying the correct views of objects using visible and hidden lines, and they are fundamental for sketching objects accurately to convey ideas and designs on paper.",
+        "source": "https://wtcs.pressbooks.pub/blueprintreading/chapter/3-objects-in-different-views/#chapter-87-section-1"
+      },
+      {
+        "topic": "Sketching Isometric Views",
+        "question": "What are the characteristics of an isometric drawing, and why is it commonly used in sketching?",
+        "answer": "An isometric drawing has width, depth, and height features that are all projected 120° from each other. It is commonly used in sketching because the angles are projected equal to each other, making isometric sketching easier than other views like dimetric and trimetric.",
+        "source": "https://wtcs.pressbooks.pub/blueprintreading/chapter/14-print-specifications/#chapter-514-section-6"
+      }
+    ]
+  },
+  "index": 0,
+  "user_answer": "",
+  "hint_taken": True,
+  "llm_response": ""
+}
