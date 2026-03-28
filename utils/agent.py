@@ -1,31 +1,9 @@
 from typing import TypedDict
 
 from core.config import llm2 as llm
-
-class QuizSate(TypedDict):
-    topic: str
-    notes: str
-    question: str
-    messages: list
-    attempts: int
-
-class DialoguesState(TypedDict):
-    index: int
-    topics: list
-    messages: list
-    all_messages: list
-    quiz: QuizSate
+from db.schemas import QueryResponse
 
 
-def setup_dailogue(chapter_id: int):
-    chapter = db.query(Chapter).filter(Chapter.id == request.chapter_id).first()
-    content = []
-
-def update_dialogue():
-    pass
-
-def evaluate_answer(data):
-    pass
 
 def evaluate(data, hint=True) -> dict:
     """
@@ -36,11 +14,10 @@ def evaluate(data, hint=True) -> dict:
         ai_prompt = f"""
             You have to analyze the user's reply to a question to check the understanding of a concept and tell whether
             it is acceptable using notes provided to you.
-            Return: correct or incorrect, along with some explanation. Also if answer is incorrect, give the correct answer based on notes
-            in a friendly.
-            Output sample 
-            1) Correct: You have correctly understood use git branch in helping parallel feature development.
-            2) Incorrect: Expected answer ...            
+            Return: 
+                correct: True/False
+                comment: comment on the answer, along with some explanation. Also if answer is incorrect, give the correct answer based on notes.
+            in a friendly.          
             Quiz: {data["question"]}
             Notes: {data["notes"]}
             User's reply: {data["users_answer"]}
@@ -49,24 +26,33 @@ def evaluate(data, hint=True) -> dict:
         ai_prompt = f"""
             You have to analyze the user's reply to a question to check the understanding of a concept and tell whether
             it is acceptable using notes provided to you.
-            Return: correct or incorrect, along with some explanation. Also if answer is incorrect, give a hint to help user answer the question.
-            Output sample
-            1) Correct: You have correctly understood use git branch in helping parallel feature development.
-            2) Incorrect: Here is a hint: ....
+            Return: 
+                correct: True/False
+                comment: comment on the answer, along with some explanation. Also if answer is incorrect, make a comment on users answer and 
+                give a hint to help user answer the question. Do not give the exact answer.
                             
             Quiz: {data["question"]}
             Notes: {data["notes"]}
             User's reply: {data["users_answer"]}
         """
-    evaluation = llm.invoke(ai_prompt).content.lower()
 
-
-    # print("Evaluation: ", evaluation)
-    return {"role": "AI evaluation", "message": evaluation}
     
+    structured_llm = llm.with_structured_output(QueryResponse)
+    messages = [
+        {
+            "role": "AI evaluation",
+            "content": ai_prompt
+        }
+    ]
+
+    response = structured_llm.invoke(messages)
+    return response
 
 def dummy_evaluate():
+    import random
+    r = random.random()
+    correct = True if r > 0.5 else False
     return  {
-        "role": "AI evaluation",
-        "message": "correct: your answer is correct!",
+        "correct": correct,
+        "comment": "correct: your answer is correct!" if correct else "incorrect: ......",
     }

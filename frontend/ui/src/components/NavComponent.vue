@@ -1,6 +1,6 @@
 <template>
     <nav class="p-2">
-        <div class="d-flex justify-content-start">
+        <div class="d-flex justify-content-end">
             <router-link to="/" class="nav-link mx-4">
                 Summary
             </router-link>

@@ -7,7 +7,7 @@ from typing import (Optional,
 from fastapi import HTTPException
 
 from core.config import llm2, logger
-from db.schemas import ChapterContentRequest, QuizResponse, UserQuery, QuestionResponse
+from db.schemas import ChapterContentRequest, QueryResponse, QuestionsSchema, QuizResponse
 from llm.vector import faiss_db
 
 
@@ -617,7 +617,7 @@ def create_questions(content: ChapterContentRequest):
     Content: {content}
     """
 
-    structured_llm = llm2.with_structured_output(QuestionResponse)
+    structured_llm = llm2.with_structured_output(QuestionsSchema)
     messages = [
         {
             "role": "system",
@@ -628,6 +628,60 @@ def create_questions(content: ChapterContentRequest):
     response = structured_llm.invoke(messages)
     return response
 
+
+
+def evaluate(data, hint=True) -> dict:
+    """
+    Evaluate the user reply, using LLM.
+    Returns correct, retry or limits reached outputs
+    """
+    if not hint:
+        ai_prompt = f"""
+            You have to analyze the user's reply to a question to check the understanding of a concept and tell whether
+            it is acceptable using notes provided to you.
+            Return: 
+                correct: True/False
+                comment: comment on the answer, along with some explanation. Also if answer is incorrect, give the correct answer based on notes.
+                in a friendly. Also tell user that you will move to the next question as the hints have been exhaustef. Add HTML tags like <b> around important keywords in the response comment.         
+            Quiz: {data["question"]}
+            Notes: {data["notes"]}
+            User's reply: {data["users_answer"]}
+        """
+    else:
+        ai_prompt = f"""
+            You have to analyze the user's reply to a question to check the understanding of a concept and tell whether
+            it is acceptable using notes provided to you.
+            Return: 
+                correct: True/False
+                comment: comment on the answer, along with some explanation. Also if answer is incorrect, make a comment on users answer and 
+                give some hint to help user answer the question. Do not give the exact answer. 
+                Add HTML tags like <b> around important keywords in the response comment.
+                            
+            Quiz: {data["question"]}
+            Notes: {data["notes"]}
+            User's reply: {data["users_answer"]}
+        """
+
+    
+    structured_llm = llm2.with_structured_output(QueryResponse)
+    messages = [
+        {
+            "role": "ai",
+            "content": ai_prompt
+        }
+    ]
+
+    response = structured_llm.invoke(messages)
+    return response
+
+def dummy_evaluate():
+    import random
+    r = random.random()
+    correct = True if r > 0.5 else False
+    return  {
+        "correct": correct,
+        "comment": "correct: your answer is correct!" if correct else "incorrect: ......",
+    }
 
 
 

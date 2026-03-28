@@ -207,7 +207,7 @@ class Question(BaseModel):
     source: str
 
 
-class QuestionResponse(BaseModel):
+class QuestionsSchema(BaseModel):
     questions: List[Question]
     
 
@@ -224,3 +224,10 @@ class DialogueResponse(BaseModel):
 class AnswerResponse(BaseModel):
     session_id: str
     answer: str
+
+
+class QueryResponse(BaseModel):
+    correct: bool
+    comment: str
+
+

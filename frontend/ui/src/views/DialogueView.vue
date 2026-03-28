@@ -120,7 +120,7 @@ async function fetchDialogue(chapterId) {
 async function reviewAnswer() {
     // prepare a plain JSON payload (strip Vue reactivity)
     dialogue.value["user_answer"] = userInput.value;
-    message.value += "<br>" + userInput.value
+    message.value += "<br> <p>" + userInput.value + "</p>"
     const payload = { "answer": userInput.value, "session_id": dialogue.value.session_id }
     // const payload = JSON.parse(JSON.stringify(dialogue.value || {}));
     // payload.user_answer = userInput.value;
@@ -133,19 +133,13 @@ async function reviewAnswer() {
         const res = await proxy.$axios.post(answerReviewUrl, payload)
         console.log('Review response:', res.data)
         const evaluation = res.data.dialogue
-        if (evaluation["state"] === "hint") {
-            message.value += "<br>" + evaluation["llm_response"]["message"]
-        }
-        else if (evaluation["state"] === "incorrect") {
-            message.value += "<br>" + evaluation["llm_response"]["message"]
-            message.value += "<br>" + evaluation["question"]
-        } else if (evaluation["state"] === "correct") {
-            message.value += "<br>" + evaluation["llm_response"]["message"]
-            message.value += "<br>" + evaluation["question"]
-        } else {
-            message.value += "<br>" + "Congratulation, you have completed the chapter"
-        }
+         message.value += "<br> <p>" + evaluation["llm_response"] + "</p>"
 
+        if (evaluation["state"] === "incorrect" || evaluation["state"] === "correct") {           
+            message.value += "<br> <p>" + evaluation["question"] + "</p>"
+        } else if (evaluation["state"] === "END") {           
+            message.value += "<br> <p>" + "Congratulation, you have completed the chapter" + "</p>"
+        }
 
         userInput.value = "";
         inputDisabled.value = false
