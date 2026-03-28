@@ -109,7 +109,7 @@ async function fetchDialogue(chapterId) {
         { "chapter_id": chapterId })
     dialogue.value = res.data.dialogue
 
-    message.value = `🚀<b>Welcome</b>, we will be learning some importance concepts related to the chapter <b>${dialogue.value["chapter"]}</b>, 
+    message.value = `🚀<b>Welcome</b>, we will be learning some importance concepts related to the chapter, 
                 starting with the  topic <b>${dialogue.value["questions"][0]["topic"]} </b>` + `<br> <br>` +
         `${dialogue.value["questions"][0]["question"]}`
 
