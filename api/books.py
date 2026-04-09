@@ -57,7 +57,6 @@ def get_book_footer(book_id: int, db: Session = Depends(get_db)):
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Book not found"
         )
-
     return book
 
 
@@ -70,7 +69,6 @@ async def chapter_subtopics_list(request: ChapterRequest,
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Book not found"
         )
-
     return book
 
 

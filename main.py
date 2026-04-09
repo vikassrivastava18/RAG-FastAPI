@@ -31,7 +31,6 @@ app.include_router(
     tags=["Books"]
 )
 
-
 # Lazy load routers on demand
 def load_auth_router():
     from api.auth import auth_routes

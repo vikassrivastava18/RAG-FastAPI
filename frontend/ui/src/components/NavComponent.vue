@@ -2,16 +2,16 @@
     <nav class="p-2">
         <div class="d-flex justify-content-end">
             <router-link to="/" class="nav-link mx-4">
-                Summary
+                summary
             </router-link>
             <router-link to="/ask" class="nav-link mx-4">
-                Ask
+                ask
             </router-link>
             <router-link to="/quiz" class="nav-link mx-4">
-                Quiz
+                quiz
             </router-link>
             <router-link to="/dialogue" class="nav-link mx-4">
-                Dialogue
+                dialogue
             </router-link>
         </div>
     </nav>

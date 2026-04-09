@@ -11,7 +11,6 @@
                 <div class="tab-content mt-3">
                     <RouterView />                  
                 </div>
-
             </div>
         </div>
     </main>

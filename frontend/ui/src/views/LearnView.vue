@@ -11,6 +11,7 @@
                         :value="book.id" class="form-control">{{ book.name }}
                     </option>
                 </select>
+                
             </div>
             <div class="col-xs-3 ms-4">
                 <label for="chapterSelect" class="control-label">Select a Chapter</label>
