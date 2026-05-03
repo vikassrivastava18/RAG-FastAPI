@@ -209,6 +209,11 @@ class Question(BaseModel):
 
 class QuestionsSchema(BaseModel):
     questions: List[Question]
+
+
+class AnswerSchema(BaseModel):
+    session_id: str
+    answer: str
     
 
 class DialogueResponse(BaseModel):
@@ -220,10 +225,6 @@ class DialogueResponse(BaseModel):
     llm_response: str
     chapter: str
 
-
-class AnswerResponse(BaseModel):
-    session_id: str
-    answer: str
 
 
 class QueryResponse(BaseModel):

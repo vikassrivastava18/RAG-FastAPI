@@ -8,7 +8,7 @@ from fastapi.encoders import jsonable_encoder
 from core.config import logger, Session, get_db
 from core.db.models import Chapter, Dialogue
 from core.db.query import get_content
-from core.db.schemas import (AnswerResponse,  
+from core.db.schemas import (AnswerResponse, AnswerSchema,  
                              QuizRequest, 
                              ChapterInputRequest, 
                              UserQuery)
@@ -51,8 +51,8 @@ def save_summary(request: ChapterInputRequest, db: Session = Depends(get_db)):
 async def quiz_response(request: QuizRequest):
     try:
         # Retrieve the combined chunks for the user topics
-        # topics = get_topics(request.selections)
         content = await get_content(request.selections)
+
         # Generate all Response for the the quiz types
         tasks = [
             generate_llm_response_quiz(
@@ -64,6 +64,7 @@ async def quiz_response(request: QuizRequest):
             )
             for q_type in request.question_types
         ]
+
         # Run all generate_case_study coroutines concurrently
         responses = await asyncio.tasks.gather(*tasks)
 
@@ -91,7 +92,6 @@ def generate_quizzes(request: ChapterInputRequest, db: Session = Depends(get_db)
         content.append({"url": subtopic.source, "content": subtopic.content})
 
     llm_quizzes = create_quizzes(content)
-    print("LLM response: ", llm_quizzes)
     return {"quizzes": llm_quizzes}
 
 
@@ -121,7 +121,8 @@ def generate_questions(request: ChapterInputRequest, db: Session = Depends(get_d
         "llm_response": "",
         "state": "start"
     }
-    print("JSON data: ", json_data)
+    
+    # Create a new dialogue
     session_id = uuid.uuid4()
     dialogue = Dialogue(session_id=str(session_id), dialogue=json_data)
     db.add(dialogue)
@@ -148,16 +149,15 @@ def prepare_data(session_id, data, index,
 
 
 @llm_routes.post("/evaluate-response")
-def generate_dialogue(request: AnswerResponse, db: Session = Depends(get_db)):
-    """
-    1) Fetch the JSON blob using session_id, also the users answer.
-    2) Review the user answer by invoking LLM call
-    3) Update the Dialogue state based on correctness, in the database
-    4) Return Dialogue response.
+def generate_dialogue(request: AnswerSchema, db: Session = Depends(get_db)):
+    """Steps:
+        1) Fetch the JSON blob using session_id, also the users answer.
+        2) Review the user answer by invoking LLM call
+        3) Update the Dialogue state based on correctness, in the database
+        4) Return Dialogue response.
     """
     # 1
     session_id = request.session_id
-    print(session_id)
     dialogue = db.query(Dialogue).filter(Dialogue.session_id == session_id).first()
     data = dialogue.dialogue
     index = data.get("index")
@@ -166,13 +166,13 @@ def generate_dialogue(request: AnswerResponse, db: Session = Depends(get_db)):
 
     # Fetch the user's data 
     user_answer = request.answer
+    
     # 2
     hint_available = False if data.get("hint_taken") else True
     evaluation = jsonable_encoder(evaluate(
         data={"question": question, "notes": ai_answer, "users_answer": user_answer},
         hint=hint_available,
     ))
-    print("LLM evaluation: ", evaluation)
     answer_correct = evaluation["correct"] 
     llm_response = evaluation["comment"]
     data["user_answer"] = user_answer

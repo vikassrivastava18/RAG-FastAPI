@@ -1,11 +1,11 @@
 import json
-
 from dotenv import load_dotenv
 
 from fastapi import (APIRouter, Request,
                      Depends, HTTPException,
                     status)
-from fastapi.responses import HTMLResponse
+from fastapi.responses import (HTMLResponse,
+                               JSONResponse)
 from fastapi.templating import Jinja2Templates
 
 from core.config import Session, get_db, logger
@@ -13,14 +13,18 @@ from core.db.models import Book, Chapter, Subtopic
 from core.db.schemas import (BookDetailFooterResponse,
                         BookDetailResponse,
                         ChapterRequest)
+from backend.core.db.query import add_new_book, get_books
+
 
 # Create Route instance
 book_routes = APIRouter() 
+
 # Load environment variables
 load_dotenv()
 
 # Configure the templates path
 templates = Jinja2Templates(directory="frontend")
+
 
 @book_routes.get("/", response_class=HTMLResponse)
 async def home(request: Request):
@@ -30,23 +34,20 @@ async def home(request: Request):
 
 
 @book_routes.get("/books")
-def get_books(order: str = "asc", db: Session = Depends(get_db)):
+def books(order: str = "asc", db: Session = Depends(get_db)):
     """Get books sorted by name asc/desc based on query param."""
-    try:
-        
-        books = db.query(Book).filter(
-            Book.book_name.isnot(None),
-            Book.book_name != "",
-            Book.status == True
-        ).all()
-        print(books)
+    try:        
+        books = get_books()
         return [{
             "id": book.id, 
             "name": book.book_name
             } for book in books]
     except Exception as e:
         logger.error("Error in Case study: %s", e)
-        raise HTTPException(status_code=500, detail=f"Error fetching sorted book list {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+            detail=f"Error fetching sorted book list {e}"
+            )
 
 
 @book_routes.get("/books/{book_id}/footer", response_model=BookDetailFooterResponse)
@@ -73,36 +74,23 @@ async def chapter_subtopics_list(request: ChapterRequest,
 
 
 @book_routes.post("/add-book-new")
-def add_book(file_path: str,
-             db: Session = Depends(get_db)):
+def add_book(file_path: str):
     try:
         # Open the file and load its content into a Python dictionary
         with open(file_path, 'r', encoding='utf-8') as file:
             data = json.load(file)
+        new_book = add_new_book(name=data["bookName"], file_name='...', 
+                                logo_path='folders/logos/logo.png',
+                                chapters=data["chapters"]
+                                )
 
-        new_book = Book(book_name=data["bookName"], book_file='...', logo1='folders/logos/logo.png')
-        db.add(new_book) # Add record to session
-        db.commit() # Commit transaction
-        db.refresh(new_book) 
-
-        # Add chapters and subtopics
-        for chapter in data["chapters"]:
-            new_chapter = Chapter(book_id=new_book.id, chapter_name=chapter["name"])
-            db.add(new_chapter)
-            db.commit()
-            db.refresh(new_chapter)
-
-            # Store subchapters
-            for subchapter in chapter["subchapters"]:
-                sub_name = subchapter["name"]
-                new_sub = Subtopic(chapter_id=new_chapter.id,
-                                subtopic_name=sub_name,
-                                content=subchapter["content"][:4000])
-                db.add(new_sub)
-                db.commit()
-                db.refresh(new_sub)
+        return JSONResponse(status_code=status.HTTP_201_CREATED, 
+                        content={"id": new_book.id, 
+                                 "message": "Book added successfully"})
 
     except Exception as e:
         logger.error("Error in Adding new book: %s", str(e))
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+            detail=str(e))
 

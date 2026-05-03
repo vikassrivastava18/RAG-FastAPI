@@ -62,4 +62,4 @@ def load_admin_router():
 async def startup():
     load_auth_router()
     load_llm_router()
-    load_admin_router()
+    # load_admin_router()
