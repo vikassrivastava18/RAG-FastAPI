@@ -1,5 +1,5 @@
 # Remove the virtaul environment
-.venv/
+venv/
 node_modules/
 
 # Remove all log files

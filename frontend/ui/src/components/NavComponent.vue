@@ -1,5 +1,5 @@
 <template>
-    <nav class="p-2">
+    <nav class="p-2 navbar navbar-light bg-light">
         <div class="d-flex justify-content-end">
             <router-link to="/" class="nav-link mx-4">
                 summary
@@ -20,8 +20,8 @@
 <style>
 nav {
     /* color: #fff; */
-    background-color: rgb(98, 201, 236);
-    /* text-align: left; */
+    /* background-color: rgb(98, 201, 236); */
+    text-align: left;
 }
 .nav-link {
     margin-right: 10px;
