@@ -9,7 +9,7 @@ from core.config import logger
 embedding_model = OpenAIEmbeddings()
 
 faiss_db = FAISS.load_local(
-    "data/faiss_db_new",
+    "core/data/faiss_db_new",
     embedding_model,
     allow_dangerous_deserialization=True
 )

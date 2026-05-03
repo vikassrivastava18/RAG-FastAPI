@@ -21,7 +21,7 @@ app.add_middleware(
 
 
 load_dotenv()
-app.mount("/assets", StaticFiles(directory="frontend/assets"))
+app.mount("/assets", StaticFiles(directory="../frontend/assets"))
 
 
 # Include the home routers (loaded immediately)

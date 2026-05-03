@@ -12,7 +12,7 @@ from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 
-from db.models import Book
+from core.db.models import Book
 from core.config import logger, password_hash
 
 load_dotenv()

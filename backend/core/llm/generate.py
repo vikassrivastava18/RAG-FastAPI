@@ -7,12 +7,16 @@ from typing import (Optional,
 from fastapi import HTTPException
 
 from core.config import llm2, logger
-from db.schemas import ChapterContentRequest, QueryResponse, QuestionsSchema, QuizResponse
-from llm.vector import faiss_db
+from core.db.schemas import (ChapterContentRequest, 
+                             QueryResponse, 
+                             QuestionsSchema, 
+                             QuizResponse)
+from core.llm.vector import faiss_db
 
 
 # For Quiz Generation 
-async def generate_llm_response_quiz(content, question_type, language, notes=None, number_of_question:Optional[int] = None,):
+async def generate_llm_response_quiz(content, question_type, language, 
+                                     notes=None, number_of_question:Optional[int] = None,):
 
     formatted_prompt = f"""
  

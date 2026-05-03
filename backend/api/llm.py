@@ -6,12 +6,14 @@ from fastapi import APIRouter, HTTPException, Depends
 from fastapi.encoders import jsonable_encoder
 
 from core.config import logger, Session, get_db
-from db.models import Chapter, Dialogue
-from db.query import get_content
-from db.schemas import AnswerResponse, DialogueResponse, QuizRequest
-from db.schemas import ChapterInputRequest, UserQuery
+from core.db.models import Chapter, Dialogue
+from core.db.query import get_content
+from core.db.schemas import (AnswerResponse,  
+                             QuizRequest, 
+                             ChapterInputRequest, 
+                             UserQuery)
 
-from llm.generate import (
+from core.llm.generate import (
     chapter_summary,
     create_questions,
     create_quizzes,

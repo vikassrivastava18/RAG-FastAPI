@@ -9,8 +9,8 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
 from core.config import Session, get_db, logger
-from db.models import Book, Chapter, Subtopic
-from db.schemas import (BookDetailFooterResponse,
+from core.db.models import Book, Chapter, Subtopic
+from core.db.schemas import (BookDetailFooterResponse,
                         BookDetailResponse,
                         ChapterRequest)
 

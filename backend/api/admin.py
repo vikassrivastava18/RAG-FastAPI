@@ -1,7 +1,5 @@
 import os, re, shutil, time
-from db.query import bulk_insert_chapters
 from dotenv import load_dotenv
-from llm.vector import store_vector_store
 from sqlalchemy.orm import joinedload
 from typing import Optional
 from datetime import datetime
@@ -13,11 +11,13 @@ from fastapi import (UploadFile,File, HTTPException,
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 
-from llm.generate import process_llm_response
+from core.llm.generate import process_llm_response
 from utils.utils import extract_text_from_pdf
 from core.config import logger, Session, get_db
-from db.models import Book
-from db.schemas import BookResponse
+from core.db.models import Book
+from core.db.schemas import BookResponse
+from core.db.query import bulk_insert_chapters
+from core.llm.vector import store_vector_store
 
 admin_routes = APIRouter() 
 load_dotenv()

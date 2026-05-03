@@ -12,7 +12,7 @@ from fastapi.templating import Jinja2Templates
 
 from core.config import logger, oauth2_scheme
 from utils.utils import create_access_token
-from db.query import authenticate_user
+from core.db.query import authenticate_user
 
 auth_routes = APIRouter()
 load_dotenv()

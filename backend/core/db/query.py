@@ -2,7 +2,7 @@ from typing import List
 
 from core.config import Session, logger
 from utils.utils import verify_password
-from db.schemas import ChapterCreate
+from core.db.schemas import ChapterCreate
 from .models import Chapter, Subtopic, User
 
 
