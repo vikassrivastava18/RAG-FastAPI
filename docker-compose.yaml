@@ -1,0 +1,39 @@
+services:
+
+  backend:
+    build: 
+      context: .
+      dockerfile: backend.Dockerfile
+
+    ports:
+      - "8000:8000"
+
+    depends_on:
+      - db
+
+    environment:
+      DATABASE_URL: postgresql://postgres:hello2020@db:5432/testdb
+
+    volumes:
+      - .:/app
+
+  db:
+    image: postgres:16
+
+    container_name: postgres_db
+
+    restart: always
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: hello2020
+      POSTGRES_DB: testdb
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
