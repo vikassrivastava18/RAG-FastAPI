@@ -1,6 +1,6 @@
 from typing import TypedDict
 
-from core.config import llm2 as llm
+from backend.core.config import llm2 as llm
 from db.schemas import QueryResponse
 
 

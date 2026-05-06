@@ -25,7 +25,7 @@ load_dotenv()
 
 
 # Include the home routers (loaded immediately)
-from .api.books import book_routes
+from backend.api.books import book_routes
 app.include_router(
     book_routes,
     tags=["Books"]
@@ -33,7 +33,7 @@ app.include_router(
 
 # Lazy load routers on demand
 def load_auth_router():
-    from api.auth import auth_routes
+    from backend.api.auth import auth_routes
     app.include_router(
         auth_routes,
         prefix="/auth",
@@ -41,7 +41,7 @@ def load_auth_router():
     )
 
 def load_llm_router():
-    from api.llm import llm_routes
+    from backend.api.llm import llm_routes
     app.include_router(
         llm_routes,
         prefix="/llm",
@@ -49,7 +49,7 @@ def load_llm_router():
     )
 
 def load_admin_router():
-    from api.admin import admin_routes
+    from backend.api.admin import admin_routes
     app.include_router(
         admin_routes,
         prefix="/admin",

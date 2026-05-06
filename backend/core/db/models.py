@@ -2,7 +2,7 @@ from sqlalchemy import (Column, Integer,
                         String, Boolean,
                         ForeignKey, JSON)
 from sqlalchemy.orm import relationship
-from core.config import Base
+from backend.core.config import Base
 
 
 class Book(Base):

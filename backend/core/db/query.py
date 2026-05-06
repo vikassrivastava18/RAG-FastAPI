@@ -1,8 +1,8 @@
 from typing import List
 
-from core.config import Session, logger
-from utils.utils import verify_password
-from core.db.schemas import ChapterCreate
+from backend.core.config import Session, logger
+from backend.utils.utils import verify_password
+from backend.core.db.schemas import ChapterCreate
 from .models import Book, Chapter, Subtopic, User
 
 

@@ -11,13 +11,13 @@ from fastapi import (UploadFile,File, HTTPException,
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 
-from core.llm.generate import process_llm_response
-from utils.utils import extract_text_from_pdf
-from core.config import logger, Session, get_db
-from core.db.models import Book
-from core.db.schemas import BookResponse
-from core.db.query import bulk_insert_chapters
-from core.llm.vector import store_vector_store
+from backend.core.llm.generate import process_llm_response
+from backend.utils.utils import extract_text_from_pdf
+from backend.core.config import logger, Session, get_db
+from backend.core.db.models import Book
+from backend.core.db.schemas import BookResponse
+from backend.core.db.query import bulk_insert_chapters
+from backend.core.llm.vector import store_vector_store
 
 admin_routes = APIRouter() 
 load_dotenv()

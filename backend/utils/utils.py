@@ -12,8 +12,8 @@ from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 
-from core.db.models import Book
-from core.config import logger, password_hash
+from backend.core.db.models import Book
+from backend.core.config import logger, password_hash
 
 load_dotenv()
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))

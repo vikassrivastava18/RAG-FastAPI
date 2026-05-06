@@ -10,9 +10,9 @@ from fastapi.responses import JSONResponse, HTMLResponse, RedirectResponse
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.templating import Jinja2Templates
 
-from core.config import logger, oauth2_scheme
-from utils.utils import create_access_token
-from core.db.query import authenticate_user
+from backend.core.config import logger, oauth2_scheme
+from backend.utils.utils import create_access_token
+from backend.core.db.query import authenticate_user
 
 auth_routes = APIRouter()
 load_dotenv()
