@@ -99,7 +99,6 @@ def get_books():
                 Book.book_name != "",
                 Book.status == True
             ).all()
-        
         return books
     finally:
         db.close()
@@ -131,6 +130,9 @@ def add_new_book(name, file_name, logo_path, chapters):
                 db.commit()
                 db.refresh(new_sub)
         
-        return new_book
+        return {
+            "id": new_book.id,
+            "book_name": new_book.book_name
+        }
     finally:
         db.close()

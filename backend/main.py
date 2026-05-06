@@ -5,6 +5,11 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
+from backend.core.config import engine, Base
+from backend.core.db.models import (Book, Chapter, Subtopic)
+
+Base.metadata.create_all(bind=engine)
+
 app = FastAPI()
 
 origins = [

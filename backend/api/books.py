@@ -43,7 +43,7 @@ def books(order: str = "asc", db: Session = Depends(get_db)):
             "name": book.book_name
             } for book in books]
     except Exception as e:
-        logger.error("Error in Case study: %s", e)
+        logger.error("Error in Fetching books: %s", e)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
             detail=f"Error fetching sorted book list {e}"
@@ -80,17 +80,14 @@ def add_book(file_path: str):
         with open(file_path, 'r', encoding='utf-8') as file:
             data = json.load(file)
         new_book = add_new_book(name=data["bookName"], file_name='...', 
-                                logo_path='folders/logos/logo.png',
+                                logo_path='....',
                                 chapters=data["chapters"]
                                 )
-
         return JSONResponse(status_code=status.HTTP_201_CREATED, 
-                        content={"id": new_book.id, 
-                                 "message": "Book added successfully"})
+                        content={"message": "Book added successfully"})
 
     except Exception as e:
         logger.error("Error in Adding new book: %s", str(e))
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
             detail=str(e))
-

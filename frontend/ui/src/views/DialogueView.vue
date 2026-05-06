@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container px-4 py-3">
         <h2 class="mb-4">Dialogue</h2>
         <div class="d-flex justify-content-start">
             <div class="col-xs-3">
