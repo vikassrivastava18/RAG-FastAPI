@@ -8,7 +8,7 @@ from fastapi.encoders import jsonable_encoder
 from core.config import logger, Session, get_db
 from core.db.models import Chapter, Dialogue
 from core.db.query import get_content
-from core.db.schemas import (AnswerResponse, AnswerSchema,  
+from core.db.schemas import (AnswerSchema,  
                              QuizRequest, 
                              ChapterInputRequest, 
                              UserQuery)

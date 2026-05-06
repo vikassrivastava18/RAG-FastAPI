@@ -13,7 +13,7 @@ from core.db.models import Book, Chapter, Subtopic
 from core.db.schemas import (BookDetailFooterResponse,
                         BookDetailResponse,
                         ChapterRequest)
-from backend.core.db.query import add_new_book, get_books
+from core.db.query import add_new_book, get_books
 
 
 # Create Route instance
