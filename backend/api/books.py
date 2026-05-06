@@ -23,7 +23,7 @@ book_routes = APIRouter()
 load_dotenv()
 
 # Configure the templates path
-templates = Jinja2Templates(directory="frontend")
+templates = Jinja2Templates(directory="../frontend")
 
 
 @book_routes.get("/", response_class=HTMLResponse)

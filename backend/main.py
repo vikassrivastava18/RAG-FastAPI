@@ -21,11 +21,11 @@ app.add_middleware(
 
 
 load_dotenv()
-app.mount("/assets", StaticFiles(directory="../frontend/assets"))
+# app.mount("/assets", StaticFiles(directory="../frontend/assets"))
 
 
 # Include the home routers (loaded immediately)
-from api.books import book_routes
+from .api.books import book_routes
 app.include_router(
     book_routes,
     tags=["Books"]
