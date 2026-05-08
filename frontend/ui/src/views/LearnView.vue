@@ -1,42 +1,65 @@
 <template>
-    <div class="tab-pane fade show active p-2" id="section1">
-        <h2 class="mb-4">Summary</h2>
-        <div class="d-flex justify-content-start">
-            <div class="col-xs-3">
-                <label for="bookSelect" class="control-label">Select a book</label>
-                <select name="bookSelect" id="bookSelect" 
-                    v-model="selectedBook" class="form-select">
-                    <option :key="0" :value="0">------</option>
-                    <option v-for="book of books" :key="book.id" 
-                        :value="book.id" class="form-control">{{ book.name }}
-                    </option>
-                </select>
-                
-            </div>
-            <div class="col-xs-3 ms-4">
-                <label for="chapterSelect" class="control-label">Select a Chapter</label>
-                <select name="chapterSelect" id="chapterSelect" 
-                    v-model="selectedChapter" class="form-select">
-                    <option :key="0" :value="0">------</option>
-                    <option v-for="chapter of bookChapters" :key="chapter.id" 
-                        :value="chapter.id">
-                        {{chapter.chapter_name }}
-                    </option>
-                </select>
-            </div>
 
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row g-5">
+
+      <!-- Image Column -->
+      <div class="col-lg-6">
+        <img
+          src="https://cdn.prod.website-files.com/679c2851aa61fe501c78835f/684209eccec40c45cade6906_CVTC%202.avif"
+          alt="About WisTech Open"
+          class="rounded-4 shadow-lg w-100 object-fit-cover mt-4"
+        />
+      </div>
+
+      <!-- Content Column -->
+      <div class="col-lg-6">
+
+        <!-- Small Heading -->
+        <span class="text-uppercase fw-semibold text-primary small letter-spacing">
+          Our Story
+        </span>
+
+        <!-- Main Heading -->
+        <h1 class="display-5 fw-bold text-dark mt-2 mb-4">
+          About WisTech Open
+        </h1>
+
+        <!-- Paragraph -->
+        <p class="text-secondary fs-5 lh-lg mb-4">
+          The story of WisTech Open begins with an idea: that high-quality
+          learning should be free and accessible to everyone. In 2019,
+          Chippewa Valley Technical College launched Open RN (Open Resources
+          for Nursing) with support from a U.S. Department of Education Open
+          Textbooks Pilot Grant.
+        </p>
+
+        <p class="text-secondary fs-5 lh-lg mb-5">
+          Open RN quickly grew into a nationally recognized initiative,
+          producing award-winning nursing textbooks and saving students
+          millions of dollars. These free resources included built-in
+          assessments, H5P learning activities, and engaging simulations —
+          helping future nurses succeed in the classroom and beyond.
+        </p>
+
+        <!-- Buttons -->
+        <div class="d-flex flex-wrap gap-3">
+          <a href="#Details" class="btn btn-primary btn-lg px-4 rounded-pill">
+            Learn More →
+          </a>
+
+          <a href="/contact" class="btn btn-outline-dark btn-lg px-4 rounded-pill">
+            Contact Us
+          </a>
         </div>
 
-        <div v-if="aiLoading" class="d-flex justify-content-center mt-4">
-            <div class="spinner-grow text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>
-        <div v-else>
-            <div v-html="content" class="mt-2 mb-5 p-4"></div>
-        </div>
-
+      </div>
     </div>
+  </div>
+</section>
+
+
 </template>
 
 <script setup>
@@ -117,12 +140,14 @@ async function getChapters(bookId) {
 
 </script>
 
-<style>
-    select {
-        min-width: 250px;
-    }
-    #getQuizBtn {
-        position: fixed;
-        bottom: 10px;
-    }
+<style scoped>
+  .letter-spacing {
+    letter-spacing: 1px;
+  }
+
+  .object-fit-cover {
+    object-fit: cover;
+    max-height: 650px;
+  }
+
 </style>

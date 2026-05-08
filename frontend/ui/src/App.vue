@@ -8,7 +8,7 @@
 
                 <NavComponent />
 
-                <div class="tab-content mt-3">
+                <div class="tab-content mt-2" id="routeContent">
                     <RouterView />                  
                 </div>
             </div>
@@ -38,5 +38,15 @@ import NavComponent from './components/NavComponent.vue';
 
 #mainContent {
     min-height: 100vh;
+}
+
+h2 {
+    font-weight: 400;
+}
+
+#routeContent {
+    border: 1px solid #dfdfdf;
+    border-radius: 10px;
+    min-height: 80vh;
 }
 </style>
