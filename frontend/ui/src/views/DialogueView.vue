@@ -161,7 +161,7 @@ async function reviewAnswer() {
 
 </script>
 
-<style>
+<style scoped>
 #askInput {
     position: fixed;
     bottom: 10px;

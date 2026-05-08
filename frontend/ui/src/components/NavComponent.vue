@@ -5,7 +5,9 @@
                 <router-link to="/ask" class="btn btn-outline-dark btn-lg px-4 rounded-pill me-3">
                     Ask
                 </router-link>
-
+                <router-link to="/dialogue" class="btn btn-outline-dark btn-lg px-4 rounded-pill me-3">
+                    Answer
+                </router-link>
                 <router-link to="/dialogue" class="btn btn-outline-dark btn-lg px-4 rounded-pill">
                     Dialogue
                 </router-link>
