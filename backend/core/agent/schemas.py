@@ -57,3 +57,6 @@ class ConceptState(TypedDict):
 class DialogueState(TypedDict):
     index: int
     dialogues: list[ConceptState]
+
+class NextTopicSchema(TypedDict):
+    session_id: str

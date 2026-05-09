@@ -3,13 +3,15 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import axios from 'axios'
 import { createWebHistory, createRouter } from 'vue-router'
 import { createApp } from 'vue'
+import HomeView from './views/HomeView.vue'
 import App from './App.vue'
-import LearnView from './views/LearnView.vue'
+
 
 const routes = [
-  { path: '/', component: LearnView },
+  { path: '/', component: HomeView },
   { path: '/ask', component: () => import('./views/AskView.vue')},
   { path: '/quiz', component: () => import('./views/QuizView.vue')},
+  { path: '/answer', component: () => import('./views/AnswerView.vue')},
   { path: '/dialogue', component: () => import('./views/DialogueView.vue')}
 ]
 

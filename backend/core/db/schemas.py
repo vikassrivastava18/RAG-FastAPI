@@ -232,3 +232,6 @@ class QueryResponse(BaseModel):
     comment: str
 
 
+class NextTopicSchema(BaseModel):
+    session_id: str
+

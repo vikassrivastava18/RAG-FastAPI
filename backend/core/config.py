@@ -53,7 +53,7 @@ def get_db():
         db.close()
 
 # Create LLM instances
-llm = ChatGroq(
+llm2 = ChatGroq(
     model=GROQ, 
     api_key = groq_key,
     temperature=0,
@@ -62,7 +62,7 @@ llm = ChatGroq(
     max_retries=2,
 )
 
-llm2 = ChatOpenAI(
+llm = ChatOpenAI(
     model= GPT,
     temperature=0,
     max_tokens=None,

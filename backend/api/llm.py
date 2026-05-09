@@ -1,4 +1,7 @@
-import asyncio, uuid
+import asyncio, uuid, json
+from langgraph.types import Command
+from backend.core.agent.graph import build_graph
+from backend.utils.utils import get_uuid_string
 from dotenv import load_dotenv
 from cachetools import TTLCache
 from sqlalchemy.orm.attributes import flag_modified
@@ -8,10 +11,13 @@ from fastapi.encoders import jsonable_encoder
 from backend.core.config import logger, Session, get_db
 from backend.core.db.models import Chapter, Dialogue
 from backend.core.db.query import get_content
-from backend.core.db.schemas import (AnswerSchema,  
-                             QuizRequest, 
-                             ChapterInputRequest, 
-                             UserQuery)
+from backend.core.db.schemas import (
+    AnswerSchema,
+    QuizRequest,
+    ChapterInputRequest,
+    UserQuery,
+    NextTopicSchema
+)
 
 from backend.core.llm.generate import (
     chapter_summary,
@@ -19,9 +25,8 @@ from backend.core.llm.generate import (
     create_quizzes,
     answer_query_util,
     generate_llm_response_quiz,
-    evaluate
+    evaluate,    
 )
-
 
 # Create Route instance
 llm_routes = APIRouter()
@@ -119,9 +124,9 @@ def generate_questions(request: ChapterInputRequest, db: Session = Depends(get_d
         "user_answer": "",
         "hint_taken": False,
         "llm_response": "",
-        "state": "start"
+        "state": "start",
     }
-    
+
     # Create a new dialogue
     session_id = uuid.uuid4()
     dialogue = Dialogue(session_id=str(session_id), dialogue=json_data)
@@ -132,29 +137,30 @@ def generate_questions(request: ChapterInputRequest, db: Session = Depends(get_d
     return {"dialogue": json_data}
 
 
-def prepare_data(session_id, data, index, 
-                 user_answer, hint_taken, llm_resp, correct, state):
+def prepare_data(
+    session_id, data, index, user_answer, hint_taken, llm_resp, correct, state
+):
     json_data = {
-                "session_id": session_id,
-                "topic": data.get("questions")[index].get("topic"),
-                "question": data.get("questions")[index].get("question"),
-                "index": index,
-                "user_answer": user_answer,
-                "hint_taken": hint_taken,
-                "llm_response": llm_resp,
-                "answer_correct": correct,
-                "state": state
-            }
+        "session_id": session_id,
+        "topic": data.get("questions")[index].get("topic"),
+        "question": data.get("questions")[index].get("question"),
+        "index": index,
+        "user_answer": user_answer,
+        "hint_taken": hint_taken,
+        "llm_response": llm_resp,
+        "answer_correct": correct,
+        "state": state,
+    }
     return json_data
 
 
 @llm_routes.post("/evaluate-response")
 def generate_dialogue(request: AnswerSchema, db: Session = Depends(get_db)):
     """Steps:
-        1) Fetch the JSON blob using session_id, also the users answer.
-        2) Review the user answer by invoking LLM call
-        3) Update the Dialogue state based on correctness, in the database
-        4) Return Dialogue response.
+    1) Fetch the JSON blob using session_id, also the users answer.
+    2) Review the user answer by invoking LLM call
+    3) Update the Dialogue state based on correctness, in the database
+    4) Return Dialogue response.
     """
     # 1
     session_id = request.session_id
@@ -164,16 +170,22 @@ def generate_dialogue(request: AnswerSchema, db: Session = Depends(get_db)):
     question = data.get("questions")[index].get("question")
     ai_answer = data.get("questions")[index].get("answer")
 
-    # Fetch the user's data 
+    # Fetch the user's data
     user_answer = request.answer
-    
+
     # 2
     hint_available = False if data.get("hint_taken") else True
-    evaluation = jsonable_encoder(evaluate(
-        data={"question": question, "notes": ai_answer, "users_answer": user_answer},
-        hint=hint_available,
-    ))
-    answer_correct = evaluation["correct"] 
+    evaluation = jsonable_encoder(
+        evaluate(
+            data={
+                "question": question,
+                "notes": ai_answer,
+                "users_answer": user_answer,
+            },
+            hint=hint_available,
+        )
+    )
+    answer_correct = evaluation["correct"]
     llm_response = evaluation["comment"]
     data["user_answer"] = user_answer
 
@@ -181,37 +193,143 @@ def generate_dialogue(request: AnswerSchema, db: Session = Depends(get_db)):
         data["index"] += 1
         data["hint_taken"] = False
         try:
-            json_data = prepare_data(session_id, data, index+1,
-                                     user_answer, False,
-                                     llm_response, True, "correct")
-            
+            json_data = prepare_data(
+                session_id,
+                data,
+                index + 1,
+                user_answer,
+                False,
+                llm_response,
+                True,
+                "correct",
+            )
+
         except IndexError:
-            json_data = prepare_data(session_id, data, index,
-                                     user_answer, False,
-                                     llm_response, True, "END")
+            json_data = prepare_data(
+                session_id, data, index, user_answer, False, llm_response, True, "END"
+            )
 
     else:
         data["answer_correct"] = False
         if hint_available:
-            json_data = prepare_data(session_id, data, index,
-                                     user_answer, False,
-                                     llm_response, False, "hint")
+            json_data = prepare_data(
+                session_id, data, index, user_answer, False, llm_response, False, "hint"
+            )
             data["hint_taken"] = True
         else:
             try:
-                json_data = prepare_data(session_id, data, index+1,
-                                     user_answer, False,
-                                     llm_response, False, "incorrect")
-                
+                json_data = prepare_data(
+                    session_id,
+                    data,
+                    index + 1,
+                    user_answer,
+                    False,
+                    llm_response,
+                    False,
+                    "incorrect",
+                )
+
                 data["index"] += 1
-                data["hint_taken"] = False                
+                data["hint_taken"] = False
             except IndexError:
-                json_data = prepare_data(session_id, data, index,
-                                     user_answer, True,
-                                     llm_response, False, "END")            
+                json_data = prepare_data(
+                    session_id,
+                    data,
+                    index,
+                    user_answer,
+                    True,
+                    llm_response,
+                    False,
+                    "END",
+                )
     # 3
     flag_modified(dialogue, "dialogue")
     db.commit()
     db.refresh(dialogue)
     # 4
     return {"dialogue": json_data}
+
+
+@llm_routes.post("/start-dialogue")
+def start_dialogue(request: ChapterInputRequest, db: Session = Depends(get_db)):
+    chapter = db.query(Chapter).filter(Chapter.id == request.chapter_id).first()
+
+    topics = [
+        {
+            "url": subtopic.source,
+            "content": subtopic.content,
+            "topic": subtopic.subtopic_name,
+            "notes": subtopic.content,
+            "quizzes": [],
+            "state": None,
+            "messages": []
+        }
+        for subtopic in chapter.subtopics
+    ]
+
+    graph = build_graph()
+    random_id = get_uuid_string()
+    config = {"configurable": {"thread_id": random_id}}
+
+    dialogues = {"index": -1, "dialogues": topics}
+    result = graph.stream(dialogues, config)
+
+    for chunk in result:
+        if "__interrupt__" in chunk:                
+            graph_query = chunk["__interrupt__"][0].value
+            
+            return {
+                "dialogue": graph_query,
+                "session_id": random_id
+            }
+
+
+@llm_routes.post("/review-response")
+def review_response(request: AnswerSchema):
+    session_id = request.session_id
+    user_answer = request.answer
+    print(session_id, user_answer)
+    config = {"configurable": {"thread_id": session_id}}
+    graph = build_graph()
+
+    result = graph.stream(Command(resume=user_answer), 
+                          config, 
+                          stream_mode="values")
+    for chunk in result:
+        if "__interrupt__" in chunk:                
+            
+            snapshot = graph.get_state(config).values
+            state_index = snapshot["index"]
+            graph_query = snapshot["dialogues"][state_index]["quizzes"]            
+            state = snapshot["dialogues"][state_index]["state"]
+
+            if state == "clear":
+                graph_query = jsonable_encoder(graph_query)
+            return {
+                "response": graph_query,
+                "session_id": session_id,
+                "state": state
+            }
+
+    
+@llm_routes.post("/next-topic")
+def next_topic(request: NextTopicSchema):
+    session_id = request.session_id
+    config = {"configurable": {"thread_id": session_id}}
+    graph = build_graph()
+
+    result = graph.stream(Command(resume=""), 
+                          config, 
+                          stream_mode="values")
+    for chunk in result:
+        if "__interrupt__" in chunk:
+            graph_query = chunk["__interrupt__"][0].value
+
+            snapshot = graph.get_state(config).values
+            state_index = snapshot["index"]
+            print("Index: ", state_index)
+            
+            return {
+                "response": graph_query,
+                "session_id": session_id
+            }           

@@ -33,3 +33,74 @@ data = {
   "hint_taken": True,
   "llm_response": ""
 }
+
+dummy_quizzes = {
+    "mcq": [
+        {
+            "question": "What is the primary purpose of engineering drawings?",
+            "options": [
+                "To create artistic representations",
+                "To communicate design details",
+                "To serve as marketing materials",
+                "To provide historical context"
+            ],
+            "answer": "To communicate design details",
+            "explanation": "Engineering drawings are used to convey the specific details of a design, ensuring that the manufacturing process can accurately produce the intended product."
+        },
+        {
+            "question": "Which phase involves the creation of a three-dimensional model?",
+            "options": [
+                "Design phase",
+                "Production phase",
+                "Review phase",
+                "Testing phase"
+            ],
+            "answer": "Design phase",
+            "explanation": "The design phase is where three-dimensional models are created to visualize and plan the product before it goes into production."
+        },
+        {
+            "question": "What technology is commonly used for creating detailed drawings in modern manufacturing?",
+            "options": [
+                "Hand-drawing",
+                "Computer-aided drafting (CAD)",
+                "3D printing",
+                "CNC machining"
+            ],
+            "answer": "Computer-aided drafting (CAD)",
+            "explanation": "Computer-aided drafting (CAD) is a technology that allows for the creation of detailed drawings using computer software, enhancing precision and efficiency."
+        },
+        {
+            "question": "What is the function of Computer Numerical Control (CNC) machines in manufacturing?",
+            "options": [
+                "To create 3D models",
+                "To automate the manufacturing process",
+                "To print designs",
+                "To conduct quality control"
+            ],
+            "answer": "To automate the manufacturing process",
+            "explanation": "CNC machines are used to automate the manufacturing process by following precise instructions from CAD drawings to produce parts."
+        }
+    ],
+    "true_false": [
+        {
+            "question": "Drawings and prints are the same in the context of engineering.",
+            "answer": False,
+            "explanation": "Drawings and prints are not the same; drawings refer to the original design documents, while prints are the physical copies of those drawings."
+        },
+        {
+            "question": "3D printers are used to create physical objects from digital models.",
+            "answer": True,
+            "explanation": "3D printers take digital models and create physical objects by layering materials, making them essential in prototyping and manufacturing."
+        },
+        {
+            "question": "The production phase is where the design of a product is finalized.",
+            "answer": True,
+            "explanation": "The production phase is focused on manufacturing the product, while the design phase is where the product's design is finalized."
+        },
+        {
+            "question": "Detail drawings provide a comprehensive view of a product's components and specifications.",
+            "answer": True,
+            "explanation": "Detail drawings are essential as they provide in-depth information about the components and specifications necessary for manufacturing."
+        }
+    ]
+}

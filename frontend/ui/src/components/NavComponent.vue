@@ -2,13 +2,11 @@
     <nav class="p-2 navbar navbar-light bg-light">
         <div class="d-flex justify-content-end">
 
-                <router-link to="/ask" class="btn btn-outline-dark btn-lg px-4 rounded-pill me-3">
+                <router-link to="/ask" class="btn btn-outline-dark px-4 rounded-pill me-3">
                     Ask
                 </router-link>
-                <router-link to="/dialogue" class="btn btn-outline-dark btn-lg px-4 rounded-pill me-3">
-                    Answer
-                </router-link>
-                <router-link to="/dialogue" class="btn btn-outline-dark btn-lg px-4 rounded-pill">
+               
+                <router-link to="/dialogue" class="btn btn-outline-dark px-4 rounded-pill">
                     Dialogue
                 </router-link>
         </div>

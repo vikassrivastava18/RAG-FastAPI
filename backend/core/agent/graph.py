@@ -1,16 +1,18 @@
-
 from dotenv import load_dotenv
 
 from typing import Literal
 from pydantic import BaseModel
-from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
+from langchain_core.messages import (AIMessage,
+                                     HumanMessage,
+                                     SystemMessage)
 
 from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.types import interrupt
 
-from backend.api import llm
+from backend.core.config import llm
 from backend.core.agent.schemas import DialogueState, QuizSchema
+from backend.core.data.dummy import dummy_quizzes
 
 load_dotenv(override=True)
 checkpointer = InMemorySaver()
@@ -37,15 +39,20 @@ def concept_summary(state: DialogueState) -> DialogueState:
     concept_prompt = f"""
     Prepare a summary on the topic. Use notes for preparing summary and
     context information as overall context while preparing the conceptual summary.
+    Wrap the output in HTML tags like <p>, <i>, but do not introduce unnecessary header tags like
+    <header>, <html>, <body>.
+
     Topic: {state["dialogues"][state["index"]]["topic"]}
     Notes: {state["dialogues"][state["index"]]["notes"]}
     Context: {context}
 
-    Output Sample: <b>Topic</b> - How to get rich in 100 days? <p>There are many ways, best
-    path is to work hard....</p>
+    Output Sample (Follow strictly!!): 
+        <b>Topic</b>  <p>How to get rich in 100 days?</p> <p>There are many ways, best
+        path is to work hard....</p>
     """
-    summary = llm.invoke(concept_prompt).content
-
+    # summary = llm.invoke(concept_prompt).content
+    summary = f"""<b>Topic</b> <p>How to get rich in 100 days?</p> <p>There are many ways, best
+    path is to work hard....</p>"""
     
     state["dialogues"][state["index"]]["messages"].append(AIMessage(content=summary))
     return state
@@ -62,7 +69,8 @@ class IntentSchema(BaseModel):
     intent: Literal["hint", "clear"]
 
 def reply_intent(state: DialogueState) -> Literal["hint", "clear"]:
-
+    state["dialogues"][state["index"]]["state"] = "clear"
+    return "clear"
     user_reply = (
         state["dialogues"][state["index"]]["messages"][-1].content
     )
@@ -81,7 +89,7 @@ def reply_intent(state: DialogueState) -> Literal["hint", "clear"]:
     structured_llm = llm.with_structured_output(IntentSchema)
 
     response = structured_llm.invoke(intent_prompt)
-
+    state["dialogues"][state["index"]]["state"] = response.intent
     return response.intent
 
 def clarify_doubt(state: DialogueState) -> DialogueState:
@@ -99,6 +107,11 @@ def clarify_doubt(state: DialogueState) -> DialogueState:
     return state
 
 def prepare_quiz(state: DialogueState) -> DialogueState:
+    quizzes = dummy_quizzes
+    state["dialogues"][state["index"]]["quizzes"] = quizzes
+    return state
+
+
     content = state["dialogues"][state["index"]]["notes"]
     prompt = f"""
     You are a quiz master. Use the content of a topic to create questions (MCQ's and True/False) and expected answers that help students in their study.
@@ -106,6 +119,7 @@ def prepare_quiz(state: DialogueState) -> DialogueState:
     
     Content: {content}
     """
+
     structured_llm = llm.with_structured_output(QuizSchema)
     messages = [SystemMessage(content=prompt)]
     
@@ -123,6 +137,7 @@ def quiz_response(state: DialogueState) -> DialogueState:
         f"{quizzes}"
     )
     return state
+
 
 def build_graph():
     builder = StateGraph(DialogueState)
@@ -156,6 +171,5 @@ def build_graph():
     builder.add_edge("prepare_quiz", "quiz_response")
     builder.add_edge("quiz_response", "set_topic_index")
 
-    graph = builder.compile(checkpointer)
-    return graph
+    return builder.compile(checkpointer)
 

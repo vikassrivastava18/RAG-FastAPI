@@ -1,11 +1,11 @@
 import os, tempfile
+import uuid
 from datetime import timedelta, datetime, timezone
 from dotenv import load_dotenv
 
 import jwt
 from fastapi import HTTPException
 from langchain_community.document_loaders import PyPDFLoader
-
 
 # colour slide 
 from pptx import Presentation
@@ -143,3 +143,13 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, os.getenv("SECRET_KEY"), algorithm=os.getenv("ALGORITHM"))
     return encoded_jwt
+
+
+def get_uuid_string():
+    # Generate a random UUID object
+    unique_id = uuid.uuid4()
+
+    # Convert to a standard string (with hyphens)
+    uuid_str = str(unique_id) 
+    return uuid_str
+    
