@@ -1,4 +1,4 @@
-import asyncio, uuid, json
+import asyncio, uuid
 from langgraph.types import Command
 from backend.core.agent.graph import build_graph
 from backend.utils.utils import get_uuid_string
@@ -154,102 +154,6 @@ def prepare_data(
     return json_data
 
 
-@llm_routes.post("/evaluate-response")
-def generate_dialogue(request: AnswerSchema, db: Session = Depends(get_db)):
-    """Steps:
-    1) Fetch the JSON blob using session_id, also the users answer.
-    2) Review the user answer by invoking LLM call
-    3) Update the Dialogue state based on correctness, in the database
-    4) Return Dialogue response.
-    """
-    # 1
-    session_id = request.session_id
-    dialogue = db.query(Dialogue).filter(Dialogue.session_id == session_id).first()
-    data = dialogue.dialogue
-    index = data.get("index")
-    question = data.get("questions")[index].get("question")
-    ai_answer = data.get("questions")[index].get("answer")
-
-    # Fetch the user's data
-    user_answer = request.answer
-
-    # 2
-    hint_available = False if data.get("hint_taken") else True
-    evaluation = jsonable_encoder(
-        evaluate(
-            data={
-                "question": question,
-                "notes": ai_answer,
-                "users_answer": user_answer,
-            },
-            hint=hint_available,
-        )
-    )
-    answer_correct = evaluation["correct"]
-    llm_response = evaluation["comment"]
-    data["user_answer"] = user_answer
-
-    if answer_correct:
-        data["index"] += 1
-        data["hint_taken"] = False
-        try:
-            json_data = prepare_data(
-                session_id,
-                data,
-                index + 1,
-                user_answer,
-                False,
-                llm_response,
-                True,
-                "correct",
-            )
-
-        except IndexError:
-            json_data = prepare_data(
-                session_id, data, index, user_answer, False, llm_response, True, "END"
-            )
-
-    else:
-        data["answer_correct"] = False
-        if hint_available:
-            json_data = prepare_data(
-                session_id, data, index, user_answer, False, llm_response, False, "hint"
-            )
-            data["hint_taken"] = True
-        else:
-            try:
-                json_data = prepare_data(
-                    session_id,
-                    data,
-                    index + 1,
-                    user_answer,
-                    False,
-                    llm_response,
-                    False,
-                    "incorrect",
-                )
-
-                data["index"] += 1
-                data["hint_taken"] = False
-            except IndexError:
-                json_data = prepare_data(
-                    session_id,
-                    data,
-                    index,
-                    user_answer,
-                    True,
-                    llm_response,
-                    False,
-                    "END",
-                )
-    # 3
-    flag_modified(dialogue, "dialogue")
-    db.commit()
-    db.refresh(dialogue)
-    # 4
-    return {"dialogue": json_data}
-
-
 @llm_routes.post("/start-dialogue")
 def start_dialogue(request: ChapterInputRequest, db: Session = Depends(get_db)):
     chapter = db.query(Chapter).filter(Chapter.id == request.chapter_id).first()
@@ -264,7 +168,7 @@ def start_dialogue(request: ChapterInputRequest, db: Session = Depends(get_db)):
             "state": None,
             "messages": []
         }
-        for subtopic in chapter.subtopics[:1]
+        for subtopic in chapter.subtopics[:2]
     ]
 
     graph = build_graph()
@@ -272,6 +176,7 @@ def start_dialogue(request: ChapterInputRequest, db: Session = Depends(get_db)):
     config = {"configurable": {"thread_id": random_id}}
 
     dialogues = {"index": -1, "dialogues": topics}
+    print("Subtopics length: ", len(dialogues["dialogues"]))
     result = graph.stream(dialogues, config)
 
     for chunk in result:
@@ -325,10 +230,6 @@ def next_topic(request: NextTopicSchema):
     for chunk in result:
         if "__interrupt__" in chunk:
             graph_query = chunk["__interrupt__"][0].value
-            print("Graph Query: ", graph_query)
-            snapshot = graph.get_state(config).values
-            state_index = snapshot["index"]
-            print("Index: ", state_index)
             
             return {
                 "response": graph_query,
@@ -336,10 +237,8 @@ def next_topic(request: NextTopicSchema):
             }   
         else:
             graph_query = list(chunk.values())[0]
-            print("Graph Query: ", graph_query)
             snapshot = graph.get_state(config).values
-            state_index = snapshot["index"]
-            print("Index: ", state_index)
+            print("Snapshot index: ", snapshot["index"])
             return {
                 "response": "The dialogue ends here.",
                 "session_id": session_id

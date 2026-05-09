@@ -8,18 +8,24 @@
             </i>
             <div class="d-flex justify-content-start">
                 <div class="col-xs-3">
-                    <label for="bookSelect" class="control-label">Select a book</label>
-                    <select name="bookSelect" id="bookSelect" v-model="selectedBook" class="form-select">
-                        <option :key="0" :value="0">------</option>
-                        <option v-for="book of books" :key="book.id" :value="book.id" class="form-control">{{ book.name }}
+                    <label for="bookSelect" class="control-label">
+                        Select a book</label>
+                    <select name="bookSelect" id="bookSelect" 
+                        v-model="selectedBook" class="form-select">
+                        <option :key="0" :value="0">----</option>
+                        <option v-for="book of books" :key="book.id" 
+                            :value="book.id" class="form-control">{{ book.name }}
                         </option>
                     </select>
                 </div>
                 <div class="col-xs-3 ms-4">
-                    <label for="chapterSelect" class="control-label">Select a Chapter</label>
-                    <select name="chapterSelect" id="chapterSelect" v-model="selectedChapter" class="form-select">
-                        <option :key="0" :value="0">------</option>
-                        <option v-for="chapter of bookChapters" :key="chapter.id" :value="chapter.id">
+                    <label for="chapterSelect" class="control-label">
+                        Select a Chapter</label>
+                    <select name="chapterSelect" id="chapterSelect" 
+                        v-model="selectedChapter" class="form-select">
+                        <option :key="0" :value="0">----</option>
+                        <option v-for="chapter of bookChapters" :key="chapter.id" 
+                            :value="chapter.id">
                             {{ chapter.chapter_name }}
                         </option>
                     </select>
@@ -29,14 +35,15 @@
 
         <div class="container">
             <div v-if="quizMode">
-                <QuizComponent :quizzes="quizzes" />
-                <button class="btn btn-primary"
-                    @click="nextTopic">continue</button>
+                <QuizComponent :quizzes="quizzes" @next-summary="nextTopic" />
+                
             </div>
             <p v-else v-html="message" class="p-4"></p>
 
-            <input class="form-control py-2 my-2" id="askInput" v-model="userInput" placeholder="Enter your answer here..."
-                @keyup.enter="sendResponse" :hidden="inputDisabled">
+            <input class="form-control py-2 my-2" id="askInput" 
+                v-model="userInput" placeholder="Enter your answer here..."
+                @keyup.enter="sendResponse" :hidden="inputDisabled"
+                v-if="!quizMode">
             <div v-if="aiLoading" class="d-flex justify-content-center mt-4">
                 <div class="spinner-grow text-primary" role="status">
                     <span class="visually-hidden">Loading...</span>
@@ -49,7 +56,7 @@
 <script setup>
 import { ref, onMounted, getCurrentInstance, watch } from 'vue'
 import { baseUrl } from '../config'
-import QuizComponent from '@/components/quiz/QuizComponent.vue'
+import QuizComponent from '../components/QuizComponent.vue'
 
 const instance = getCurrentInstance()
 const proxy = instance && instance.proxy

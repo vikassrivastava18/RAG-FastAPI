@@ -9,7 +9,8 @@
         <input class="form-control py-2 my-2" id="askInput" 
             v-model="userInput" placeholder="Enter your query here..."
             @keyup.enter="answerUserQuery">
-        <div v-if="aiLoading" class="d-flex justify-content-center mt-4">
+        <div v-if="aiLoading" 
+            class="d-flex justify-content-center mt-4">
             <div class="spinner-grow text-primary" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
@@ -35,10 +36,9 @@ const aiLoading = ref(false)
 async function answerUserQuery() {
     aiLoading.value = true
     const res = await proxy.$axios.post(queryUrl, { "query": userInput.value })
-    aiLoading.value = false
-    queryAnswer.value = `<h4>Question</h4>${userInput.value} ${queryAnswer.value} <br>`
+    aiLoading.value = false    
     queryAnswer.value = `<h4>AI Response</h4> ${res.data}  ${queryAnswer.value} <br>`
-
+    queryAnswer.value = `<h4>Question</h4>${userInput.value} ${queryAnswer.value} <br>`
     userInput.value = "";
 }
 
@@ -46,7 +46,7 @@ async function answerUserQuery() {
 
 <style>
 #askInput {
-    border: 1px solid rgb(20, 103, 220);
+    border: 1px solid lightgray;
     max-width: 75vw;
 }
 </style>

@@ -7,7 +7,8 @@
   <div v-if="quizzes.mcq?.length">
     <h4>Multiple Choice</h4>
 
-    <div v-for="(q, index) in quizzes.mcq" :key="'mcq'+index" class="card mb-3 p-3">
+    <div v-for="(q, index) in quizzes.mcq" :key="'mcq'+index" 
+      class="card mb-3 p-3">
 
       <p><strong>{{ index+1 }}. {{ q.question }}</strong></p>
 
@@ -52,7 +53,8 @@
       </div>
 
       <div class="form-check">
-        <input class="form-check-input" type="radio" :name="'tf'+index" :value="false" v-model="answers.true_false[index]">
+        <input class="form-check-input" type="radio" 
+          :name="'tf'+index" :value="false" v-model="answers.true_false[index]">
         <label class="form-check-label">False</label>
       </div>
 
@@ -71,7 +73,8 @@
   <div v-if="quizzes.fill_blank?.length">
     <h4 class="mt-4">Fill in the Blank</h4>
 
-    <div v-for="(q, index) in quizzes.fill_blank" :key="'fb'+index" class="card mb-3 p-3">
+    <div v-for="(q, index) in quizzes.fill_blank" :key="'fb'+index" 
+      class="card mb-3 p-3">
 
       <p><strong>{{ index+1 }}. {{ q.question }}</strong></p>
 
@@ -92,7 +95,9 @@
     </div>
   </div>
 
-  <button class="btn btn-primary mt-3" @click="submitQuiz">
+  <button v-if="submitted" class="btn btn-primary my-3"
+    @click="this.$emit('next-summary')">Continue</button>
+  <button v-else class="btn btn-primary my-3" @click="submitQuiz">
     Submit Answers
   </button>
 
@@ -102,7 +107,7 @@
 <script setup>
 
 import { reactive, ref, defineProps } from "vue"
-import ResultBlock from "../ResultBlock.vue"
+import ResultBlock from "./ResultBlock.vue"
 
 defineProps({
   quizzes: Object
