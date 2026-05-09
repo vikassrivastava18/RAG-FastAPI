@@ -264,7 +264,7 @@ def start_dialogue(request: ChapterInputRequest, db: Session = Depends(get_db)):
             "state": None,
             "messages": []
         }
-        for subtopic in chapter.subtopics
+        for subtopic in chapter.subtopics[:1]
     ]
 
     graph = build_graph()
@@ -321,10 +321,11 @@ def next_topic(request: NextTopicSchema):
     result = graph.stream(Command(resume=""), 
                           config, 
                           stream_mode="values")
+    
     for chunk in result:
         if "__interrupt__" in chunk:
             graph_query = chunk["__interrupt__"][0].value
-
+            print("Graph Query: ", graph_query)
             snapshot = graph.get_state(config).values
             state_index = snapshot["index"]
             print("Index: ", state_index)
@@ -332,4 +333,14 @@ def next_topic(request: NextTopicSchema):
             return {
                 "response": graph_query,
                 "session_id": session_id
-            }           
+            }   
+        else:
+            graph_query = list(chunk.values())[0]
+            print("Graph Query: ", graph_query)
+            snapshot = graph.get_state(config).values
+            state_index = snapshot["index"]
+            print("Index: ", state_index)
+            return {
+                "response": "The dialogue ends here.",
+                "session_id": session_id
+            }     
