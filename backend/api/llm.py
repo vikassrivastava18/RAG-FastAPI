@@ -4,7 +4,6 @@ from backend.core.agent.graph import build_graph
 from backend.utils.utils import get_uuid_string
 from dotenv import load_dotenv
 from cachetools import TTLCache
-from sqlalchemy.orm.attributes import flag_modified
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.encoders import jsonable_encoder
 
@@ -168,15 +167,16 @@ def start_dialogue(request: ChapterInputRequest, db: Session = Depends(get_db)):
             "state": None,
             "messages": []
         }
-        for subtopic in chapter.subtopics[:2]
+        for subtopic in chapter.subtopics
     ]
+    print("Subtopics length: ", len(topics))
 
     graph = build_graph()
     random_id = get_uuid_string()
     config = {"configurable": {"thread_id": random_id}}
 
     dialogues = {"index": -1, "dialogues": topics}
-    print("Subtopics length: ", len(dialogues["dialogues"]))
+
     result = graph.stream(dialogues, config)
 
     for chunk in result:
@@ -198,48 +198,59 @@ def review_response(request: AnswerSchema):
     graph = build_graph()
 
     result = graph.stream(Command(resume=user_answer), 
-                          config, 
-                          stream_mode="values")
+                          config)
+    graph_query = None
+    state = None
+
     for chunk in result:
         if "__interrupt__" in chunk:                
             
             snapshot = graph.get_state(config).values
             state_index = snapshot["index"]
-            graph_query = snapshot["dialogues"][state_index]["quizzes"]            
             state = snapshot["dialogues"][state_index]["state"]
 
             if state == "clear":
+                graph_query = snapshot["dialogues"][state_index]["quizzes"] 
                 graph_query = jsonable_encoder(graph_query)
-            return {
-                "response": graph_query,
-                "session_id": session_id,
-                "state": state
-            }
+            else:
+                graph_query = chunk["__interrupt__"][0].value
+            break
 
+    if graph_query is None:
+        return {
+            "response": "The dialogue ends here.",
+            "session_id": session_id,
+            "state": state
+        }
+
+    return {
+        "response": graph_query,
+        "session_id": session_id,
+        "state": state
+    }
     
 @llm_routes.post("/next-topic")
 def next_topic(request: NextTopicSchema):
     session_id = request.session_id
+    print("Session ID: ", session_id)
     config = {"configurable": {"thread_id": session_id}}
     graph = build_graph()
 
-    result = graph.stream(Command(resume=""), 
-                          config, 
-                          stream_mode="values")
-    
+    result = graph.stream(Command(resume="Let's continue"), config)
+    graph_query = None
+
     for chunk in result:
         if "__interrupt__" in chunk:
             graph_query = chunk["__interrupt__"][0].value
-            
-            return {
-                "response": graph_query,
-                "session_id": session_id
-            }   
-        else:
-            graph_query = list(chunk.values())[0]
-            snapshot = graph.get_state(config).values
-            print("Snapshot index: ", snapshot["index"])
-            return {
-                "response": "The dialogue ends here.",
-                "session_id": session_id
-            }     
+            break
+
+    if graph_query is not None:
+        return {
+            "response": graph_query,
+            "session_id": session_id
+        }
+
+    return {
+        "response": "The dialogue ends here.",
+        "session_id": session_id
+    }     

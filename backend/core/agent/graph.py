@@ -17,7 +17,6 @@ from backend.core.data.dummy import dummy_quizzes
 load_dotenv(override=True)
 checkpointer = InMemorySaver()
 
-
 def set_topic_index(state: DialogueState) -> DialogueState:
     state["index"] += 1
     return state
@@ -27,11 +26,12 @@ def remaining(state: DialogueState) -> Literal["remaining", "complete"]:
 
     if next_index >= len(state["dialogues"]):
         return "complete"
-
+    print("remaining")
     return "remaining"
 
+
 def concept_summary(state: DialogueState) -> DialogueState:
-    
+    print("Concept Summary")
     """LLM should prepare a friendly summary on the topic."""
     
     context = "\n".join([topic["notes"] for topic in state["dialogues"]])
@@ -53,7 +53,7 @@ def concept_summary(state: DialogueState) -> DialogueState:
     # summary = llm.invoke(concept_prompt).content
     summary = f"""<b>Topic</b> <p>How to get rich in 100 days?</p> <p>There are many ways, best
     path is to work hard....</p>"""
-    
+    print("Summary: ", summary)
     state["dialogues"][state["index"]]["messages"].append(AIMessage(content=summary))
     return state
 
@@ -110,7 +110,6 @@ def prepare_quiz(state: DialogueState) -> DialogueState:
     quizzes = dummy_quizzes
     state["dialogues"][state["index"]]["quizzes"] = quizzes
     return state
-
 
     content = state["dialogues"][state["index"]]["notes"]
     prompt = f"""
