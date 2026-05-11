@@ -4,6 +4,7 @@ from backend.core.agent.graph import build_graph
 from backend.utils.utils import get_uuid_string
 from dotenv import load_dotenv
 from cachetools import TTLCache
+from sqlalchemy.orm.attributes import flag_modified
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.encoders import jsonable_encoder
 
@@ -84,6 +85,76 @@ async def quiz_response(request: QuizRequest):
         raise HTTPException(
             status_code=500, detail=f"Error processing the request: {str(e)}"
         )
+    
+
+@llm_routes.post("/evaluate-response")
+def generate_dialogue(request: AnswerSchema, db: Session = Depends(get_db)):
+    """
+    1) Fetch the JSON blob using session_id, also the users answer.
+    2) Review the user answer by invoking LLM call
+    3) Update the Dialogue state based on correctness, in the database
+    4) Return Dialogue response.
+    """
+    # 1
+    session_id = request.session_id
+    print(session_id)
+    dialogue = db.query(Dialogue).filter(Dialogue.session_id == session_id).first()
+    data = dialogue.dialogue
+    index = data.get("index")
+    question = data.get("questions")[index].get("question")
+    ai_answer = data.get("questions")[index].get("answer")
+
+    # Fetch the user's data 
+    user_answer = request.answer
+    # 2
+    hint_available = False if data.get("hint_taken") else True
+    evaluation = jsonable_encoder(evaluate(
+        data={"question": question, "notes": ai_answer, "users_answer": user_answer},
+        hint=hint_available,
+    ))
+    print("LLM evaluation: ", evaluation)
+    answer_correct = evaluation["correct"] 
+    llm_response = evaluation["comment"]
+    data["user_answer"] = user_answer
+
+    if answer_correct:
+        data["index"] += 1
+        data["hint_taken"] = False
+        try:
+            json_data = prepare_data(session_id, data, index+1,
+                                     user_answer, False,
+                                     llm_response, True, "correct")
+            
+        except IndexError:
+            json_data = prepare_data(session_id, data, index,
+                                     user_answer, False,
+                                     llm_response, True, "END")
+
+    else:
+        data["answer_correct"] = False
+        if hint_available:
+            json_data = prepare_data(session_id, data, index,
+                                     user_answer, False,
+                                     llm_response, False, "hint")
+            data["hint_taken"] = True
+        else:
+            try:
+                json_data = prepare_data(session_id, data, index+1,
+                                     user_answer, False,
+                                     llm_response, False, "incorrect")
+                
+                data["index"] += 1
+                data["hint_taken"] = False                
+            except IndexError:
+                json_data = prepare_data(session_id, data, index,
+                                     user_answer, True,
+                                     llm_response, False, "END")            
+    # 3
+    flag_modified(dialogue, "dialogue")
+    db.commit()
+    db.refresh(dialogue)
+    # 4
+    return {"dialogue": json_data}
 
 
 @llm_routes.post("/generate-quizzes")
@@ -167,7 +238,7 @@ def start_dialogue(request: ChapterInputRequest, db: Session = Depends(get_db)):
             "state": None,
             "messages": []
         }
-        for subtopic in chapter.subtopics
+        for subtopic in chapter.subtopics[:2]
     ]
     print("Subtopics length: ", len(topics))
 

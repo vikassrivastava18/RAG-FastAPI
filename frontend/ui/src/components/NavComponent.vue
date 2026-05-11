@@ -6,8 +6,12 @@
                     Ask
                 </router-link>
                
-                <router-link to="/dialogue" class="btn btn-outline-dark px-4 rounded-pill">
+                <router-link to="/dialogue" class="btn btn-outline-dark px-4 rounded-pill me-3">
                     Dialogue
+                </router-link>
+
+                <router-link to="/answer" class="btn btn-outline-dark px-4 rounded-pill">
+                    Answer
                 </router-link>
         </div>
     </nav>
