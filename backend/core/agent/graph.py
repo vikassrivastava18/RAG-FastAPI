@@ -26,16 +26,13 @@ def remaining(state: DialogueState) -> Literal["remaining", "complete"]:
 
     if next_index >= len(state["dialogues"]):
         return "complete"
-    print("remaining")
     return "remaining"
 
 
 def concept_summary(state: DialogueState) -> DialogueState:
-    print("Concept Summary")
     """LLM should prepare a friendly summary on the topic."""
     
-    context = "\n".join([topic["notes"] for topic in state["dialogues"]])
-    
+    context = "\n".join([topic["notes"] for topic in state["dialogues"]])    
     concept_prompt = f"""
     Prepare a summary on the topic. Use notes for preparing summary and
     context information as overall context while preparing the conceptual summary.
@@ -46,21 +43,20 @@ def concept_summary(state: DialogueState) -> DialogueState:
     Notes: {state["dialogues"][state["index"]]["notes"]}
     Context: {context}
 
-    Output Sample (Follow strictly!!): 
+    End the output with something like "Any doubts?".
+    Output Sample (Follow format strictly!!): 
         <b>Topic</b>  <p>How to get rich in 100 days?</p> <p>There are many ways, best
         path is to work hard....</p>
     """
-    # summary = llm.invoke(concept_prompt).content
-    summary = f"""<b>Topic</b> <p>How to get rich in 100 days?</p> <p>There are many ways, best
-    path is to work hard....</p>"""
-    print("Summary: ", summary)
+    summary = llm.invoke(concept_prompt).content
+    
     state["dialogues"][state["index"]]["messages"].append(AIMessage(content=summary))
     return state
 
 def get_user_reply(state: DialogueState) -> DialogueState:
     summary = state["dialogues"][state["index"]]["messages"][-1].content
     user_reply = interrupt(
-        f"{summary}. Any doubts?" 
+        f"{summary}" 
     )
     state["dialogues"][state["index"]]["messages"].append(HumanMessage(content=user_reply))
     return state
@@ -69,8 +65,7 @@ class IntentSchema(BaseModel):
     intent: Literal["hint", "clear"]
 
 def reply_intent(state: DialogueState) -> Literal["hint", "clear"]:
-    state["dialogues"][state["index"]]["state"] = "clear"
-    return "clear"
+    
     user_reply = (
         state["dialogues"][state["index"]]["messages"][-1].content
     )
@@ -87,14 +82,12 @@ def reply_intent(state: DialogueState) -> Literal["hint", "clear"]:
     """
 
     structured_llm = llm.with_structured_output(IntentSchema)
-
     response = structured_llm.invoke(intent_prompt)
     state["dialogues"][state["index"]]["state"] = response.intent
     return response.intent
 
 def clarify_doubt(state: DialogueState) -> DialogueState:
     clarify_prompt = f"""Look at the past converstaion on a topic and latest user's reply to clarify user's doubts.
-
     Output format:  <p>There are many ways, best
     path is to work hard....</p>
     """
@@ -107,10 +100,7 @@ def clarify_doubt(state: DialogueState) -> DialogueState:
     return state
 
 def prepare_quiz(state: DialogueState) -> DialogueState:
-    quizzes = dummy_quizzes
-    state["dialogues"][state["index"]]["quizzes"] = quizzes
-    return state
-
+    
     content = state["dialogues"][state["index"]]["notes"]
     prompt = f"""
     You are a quiz master. Use the content of a topic to create questions (MCQ's and True/False) and expected answers that help students in their study.

@@ -251,6 +251,6 @@ def next_topic(request: NextTopicSchema):
         }
 
     return {
-        "response": "The dialogue ends here.",
+        "response": "<p>The dialogue ends here.</p>",
         "session_id": session_id
     }     
