@@ -30,7 +30,7 @@ const queryAnswer = ref("");
 const instance = getCurrentInstance()
 const proxy = instance && instance.proxy
 const userInput = ref("")
-const queryUrl = baseUrl + "/llm/answer-query"
+const queryUrl = baseUrl + "/ask/ask-query"
 const aiLoading = ref(false)
 
 async function answerUserQuery() {

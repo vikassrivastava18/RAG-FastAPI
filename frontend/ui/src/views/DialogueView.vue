@@ -61,9 +61,9 @@ import QuizComponent from '../components/QuizComponent.vue'
 const instance = getCurrentInstance()
 const proxy = instance && instance.proxy
 const bookChaptersUrl = baseUrl + "/chapter-subtopics/";
-const startDialogueUrl = baseUrl + "/llm/start-dialogue";
-const answerReviewUrl = baseUrl + "/llm/review-response";
-const nextTopicUrl = baseUrl + "/llm/next-topic";
+const startDialogueUrl = baseUrl + "/dialogue/start-dialogue";
+const answerReviewUrl = baseUrl + "/dialogue/review-response";
+const nextTopicUrl = baseUrl + "/dialogue/next-topic";
 
 const books = ref([]);
 const selectedBook = ref(0);

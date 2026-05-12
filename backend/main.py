@@ -2,11 +2,10 @@ import os
 from dotenv import load_dotenv
 
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.core.config import engine, Base
-from backend.core.db.models import (Book, Chapter, Subtopic)
+
 
 Base.metadata.create_all(bind=engine)
 
@@ -28,7 +27,6 @@ app.add_middleware(
 load_dotenv()
 # app.mount("/assets", StaticFiles(directory="../frontend/assets"))
 
-
 # Include the home routers (loaded immediately)
 from backend.api.books import book_routes
 app.include_router(
@@ -44,6 +42,31 @@ def load_auth_router():
         prefix="/auth",
         tags=["Authentication"]
     )
+
+def load_ask_router():
+    from backend.api.v2.ask import ask_routes
+    app.include_router(
+        ask_routes,
+        prefix="/ask",
+        tags=["ASK"]
+    )
+
+def load_answer_router():
+    from backend.api.v2.answer import answer_routes
+    app.include_router(
+        answer_routes,
+        prefix="/answer",
+        tags=["ANSWER"]
+    )
+
+def load_dialogue_router():
+    from backend.api.v2.dialogue import dialogue_routes
+    app.include_router(
+        dialogue_routes,
+        prefix="/dialogue",
+        tags=["DIALOGUE"]
+    )
+
 
 def load_llm_router():
     from backend.api.llm import llm_routes
@@ -67,4 +90,7 @@ def load_admin_router():
 async def startup():
     load_auth_router()
     load_llm_router()
+    load_ask_router()
+    load_answer_router()
+    load_dialogue_router()
     # load_admin_router()

@@ -48,8 +48,8 @@ import { baseUrl } from '../config'
 const instance = getCurrentInstance()
 const proxy = instance && instance.proxy
 const bookChaptersUrl = baseUrl + "/chapter-subtopics/";
-const startDialogueUrl = baseUrl + "/llm/generate-question";
-const answerReviewUrl = baseUrl + "/llm/evaluate-response";
+const startDialogueUrl = baseUrl + "/answer/generate-question";
+const answerReviewUrl = baseUrl + "/answer/evaluate-response";
 
 const books = ref([]);
 const selectedBook = ref(0);
