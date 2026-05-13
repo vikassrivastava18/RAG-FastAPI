@@ -1,6 +1,7 @@
 # Agentic RAG Application using LangGraph/LangChain
 
 <img src="assets/tutor.png" alt="Socratic Dialogue Tutor" width="700"/>
+
 ## Key features
 - RAG based query search using FAISS and LangChain.
 - Socratic dialogue style tutor for learning concepts using LangGraph.
