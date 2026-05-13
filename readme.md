@@ -1,6 +1,11 @@
-# Agentic RAG Application using LangGraph
+# Agentic RAG Application using LangGraph/LangChain
 
-Agentic RAG application combining a FastAPI backend, PostgreSQL persistence, and LLM orchestration.
+<img src="assets/tutor.png" alt="Socratic Dialogue Tutor" width="700"/>
+## Key features
+- RAG based query search using FAISS and LangChain.
+- Socratic dialogue style tutor for learning concepts using LangGraph.
+- Ask user concept related question, give hint if the answer is not satifactory.
+
 
 ## Quick Start
 
@@ -8,7 +13,6 @@ Run the application with
 ```
 docker-compose up
 ```
-
 
 
 ## Key runtime pieces
