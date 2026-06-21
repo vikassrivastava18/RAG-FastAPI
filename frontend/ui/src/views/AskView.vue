@@ -1,8 +1,8 @@
 <template>
 
     <div class="container">
-        <i>
-            <label for="askInput" class="control-label p-2">
+        <i class="py-4">
+            <label for="askInput" class="control-label p-2 py-4">
                 Ask me anything from Wistech Open books!
             </label>
         </i>

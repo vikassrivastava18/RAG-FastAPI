@@ -1,7 +1,11 @@
 <template>
     <div>
-        <div class="container px-4 py-3">
-            <h2 class="mb-4">Answer</h2>
+        <div class="container px-4">
+            <i class="py-4">
+            <label for="askInput" class="control-label p-2 py-4">
+                Answer subjective questions on a topic!
+            </label>
+        </i>
             <div class="d-flex justify-content-start">
                 <div class="col-xs-3">
                     <label for="bookSelect" class="control-label">Select a book</label>

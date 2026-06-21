@@ -1,11 +1,12 @@
 <template>
     <div>
         <div class="container px-4">
-            <i>
-                <label for="askInput" class="control-label py-2 mb-2">
-                    Let's learn something new today!
-                </label>
-            </i>
+            <i class="py-4">
+            <label for="askInput" class="control-label p-2 py-4">
+                Start a dialogue to learn on any topic!
+            </label>
+        </i>
+            
             <div class="d-flex justify-content-start">
                 <div class="col-xs-3">
                     <label for="bookSelect" class="control-label">
@@ -142,16 +143,12 @@ async function sendResponse() {
    
     message.value += "<br> <p>" + userInput.value + "</p>"
     const payload = { "answer": userInput.value, "session_id": dialogue.value.session_id }
-    console.log("Sending evaluate payload:", payload);
-
     inputDisabled.value = true
     aiLoading.value = true
 
     try {
         const res = await proxy.$axios.post(answerReviewUrl, payload)
-        console.log('Review response:', res.data)
         const result = res.data.response
-        console.log("Result: ". result);
         if (res.data.state === "clear") {
             quizMode.value = true
             quizzes.value = result
@@ -161,7 +158,6 @@ async function sendResponse() {
     } catch (error) {
         console.error('evaluate-response error:', error)
         if (error.response) {
-            console.error('Status:', error.response.status, 'Data:', error.response.data)
             // show a concise message to the user (server validation details)
             message.value = `<span class="text-danger">Server: ${error.response.status} 
                             - ${JSON.stringify(error.response.data)}</span>`
@@ -182,15 +178,12 @@ async function nextTopic() {
         const res = await proxy.$axios.post(nextTopicUrl, payload)
         
         const result = res.data.response
-        console.log("Result: ". result);
         quizMode.value = false
         message.value = result
         
 
     } catch (error) {
-        console.error('evaluate-response error:', error)
         if (error.response) {
-            console.error('Status:', error.response.status, 'Data:', error.response.data)
             // show a concise message to the user (server validation details)
             message.value = `<span class="text-danger">Server: ${error.response.status} 
                             - ${JSON.stringify(error.response.data)}</span>`

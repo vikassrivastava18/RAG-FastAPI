@@ -30,10 +30,6 @@ import NavComponent from './components/NavComponent.vue';
     border-radius: 10px;
     box-shadow: 0 5px 40px rgb(0, 0, 0, 4%);
     height: 100%; 
-    background-image: linear-gradient(#f8f8f8, #f8f8f8de), url('@/assets/Blue_Flames.jpg');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: top;
 }
 
 #mainContent {
@@ -45,8 +41,13 @@ h2, h3, h4 {
 }
 
 #routeContent {
-    border: 1px solid #dfdfdf;
+    border: 1px solid #4d4a4a;
     border-radius: 10px;
     min-height: 80vh;
+    background-color: #fff;
+    background-image: linear-gradient(#f8f8f8, #f8f8f8de), url('@/assets/Blue_Flames.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: top;
 }
 </style>

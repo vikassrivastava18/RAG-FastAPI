@@ -48,7 +48,7 @@ def load_ask_router():
     app.include_router(
         ask_routes,
         prefix="/ask",
-        tags=["ASK"]
+        tags=["Ask"]
     )
 
 def load_answer_router():
@@ -56,7 +56,7 @@ def load_answer_router():
     app.include_router(
         answer_routes,
         prefix="/answer",
-        tags=["ANSWER"]
+        tags=["Answer"]
     )
 
 def load_dialogue_router():
@@ -64,7 +64,7 @@ def load_dialogue_router():
     app.include_router(
         dialogue_routes,
         prefix="/dialogue",
-        tags=["DIALOGUE"]
+        tags=["Dialogue"]
     )
 
 
