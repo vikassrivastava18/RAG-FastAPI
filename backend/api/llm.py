@@ -1,17 +1,17 @@
 import asyncio, uuid
 from langgraph.types import Command
-from backend.core.agent.graph import build_graph
-from backend.utils.utils import get_uuid_string
+from core.agent.graph import build_graph
+from utils.utils import get_uuid_string
 from dotenv import load_dotenv
 from cachetools import TTLCache
 from sqlalchemy.orm.attributes import flag_modified
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.encoders import jsonable_encoder
 
-from backend.core.config import logger, Session, get_db
-from backend.core.db.models import Chapter, Dialogue
-from backend.core.db.query import get_content
-from backend.core.db.schemas import (
+from core.config import logger, Session, get_db
+from core.db.models import Chapter, Dialogue
+from core.db.query import get_content
+from core.db.schemas import (
     AnswerSchema,
     QuizRequest,
     ChapterInputRequest,
@@ -19,7 +19,7 @@ from backend.core.db.schemas import (
     NextTopicSchema
 )
 
-from backend.core.llm.generate import (
+from core.llm.generate import (
     chapter_summary,
     create_questions,
     create_quizzes,

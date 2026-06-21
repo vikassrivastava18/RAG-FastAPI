@@ -4,12 +4,12 @@ from langchain_community.vectorstores import FAISS
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-from backend.core.config import logger
+from core.config import logger
 
 embedding_model = OpenAIEmbeddings()
 
 faiss_db = FAISS.load_local(
-    "backend/core/data/faiss_db_new",
+    "core/data/faiss_db_new",
     embedding_model,
     allow_dangerous_deserialization=True
 )

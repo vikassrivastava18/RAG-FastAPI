@@ -10,9 +10,9 @@ from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.types import interrupt
 
-from backend.core.config import llm
-from backend.core.agent.schemas import DialogueState, QuizSchema
-from backend.core.data.dummy import dummy_quizzes
+from core.config import llm
+from core.agent.schemas import DialogueState, QuizSchema
+from core.data.dummy import dummy_quizzes
 
 load_dotenv(override=True)
 checkpointer = InMemorySaver()

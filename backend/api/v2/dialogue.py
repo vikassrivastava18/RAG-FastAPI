@@ -1,12 +1,12 @@
 from langgraph.types import Command
-from backend.core.agent.graph import build_graph
-from backend.utils.utils import get_uuid_string
+from core.agent.graph import build_graph
+from utils.utils import get_uuid_string
 from fastapi import  Depends, APIRouter
 from fastapi.encoders import jsonable_encoder
 
-from backend.core.config import Session, get_db
-from backend.core.db.models import Chapter
-from backend.core.db.schemas import (
+from core.config import Session, get_db
+from core.db.models import Chapter
+from core.db.schemas import (
     AnswerSchema,
     ChapterInputRequest,
     NextTopicSchema

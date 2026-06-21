@@ -6,12 +6,12 @@ from typing import (Optional,
                     Any)
 from fastapi import HTTPException
 
-from backend.core.config import llm2, logger
-from backend.core.db.schemas import (ChapterContentRequest, 
+from core.config import llm2, logger
+from core.db.schemas import (ChapterContentRequest, 
                              QueryResponse, 
                              QuestionsSchema, 
                              QuizResponse)
-from backend.core.llm.vector import faiss_db
+from core.llm.vector import faiss_db
 
 
 # For Quiz Generation 

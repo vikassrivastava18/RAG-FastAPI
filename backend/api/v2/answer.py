@@ -4,14 +4,14 @@ from fastapi import Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi import APIRouter
 
-from backend.core.config import Session, get_db
-from backend.core.db.models import Chapter, Dialogue
-from backend.core.db.schemas import (
+from core.config import Session, get_db
+from core.db.models import Chapter, Dialogue
+from core.db.schemas import (
     AnswerSchema,
     ChapterInputRequest
 )
 
-from backend.core.llm.generate import (
+from core.llm.generate import (
     create_questions,
     evaluate,    
 )

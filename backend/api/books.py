@@ -8,12 +8,12 @@ from fastapi.responses import (HTMLResponse,
                                JSONResponse)
 from fastapi.templating import Jinja2Templates
 
-from backend.core.config import Session, get_db, logger
-from backend.core.db.models import Book, Chapter, Subtopic
-from backend.core.db.schemas import (BookDetailFooterResponse,
+from core.config import Session, get_db, logger
+from core.db.models import Book, Chapter, Subtopic
+from core.db.schemas import (BookDetailFooterResponse,
                         BookDetailResponse,
                         ChapterRequest)
-from backend.core.db.query import add_new_book, get_books
+from core.db.query import add_new_book, get_books
 
 
 # Create Route instance

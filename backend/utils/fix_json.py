@@ -1,5 +1,5 @@
 # Connect to the database
-from backend.core.config import Session
+from core.config import Session
 from db.models import Subtopic
 import json
 

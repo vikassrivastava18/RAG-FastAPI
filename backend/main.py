@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from backend.core.config import engine, Base
+from core.config import engine, Base
 
 
 Base.metadata.create_all(bind=engine)
@@ -28,7 +28,7 @@ load_dotenv()
 # app.mount("/assets", StaticFiles(directory="../frontend/assets"))
 
 # Include the home routers (loaded immediately)
-from backend.api.books import book_routes
+from api.books import book_routes
 app.include_router(
     book_routes,
     tags=["Books"]
@@ -36,7 +36,7 @@ app.include_router(
 
 # Lazy load routers on demand
 def load_auth_router():
-    from backend.api.auth import auth_routes
+    from api.auth import auth_routes
     app.include_router(
         auth_routes,
         prefix="/auth",
@@ -44,7 +44,7 @@ def load_auth_router():
     )
 
 def load_ask_router():
-    from backend.api.v2.ask import ask_routes
+    from api.v2.ask import ask_routes
     app.include_router(
         ask_routes,
         prefix="/ask",
@@ -52,7 +52,7 @@ def load_ask_router():
     )
 
 def load_answer_router():
-    from backend.api.v2.answer import answer_routes
+    from api.v2.answer import answer_routes
     app.include_router(
         answer_routes,
         prefix="/answer",
@@ -60,7 +60,7 @@ def load_answer_router():
     )
 
 def load_dialogue_router():
-    from backend.api.v2.dialogue import dialogue_routes
+    from api.v2.dialogue import dialogue_routes
     app.include_router(
         dialogue_routes,
         prefix="/dialogue",
@@ -69,7 +69,7 @@ def load_dialogue_router():
 
 
 def load_llm_router():
-    from backend.api.llm import llm_routes
+    from api.llm import llm_routes
     app.include_router(
         llm_routes,
         prefix="/llm",
@@ -77,7 +77,7 @@ def load_llm_router():
     )
 
 def load_admin_router():
-    from backend.api.admin import admin_routes
+    from api.admin import admin_routes
     app.include_router(
         admin_routes,
         prefix="/admin",
