@@ -2,10 +2,12 @@
 <img src="assets/tutor.png" alt="Socratic Dialogue Tutor" width="700"/>
 
 ## Key features
-- RAG based query search using FAISS and LangChain.
+- RAG based document answering functionality using FAISS and LangChain.
 - Socratic dialogue style tutor for learning concepts using LangGraph.
 - Ask user concept related question, give hint if the answer is not satifactory.
 
+## LangGraph Workflow Diagram
+<img src="assets/support_graph.png" alt="LangGraph workflowdiagram" width="500"/>
 
 ## Quick Start
 
