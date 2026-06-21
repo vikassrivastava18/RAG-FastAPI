@@ -588,8 +588,19 @@ def create_quizzes(content: ChapterContentRequest):
 def answer_query_util(query: str):
     u_query = query
     # filter relevant document with similarity search
-    docs = faiss_db.similarity_search(u_query, k=5)
-    content = "\n".join([doc.page_content for doc in docs])
+    docs_and_scores = faiss_db.similarity_search_with_score(
+        u_query,
+        k=10  # retrieve more candidates
+    )
+
+    threshold = 0.7  # adjust based on your embedding model
+
+    filtered_docs = [
+        doc for doc, score in docs_and_scores
+        if score <= threshold
+    ]
+
+    content = "\n".join([doc.page_content for doc in filtered_docs])
 
     # Get the LLM response on user query using filtered documents
     prompt = f"""
