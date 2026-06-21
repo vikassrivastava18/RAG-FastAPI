@@ -6,6 +6,8 @@
 - Socratic dialogue style tutor for learning concepts using LangGraph.
 - Ask user concept related question, give hint if the answer is not satifactory.
 
+## LangGraph Workflow Diagram
+<img src="assets/support_graph.png" alt="LangGraph workflowdiagram" width="500"/>
 
 ## Quick Start
 
