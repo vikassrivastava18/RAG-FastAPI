@@ -90,10 +90,10 @@ async def quiz_response(request: QuizRequest):
 @llm_routes.post("/evaluate-response")
 def generate_dialogue(request: AnswerSchema, db: Session = Depends(get_db)):
     """
-    1) Fetch the JSON blob using session_id, also the users answer.
-    2) Review the user answer by invoking LLM call
-    3) Update the Dialogue state based on correctness, in the database
-    4) Return Dialogue response.
+        1) Fetch the JSON blob using session_id, also the users answer.
+        2) Review the user answer by invoking LLM call
+        3) Update the Dialogue state based on correctness, in the database
+        4) Return Dialogue response.
     """
     # 1
     session_id = request.session_id

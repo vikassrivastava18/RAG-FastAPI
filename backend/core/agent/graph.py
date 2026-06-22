@@ -12,7 +12,7 @@ from langgraph.types import interrupt
 
 from core.config import llm
 from core.agent.schemas import DialogueState, QuizSchema
-from core.data.dummy import dummy_quizzes
+
 
 load_dotenv(override=True)
 checkpointer = InMemorySaver()
@@ -20,6 +20,7 @@ checkpointer = InMemorySaver()
 def set_topic_index(state: DialogueState) -> DialogueState:
     state["index"] += 1
     return state
+
 
 def remaining(state: DialogueState) -> Literal["remaining", "complete"]:
     next_index = state["index"]
@@ -53,6 +54,7 @@ def concept_summary(state: DialogueState) -> DialogueState:
     state["dialogues"][state["index"]]["messages"].append(AIMessage(content=summary))
     return state
 
+
 def get_user_reply(state: DialogueState) -> DialogueState:
     summary = state["dialogues"][state["index"]]["messages"][-1].content
     user_reply = interrupt(
@@ -61,8 +63,10 @@ def get_user_reply(state: DialogueState) -> DialogueState:
     state["dialogues"][state["index"]]["messages"].append(HumanMessage(content=user_reply))
     return state
 
+
 class IntentSchema(BaseModel):
     intent: Literal["hint", "clear"]
+
 
 def reply_intent(state: DialogueState) -> Literal["hint", "clear"]:
     
@@ -86,6 +90,7 @@ def reply_intent(state: DialogueState) -> Literal["hint", "clear"]:
     state["dialogues"][state["index"]]["state"] = response.intent
     return response.intent
 
+
 def clarify_doubt(state: DialogueState) -> DialogueState:
     clarify_prompt = f"""Look at the past converstaion on a topic and latest user's reply to clarify user's doubts.
     Output format:  <p>There are many ways, best
@@ -99,11 +104,13 @@ def clarify_doubt(state: DialogueState) -> DialogueState:
 
     return state
 
+
 def prepare_quiz(state: DialogueState) -> DialogueState:
     
     content = state["dialogues"][state["index"]]["notes"]
     prompt = f"""
-    You are a quiz master. Use the content of a topic to create questions (MCQ's and True/False) and expected answers that help students in their study.
+    You are a quiz master. Use the content of a topic to create questions (MCQ's and True/False) and expected answers 
+    that help students in their study.
     Return the response in the format specified.    
     
     Content: {content}

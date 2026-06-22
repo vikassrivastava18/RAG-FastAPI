@@ -45,9 +45,9 @@ h2, h3, h4 {
     border-radius: 10px;
     min-height: 80vh;
     background-color: #fff;
-    background-image: linear-gradient(#f8f8f8, #f8f8f8de), url('@/assets/Blue_Flames.jpg');
+    /* background-image: linear-gradient(#f8f8f8, #f8f8f8de), url('@/assets/Blue_Flames.jpg');
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: top;
+    background-position: top; */
 }
 </style>
