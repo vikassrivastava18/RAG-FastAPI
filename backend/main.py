@@ -51,13 +51,6 @@ def load_ask_router():
         tags=["Ask"]
     )
 
-def load_answer_router():
-    from api.v2.answer import answer_routes
-    app.include_router(
-        answer_routes,
-        prefix="/answer",
-        tags=["Answer"]
-    )
 
 def load_dialogue_router():
     from api.v2.dialogue import dialogue_routes
@@ -91,6 +84,5 @@ async def startup():
     load_auth_router()
     load_llm_router()
     load_ask_router()
-    load_answer_router()
     load_dialogue_router()
     # load_admin_router()
