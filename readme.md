@@ -7,7 +7,7 @@
 - Ask user concept related question, give hint if the answer is not satifactory.
 
 ## LangGraph Workflow Diagram
-<img src="assets/dialogue_graph.png" alt="LangGraph workflow diagram" width="600"/>
+<img src="assets/dialogue_graph.png" alt="LangGraph workflow diagram" width="400"/>
 
 ## Quick Start
 
