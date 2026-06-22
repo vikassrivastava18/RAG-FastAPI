@@ -10,9 +10,9 @@
                     Dialogue
                 </router-link>
 
-                <router-link to="/answer" class="btn btn-light btn-outline-dark px-4 rounded-pill ms-2">
+                <!-- <router-link to="/answer" class="btn btn-light btn-outline-dark px-4 rounded-pill ms-2">
                     Answer
-                </router-link>
+                </router-link> -->
         </div>
     </nav>
 </template>
@@ -21,7 +21,7 @@
 nav {
     text-align: left;
     border-radius: 5px;
-    background-color: #7badd9;
+    background: linear-gradient(90deg, #7badd9 0%, #5e98cb 50%, #3f82bd 100%);
 }
 .nav-link {
     margin-right: 10px;
