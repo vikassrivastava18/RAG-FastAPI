@@ -29,7 +29,7 @@ def start_dialogue(request: ChapterInputRequest, db: Session = Depends(get_db)):
             "state": None,
             "messages": []
         }
-        for subtopic in chapter.subtopics[:2]
+        for subtopic in chapter.subtopics
     ]
     print("Subtopics length: ", len(topics))
 
