@@ -33,18 +33,18 @@
                 </div>
             </div>
         </div>
-        <div v-if="aiLoading" class="d-flex justify-content-center mt-4">
-                <div class="spinner-grow text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-            </div>
+        
         <div class="container">
             <div v-if="quizMode">
                 <QuizComponent :quizzes="quizzes" @next-summary="nextTopic" />
                 
             </div>
             <p v-else v-html="message" class="p-4"></p>
-
+            <div v-if="aiLoading" class="d-flex justify-content-center mt-4">
+                <div class="spinner-grow text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
             <input class="form-control py-2 my-2" id="askInput" 
                 v-model="userInput" placeholder="Enter your answer here..."
                 @keyup.enter="sendResponse" :hidden="inputDisabled"
