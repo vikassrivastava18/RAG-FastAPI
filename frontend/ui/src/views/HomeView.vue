@@ -22,9 +22,9 @@
         </span>
 
         <!-- Main Heading -->
-        <h1 class="display-5 fw-bold text-dark mt-2 mb-4">
+        <h2 class="display-5 fw-bold text-dark mt-2 mb-4">
           About WisTech Open
-        </h1>
+        </h2>
 
         <!-- Paragraph -->
         <p class="text-secondary fs-5 lh-lg mb-4">
@@ -34,25 +34,6 @@
           for Nursing) with support from a U.S. Department of Education Open
           Textbooks Pilot Grant.
         </p>
-
-        <p class="text-secondary fs-5 lh-lg mb-5">
-          Open RN quickly grew into a nationally recognized initiative,
-          producing award-winning nursing textbooks and saving students
-          millions of dollars. These free resources included built-in
-          assessments, H5P learning activities, and engaging simulations —
-          helping future nurses succeed in the classroom and beyond.
-        </p>
-
-        <!-- Buttons -->
-        <div class="d-flex flex-wrap gap-3">
-          <a href="#Details" class="btn btn-primary btn-lg px-4 rounded-pill">
-            Learn More →
-          </a>
-
-          <a href="/contact" class="btn btn-outline-dark btn-lg px-4 rounded-pill">
-            Contact Us
-          </a>
-        </div>
 
       </div>
     </div>

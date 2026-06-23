@@ -44,7 +44,7 @@ def concept_summary(state: DialogueState) -> DialogueState:
     Notes: {state["dialogues"][state["index"]]["notes"]}
     Context: {context}
 
-    End the output with something like "Any doubts?".
+    End the output with something like "Do you have any doubts?".
     Output Sample (Follow format strictly!!): 
         <b>Topic</b>  <p>How to get rich in 100 days?</p> <p>There are many ways, best
         path is to work hard....</p>
@@ -79,12 +79,12 @@ def reply_intent(state: DialogueState) -> Literal["hint", "clear"]:
 
     Return:
     - "hint" -> if the user is confused or wants more clarity
-    - "clear" -> if the user understands the concept
+    - "clear" -> if the user understands the concept. For a reply like "No", "Nopes" or similar, takes it that 
+    the user is clear on the topic
 
     User Reply:
     {user_reply}
     """
-
     structured_llm = llm.with_structured_output(IntentSchema)
     response = structured_llm.invoke(intent_prompt)
     state["dialogues"][state["index"]]["state"] = response.intent

@@ -10,9 +10,7 @@
                     Dialogue
                 </router-link>
 
-                <!-- <router-link to="/answer" class="btn btn-light btn-outline-dark px-4 rounded-pill ms-2">
-                    Answer
-                </router-link> -->
+             
         </div>
     </nav>
 </template>
