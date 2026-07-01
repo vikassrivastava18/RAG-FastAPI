@@ -9,6 +9,18 @@
 ## LangGraph Workflow Diagram
 <img src="assets/dialogue_graph.png" alt="LangGraph workflow diagram" width="400"/>
 
+
+## Configuration
+Add .env file in the backend directory and add following along with your OpenAI API key
+```
+OPENAI_API_KEY="Your OpenAI key"
+DATABASE_URL="postgresql://postgres:hello2020@localhost:5432/testdb"
+GPT_MODEL="gpt-4o"
+SECRET_KEY="germkgndvalkrt45rtt3680983480@!@#&#^kjwjkklal2942947295001234111"
+ALGORITHM="HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+```
+
 ## Quick Start
 
 Run the application with
