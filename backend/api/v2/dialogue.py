@@ -1,5 +1,5 @@
 from langgraph.types import Command
-from core.agent.graph import Graph
+from utils.agent.graph import Graph
 from utils.utils import get_uuid_string
 from fastapi import  Depends, APIRouter
 from fastapi.encoders import jsonable_encoder

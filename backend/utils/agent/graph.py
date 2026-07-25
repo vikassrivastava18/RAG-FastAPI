@@ -11,7 +11,7 @@ from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.types import interrupt
 
 from core.config import llm
-from core.agent.schemas import DialogueState, QuizSchema
+from utils.agent.schemas import DialogueState, QuizSchema
 
 
 load_dotenv(override=True)
