@@ -6,7 +6,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from core.config import engine, Base
 
-
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()

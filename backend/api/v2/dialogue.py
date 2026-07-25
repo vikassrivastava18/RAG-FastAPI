@@ -1,5 +1,5 @@
 from langgraph.types import Command
-from core.agent.graph import build_graph
+from core.agent.graph import Graph
 from utils.utils import get_uuid_string
 from fastapi import  Depends, APIRouter
 from fastapi.encoders import jsonable_encoder
@@ -33,7 +33,7 @@ def start_dialogue(request: ChapterInputRequest, db: Session = Depends(get_db)):
     ]
     print("Subtopics length: ", len(topics))
 
-    graph = build_graph()
+    graph = Graph.build_graph()
     random_id = get_uuid_string()
     config = {"configurable": {"thread_id": random_id}}
     dialogues = {"index": -1, "dialogues": topics}
@@ -55,7 +55,7 @@ def review_response(request: AnswerSchema):
     user_answer = request.answer
     print(session_id, user_answer)
     config = {"configurable": {"thread_id": session_id}}
-    graph = build_graph()
+    graph = Graph.build_graph()
 
     result = graph.stream(Command(resume=user_answer), 
                           config)
@@ -95,7 +95,7 @@ def next_topic(request: NextTopicSchema):
     session_id = request.session_id
     print("Session ID: ", session_id)
     config = {"configurable": {"thread_id": session_id}}
-    graph = build_graph()
+    graph = Graph.build_graph()
 
     result = graph.stream(Command(resume="Let's continue"), config)
     graph_query = None

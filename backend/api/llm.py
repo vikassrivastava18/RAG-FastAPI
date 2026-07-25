@@ -1,10 +1,7 @@
 import asyncio, uuid
-from langgraph.types import Command
-from core.agent.graph import build_graph
-from utils.utils import get_uuid_string
+
 from dotenv import load_dotenv
 from cachetools import TTLCache
-from sqlalchemy.orm.attributes import flag_modified
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.encoders import jsonable_encoder
 
@@ -12,11 +9,9 @@ from core.config import logger, Session, get_db
 from core.db.models import Chapter, Dialogue
 from core.db.query import get_content
 from core.db.schemas import (
-    AnswerSchema,
     QuizRequest,
     ChapterInputRequest,
     UserQuery,
-    NextTopicSchema
 )
 
 from core.llm.generate import (
