@@ -1,4 +1,3 @@
-import os
 from dotenv import load_dotenv
 
 from fastapi import FastAPI
@@ -27,7 +26,7 @@ load_dotenv()
 # app.mount("/assets", StaticFiles(directory="../frontend/assets"))
 
 # Include the home routers (loaded immediately)
-from api.books import book_routes
+from api.v1.books import book_routes
 app.include_router(
     book_routes,
     tags=["Books"]
@@ -35,7 +34,7 @@ app.include_router(
 
 # Lazy load routers on demand
 def load_auth_router():
-    from api.auth import auth_routes
+    from api.v1.auth import auth_routes
     app.include_router(
         auth_routes,
         prefix="/auth",
@@ -68,7 +67,7 @@ def load_dialogue_router():
 
 
 def load_llm_router():
-    from api.llm import llm_routes
+    from api.v1.llm import llm_routes
     app.include_router(
         llm_routes,
         prefix="/llm",
@@ -76,7 +75,7 @@ def load_llm_router():
     )
 
 def load_admin_router():
-    from api.admin import admin_routes
+    from api.v1.admin import admin_routes
     app.include_router(
         admin_routes,
         prefix="/admin",

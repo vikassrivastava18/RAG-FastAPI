@@ -28,7 +28,7 @@ templates = Jinja2Templates(directory="frontend")
 
 def verify_login():
     """Dependency to verify login status"""
-    from api.auth import logged_in
+    from api.v1.auth import logged_in
     if not logged_in:
         logger.warning("Unauthorized access attempt - user not logged in")
         raise HTTPException(
