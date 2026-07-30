@@ -1,10 +1,10 @@
 <template>
     <div>
         <div class="container px-4">
-            <i class="py-4"><b>
+            <i class="py-4">
             <label for="askInput" class="control-label p-2 py-4">
-                Start a dialogue on any topic!
-            </label></b>
+                <b>Start a dialogue on any topic!</b>
+            </label>
         </i>
             
             <div class="d-flex justify-content-start">

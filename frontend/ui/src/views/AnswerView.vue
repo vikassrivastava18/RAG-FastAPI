@@ -1,11 +1,11 @@
 <template>
     <div>
         <div class="container px-4">
-            <i class="py-4"><b>
+            <i class="py-4">
             <label for="askLabel" class="control-label p-2 py-4"
             id="askLabel">
-                Answer subjective questions on a topic!
-            </label></b>
+                <b>Answer subjective questions on a topic!</b>
+            </label>
         </i>
             <div class="d-flex justify-content-start">
                 <div class="col-xs-3">

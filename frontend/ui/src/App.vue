@@ -23,7 +23,7 @@ import NavComponent from './components/NavComponent.vue';
 
 </script>
 
-<style>
+<style scoped>
 #mainContent {
     background: white;
     border: 1px dotted #dfdfdf;
@@ -51,4 +51,5 @@ h2, h3, h4 {
     background-repeat: no-repeat;
     background-position: top;
 }
+
 </style>

@@ -1,18 +1,17 @@
 <template>
     <nav class="p-2 navbar">
         <div class="d-flex justify-content-end">
+            <router-link to="/ask" class="nav-link text_white px-4 py-1 me-4">
+                ASK
+            </router-link>
 
-                <router-link to="/ask" class="btn btn-light btn-outline-dark px-4 rounded-pill me-4">
-                    Ask
-                </router-link>
-               
-                <router-link to="/dialogue" class="btn btn-light btn-outline-dark px-4 rounded-pill me-4 ms-2">
-                    Dialogue
-                </router-link>
+            <router-link to="/dialogue" class="nav-link text_white px-4 py-1 me-4 ms-2">
+                DIALOGUE
+            </router-link>
 
-                <router-link to="/answer" class="btn btn-light btn-outline-dark px-4 rounded-pill me-4 ms-2">
-                    Answer
-                </router-link>
+            <router-link to="/answer" class="nav-link text_white px-4 py-1 me-4 ms-2">
+                ANSWER
+            </router-link>
         </div>
     </nav>
 </template>
@@ -23,13 +22,33 @@ nav {
     border-radius: 5px;
     background: linear-gradient(90deg, #7badd9 0%, #5e98cb 50%, #3f82bd 100%);
 }
+
 .nav-link {
     margin-right: 10px;
-}
-.router-link-exact-active {
+    font-size: large;
     color: #fff;
+}
+
+.router-link-exact-active, .router-link-active {
     font-weight: bold;
-    background-color: #000;
+    background-color: rgb(146 220 146);
     border: none;
+    border-radius: 15px;
+}
+
+.text_white {
+    color: white;
+}
+
+
+:deep(.router-link-active) {
+    color: #fff;
+}
+
+:deep(a:active) {
+    color: #fff;
+}
+.navbar {
+    color: #fff;
 }
 </style>

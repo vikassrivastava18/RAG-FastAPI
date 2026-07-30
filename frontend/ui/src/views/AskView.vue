@@ -1,10 +1,10 @@
 <template>
 
     <div class="container">
-        <i class="py-4"><b>
+        <i class="py-4">
             <label for="askInput" class="form-label p-2 py-4">
-                Ask me anything from Wistech Open books!
-            </label></b>
+                <b>Ask me anything from Wistech Open books!</b>
+            </label>
         </i>
         <input class="form-control py-2 my-2" id="askInput" 
             v-model="userInput" placeholder="Type your question and press enter"
