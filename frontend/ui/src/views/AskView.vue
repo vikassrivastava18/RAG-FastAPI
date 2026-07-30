@@ -7,7 +7,7 @@
             </label>
         </i>
         <input class="form-control py-2 my-2" id="askInput" 
-            v-model="userInput" placeholder="Enter your query here..."
+            v-model="userInput" placeholder="Type your question and press enter"
             @keyup.enter="answerUserQuery">
         <div v-if="aiLoading" 
             class="d-flex justify-content-center mt-4">

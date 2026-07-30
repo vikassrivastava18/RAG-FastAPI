@@ -22,17 +22,15 @@
         </span>
 
         <!-- Main Heading -->
-        <h2 class="display-5 fw-bold text-dark mt-2 mb-4">
-          About WisTech Open
-        </h2>
+        <h4 class="display-5 fw-bold text-dark mt-2 mb-4">
+          About WisTechfusion (V2)
+        </h4>
 
         <!-- Paragraph -->
         <p class="text-secondary fs-5 lh-lg mb-4">
-          The story of WisTech Open begins with an idea: that high-quality
-          learning should be free and accessible to everyone. In 2019,
-          Chippewa Valley Technical College launched Open RN (Open Resources
-          for Nursing) with support from a U.S. Department of Education Open
-          Textbooks Pilot Grant.
+          WisTechfusion is an AI application created to help students in their study. 
+          The digital books made available through WistechOpen have been integrated and students can 
+          clear their doubts, have dialogue and learn through quizzes through this platform.
         </p>
 
       </div>

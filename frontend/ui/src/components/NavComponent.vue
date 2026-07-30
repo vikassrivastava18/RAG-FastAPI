@@ -10,7 +10,9 @@
                     Dialogue
                 </router-link>
 
-             
+                <router-link to="/answer" class="btn btn-light btn-outline-dark px-4 rounded-pill me-4 ms-2">
+                    Answer
+                </router-link>
         </div>
     </nav>
 </template>
@@ -24,5 +26,9 @@ nav {
 .nav-link {
     margin-right: 10px;
 }
-
+.router-link-exact-active {
+    color: #fff;
+    font-weight: bold;
+    background-color: #000;
+}
 </style>

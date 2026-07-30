@@ -11,7 +11,7 @@ const routes = [
   { path: '/', component: HomeView },
   { path: '/ask', component: () => import('./views/AskView.vue')},
   { path: '/quiz', component: () => import('./views/QuizView.vue')},
-  // { path: '/answer', component: () => import('./views/AnswerView.vue')},
+  { path: '/answer', component: () => import('./views/AnswerView.vue')},
   { path: '/dialogue', component: () => import('./views/DialogueView.vue')}
 ]
 

@@ -3,7 +3,7 @@
         <div class="container px-4">
             <i class="py-4">
             <label for="askInput" class="control-label p-2 py-4">
-                Start a dialogue to learn on any topic!
+                Start a dialogue on any topic!
             </label>
         </i>
             
