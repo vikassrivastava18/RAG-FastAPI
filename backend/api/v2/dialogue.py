@@ -1,8 +1,9 @@
+from fastapi import  Depends, APIRouter
+from fastapi.encoders import jsonable_encoder
+
 from langgraph.types import Command
 from utils.agent.graph import Graph
 from utils.utils import get_uuid_string
-from fastapi import  Depends, APIRouter
-from fastapi.encoders import jsonable_encoder
 
 from core.config import Session, get_db
 from core.db.models import Chapter
@@ -53,7 +54,6 @@ def start_dialogue(request: ChapterInputRequest, db: Session = Depends(get_db)):
 def review_response(request: AnswerSchema):
     session_id = request.session_id
     user_answer = request.answer
-    print(session_id, user_answer)
     config = {"configurable": {"thread_id": session_id}}
     graph = Graph.build_graph()
 

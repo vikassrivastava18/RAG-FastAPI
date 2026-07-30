@@ -30,7 +30,7 @@
         <p class="text-secondary fs-5 lh-lg mb-4">
           WisTechfusion is an AI application created to help students in their study. 
           The digital books made available through WistechOpen have been integrated and students can 
-          clear their doubts, have dialogue and learn through quizzes through this platform.
+          clear their doubts, have dialogue and learn from quizzes through this platform.
         </p>
 
       </div>
@@ -127,6 +127,13 @@ async function getChapters(bookId) {
   .object-fit-cover {
     object-fit: cover;
     max-height: 650px;
+  }
+
+  section {
+    background-image: linear-gradient(#f8f8f8, #f8f8f8de), url('@/assets/Blue_Flames.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: top;
   }
 
 </style>

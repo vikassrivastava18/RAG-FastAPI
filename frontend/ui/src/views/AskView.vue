@@ -1,10 +1,10 @@
 <template>
 
     <div class="container">
-        <i class="py-4">
+        <i class="py-4"><b>
             <label for="askInput" class="control-label p-2 py-4">
                 Ask me anything from Wistech Open books!
-            </label>
+            </label></b>
         </i>
         <input class="form-control py-2 my-2" id="askInput" 
             v-model="userInput" placeholder="Type your question and press enter"
@@ -47,6 +47,6 @@ async function answerUserQuery() {
 <style>
 #askInput {
     border: 1px solid lightgray;
-    max-width: 75vw;
+    /* max-width: 75vw; */
 }
 </style>

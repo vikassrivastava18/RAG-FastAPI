@@ -27,8 +27,9 @@ nav {
     margin-right: 10px;
 }
 .router-link-exact-active {
-    color: #fff;
+    color: navy;
     font-weight: bold;
-    background-color: #000;
+    background-color: #fff;
+    border: none;
 }
 </style>
