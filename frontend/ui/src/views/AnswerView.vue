@@ -2,13 +2,14 @@
     <div>
         <div class="container px-4">
             <i class="py-4"><b>
-            <label for="askInput" class="control-label p-2 py-4">
+            <label for="askLabel" class="control-label p-2 py-4"
+            id="askLabel">
                 Answer subjective questions on a topic!
             </label></b>
         </i>
             <div class="d-flex justify-content-start">
                 <div class="col-xs-3">
-                    <label for="bookSelect" class="control-label">Select a book</label>
+                    <label for="bookSelect" class="form-label">Select a book</label>
                     <select name="bookSelect" id="bookSelect" 
                         v-model="selectedBook" class="form-select">
                         <option :key="0" :value="0">------</option>
@@ -18,7 +19,7 @@
                     </select>
                 </div>
                 <div class="col-xs-3 ms-4">
-                    <label for="chapterSelect" class="control-label">Select a Chapter</label>
+                    <label for="chapterSelect" class="form-label">Select a Chapter</label>
                     <select name="chapterSelect" id="chapterSelect" 
                         v-model="selectedChapter" class="form-select">
                         <option :key="0" :value="0">------</option>
@@ -180,4 +181,5 @@ async function reviewAnswer() {
 #chapterSelect {
     min-width: 20vw;
 }
+
 </style>

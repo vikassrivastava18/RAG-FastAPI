@@ -11,7 +11,7 @@ from core.db.schemas import (
     ChapterInputRequest
 )
 
-from core.llm.generate import (
+from utils.llm.generate import (
     create_questions,
     evaluate,    
 )
@@ -46,7 +46,6 @@ def generate_question(request: ChapterInputRequest, db: Session = Depends(get_db
         content.append({"url": subtopic.source, "content": subtopic.content})
 
     llm_questions = create_questions(content)
-
     json_data = {
         "topic": llm_questions.questions[0].topic,
         "questions": jsonable_encoder(llm_questions.questions),
@@ -77,7 +76,6 @@ def generate_dialogue(request: AnswerSchema, db: Session = Depends(get_db)):
     """
     # 1
     session_id = request.session_id
-    print(session_id)
     dialogue = db.query(Dialogue).filter(Dialogue.session_id == session_id).first()
     data = dialogue.dialogue
     index = data.get("index")

@@ -2,7 +2,7 @@
 
     <div class="container">
         <i class="py-4"><b>
-            <label for="askInput" class="control-label p-2 py-4">
+            <label for="askInput" class="form-label p-2 py-4">
                 Ask me anything from Wistech Open books!
             </label></b>
         </i>

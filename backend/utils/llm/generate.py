@@ -7,12 +7,11 @@ from typing import (Optional,
 from fastapi import HTTPException
 
 from core.config import llm2, logger
+from utils.llm.vector import faiss_db
 from core.db.schemas import (ChapterContentRequest, 
                              QueryResponse, 
                              QuestionsSchema, 
                              QuizResponse)
-from core.llm.vector import faiss_db
-
 
 # For Quiz Generation 
 async def generate_llm_response_quiz(content, question_type, language, 
@@ -367,7 +366,6 @@ def generate_worksheet(context, question_type, language, number_of_question:Opti
         QuestionType.true_false → Generate True/False questions.
         QuestionType.short_question_answer → Generate concise short-answer questions.
         - Do not write multiple N/A  for eassy question answer just give one line statement in anwser for all  long question. Instead provide reason of not providing answer .
-    
         """
 
     try:
@@ -377,8 +375,6 @@ def generate_worksheet(context, question_type, language, number_of_question:Opti
         ]
         response = llm2.invoke(messages)
         response_content = response.content.strip()
-
-        print("WORKSHEET: ",response_content)
 
         if not response_content:
             raise ValueError("Empty response received from the AI model.")
@@ -415,7 +411,6 @@ def process_llm_response(pdf_text: str):
     Ensure the output is **ONLY valid JSON**:
       
     """
-
     try:
         messages = [
             ("system", "You are a helpful assistant that processes PDFs and extracts structured information."),
@@ -424,8 +419,6 @@ def process_llm_response(pdf_text: str):
 
         response = llm2.invoke(messages)
         response_content = response.content.strip()
-        print("lm response ------->", response_content)
-
         # Ensure valid JSON response
 
         response_content = response_content.replace("```json", "").replace("```", "").strip()

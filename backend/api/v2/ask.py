@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from core.db.schemas import UserQuery
-from core.llm.generate import answer_query_util
+from utils.llm.generate import answer_query_util
 
 ask_routes = APIRouter()
 

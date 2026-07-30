@@ -9,7 +9,7 @@
             
             <div class="d-flex justify-content-start">
                 <div class="col-xs-3">
-                    <label for="bookSelect" class="control-label">
+                    <label for="bookSelect" class="form-label">
                         Select a book</label>
                     <select name="bookSelect" id="bookSelect" 
                         v-model="selectedBook" class="form-select">
@@ -20,7 +20,7 @@
                     </select>
                 </div>
                 <div class="col-xs-3 ms-4">
-                    <label for="chapterSelect" class="control-label">
+                    <label for="chapterSelect" class="form-label">
                         Select a Chapter</label>
                     <select name="chapterSelect" id="chapterSelect" 
                         v-model="selectedChapter" class="form-select">

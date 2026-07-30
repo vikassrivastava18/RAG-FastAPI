@@ -16,13 +16,8 @@
       <!-- Content Column -->
       <div class="col-lg-6">
 
-        <!-- Small Heading -->
-        <span class="text-uppercase fw-semibold text-primary small letter-spacing">
-          Our Story
-        </span>
-
         <!-- Main Heading -->
-        <h4 class="display-5 fw-bold text-dark mt-2 mb-4">
+        <h4 class="display-6 fw-bold text-dark mt-2 mb-4">
           About WisTechfusion (V2)
         </h4>
 
@@ -30,7 +25,7 @@
         <p class="text-secondary fs-5 lh-lg mb-4">
           WisTechfusion is an AI application created to help students in their study. 
           The digital books made available through WistechOpen have been integrated and students can 
-          clear their doubts, have dialogue and learn from quizzes through this platform.
+          clear their doubts, have dialogues with an AI agent and learn from quizzes through this platform.
         </p>
 
       </div>

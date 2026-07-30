@@ -14,7 +14,7 @@ from core.db.schemas import (
     UserQuery,
 )
 
-from core.llm.generate import (
+from utils.llm.generate import (
     chapter_summary,
     create_questions,
     create_quizzes,
