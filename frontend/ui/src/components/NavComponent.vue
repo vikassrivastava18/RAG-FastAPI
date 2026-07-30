@@ -2,15 +2,15 @@
     <nav class="p-2 navbar">
         <div class="d-flex justify-content-end">
             <router-link to="/ask" class="nav-link text_white px-4 py-1 me-4">
-                ASK
+                Ask
             </router-link>
 
             <router-link to="/dialogue" class="nav-link text_white px-4 py-1 me-4 ms-2">
-                DIALOGUE
+                Dialogue
             </router-link>
 
             <router-link to="/answer" class="nav-link text_white px-4 py-1 me-4 ms-2">
-                ANSWER
+                Answer
             </router-link>
         </div>
     </nav>

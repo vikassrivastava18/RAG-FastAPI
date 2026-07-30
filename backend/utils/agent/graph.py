@@ -2,17 +2,14 @@ from dotenv import load_dotenv
 
 from typing import Literal
 from pydantic import BaseModel
-from langchain_core.messages import (AIMessage,
-                                     HumanMessage,
-                                     SystemMessage)
+from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
-from langgraph.graph import StateGraph, END
+from langgraph.graph import StateGraph, END, MessagesState
 from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.types import interrupt
 
 from core.config import llm
 from utils.agent.schemas import DialogueState, QuizSchema
-
 
 load_dotenv(override=True)
 checkpointer = InMemorySaver()
@@ -20,6 +17,7 @@ checkpointer = InMemorySaver()
 
 class IntentSchema(BaseModel):
     intent: Literal["hint", "clear"]
+
 
 class Graph:
     @staticmethod
@@ -57,24 +55,24 @@ class Graph:
         """
         summary = llm.invoke(concept_prompt).content
 
-        state["dialogues"][state["index"]]["messages"].append(AIMessage(content=summary))
+        state["dialogues"][state["index"]]["messages"].append(
+            AIMessage(content=summary)
+        )
         return state
 
     @staticmethod
     def get_user_reply(state: DialogueState) -> DialogueState:
         summary = state["dialogues"][state["index"]]["messages"][-1].content
-        user_reply = interrupt(
-            f"{summary}"
+        user_reply = interrupt(f"{summary}")
+        state["dialogues"][state["index"]]["messages"].append(
+            HumanMessage(content=user_reply)
         )
-        state["dialogues"][state["index"]]["messages"].append(HumanMessage(content=user_reply))
         return state
 
     @staticmethod
     def reply_intent(state: DialogueState) -> Literal["hint", "clear"]:
 
-        user_reply = (
-            state["dialogues"][state["index"]]["messages"][-1].content
-        )
+        user_reply = state["dialogues"][state["index"]]["messages"][-1].content
 
         intent_prompt = f"""
         Look at the user's latest reply and determine the intent.
@@ -102,7 +100,9 @@ class Graph:
         messages = [system_message] + state["dialogues"][state["index"]]["messages"]
 
         response = llm.invoke(messages).content
-        state["dialogues"][state["index"]]["messages"].append(AIMessage(content=response))
+        state["dialogues"][state["index"]]["messages"].append(
+            AIMessage(content=response)
+        )
 
         return state
 
@@ -131,9 +131,7 @@ class Graph:
     def quiz_response(state: DialogueState) -> DialogueState:
         quizzes = state["dialogues"][state["index"]]["quizzes"]
         # Get user's reply to quiz
-        user_reply = interrupt(
-            f"{quizzes}"
-        )
+        user_reply = interrupt(f"{quizzes}")
         return state
 
     @staticmethod
@@ -151,19 +149,13 @@ class Graph:
         builder.add_conditional_edges(
             "set_topic_index",
             Graph.remaining,
-            {
-                "remaining": "concept_summary",
-                "complete": END
-            }
+            {"remaining": "concept_summary", "complete": END},
         )
         builder.add_edge("concept_summary", "get_user_reply")
         builder.add_conditional_edges(
             "get_user_reply",
             Graph.reply_intent,
-            {
-                "hint": "clarify_doubt",
-                "clear": "prepare_quiz"
-            }
+            {"hint": "clarify_doubt", "clear": "prepare_quiz"},
         )
         builder.add_edge("clarify_doubt", "get_user_reply")
         builder.add_edge("prepare_quiz", "quiz_response")
@@ -171,3 +163,198 @@ class Graph:
 
         return builder.compile(checkpointer)
 
+
+topics = [
+    {
+        "topic": "Small Business Defined",
+        "notes": f"""Small businesses are often the starting point for entrepreneurs as they develop their ideas and build a customer base. 
+    The Small Business Administration (SBA) defines a small business as a for-profit entity with fewer than 500 employees. This definition makes
+    these businesses eligible for various government programs and preferences. Small businesses play a crucial role in our economy and communities.""",
+    },
+    {
+        "topic": "Small Business Impact",
+        "notes": f"""There are over 33.2 million small businesses in the United States, making up 99.9% of all firms. From 1995 to 2021, small businesses created 
+    17.3 million net new jobs, significantly more than large businesses. Despite challenges like the COVID-19 recession, small businesses rebounded quickly,
+    demonstrating their resilience and importance to economic recovery. They contribute to local economies by reinvesting paychecks and taxes, supporting 
+    new businesses, and improving
+    public services. On average, small businesses offer competitive wages, averaging $30.42 per hour, translating to an annual income of $63,000.""",
+    },
+    {
+        "topic": "Small Business Demographics",
+        "notes": f"""43.4% of small businesses are owned by females, reflecting progress toward gender equality in entrepreneurship.
+    20.4% are owned by racial minorities, including 14.5% by Hispanics.
+    6.1% are owned by veterans, contributing diverse perspectives to the U.S. economy.
+    Hispanic-owned businesses, for example, pay over $100 billion annually in payroll to their 1 million workers.""",
+    },
+]
+
+
+class TopicState(MessagesState):
+    topic: str
+    notes: str
+    question: str
+    reply: str
+    hint_taken: bool
+
+
+class AnswerState(MessagesState):
+    index: int
+    max_ind: int
+    topic: TopicState
+    topics: list
+
+
+class EvalSchema(BaseModel):
+    evaluation: Literal["satisfactory", "unsatisfactory", "hint"]
+    comment: str
+
+
+class AnswerGraph:
+
+    @staticmethod
+    def initialize_graph(state: AnswerState) -> AnswerState:
+        state["topics"] = topics
+        state["max_ind"] = len(topics)
+        state["index"] = -1
+        return state
+
+    @staticmethod
+    def set_index(state: AnswerState) -> AnswerState:
+        state["index"] += 1
+        return state
+
+    @staticmethod
+    def check_termination(state: AnswerState) -> Literal["continue", "terminate"]:
+        return "terminate" if state["index"] >= state["max_ind"] else "continue"
+
+    @staticmethod
+    def set_question(state: AnswerState) -> AnswerState:
+        question_topic = state["topics"][state["index"]]
+        topic, notes, hint_taken = (
+            question_topic["topic"],
+            question_topic["notes"],
+            False,
+        )
+
+        question_prompt = f"""
+        You are an examiner whose job is to prepare a conceptual question (subjective) on a topic using the notes provided to you.
+        Topic: {topic}
+        Notes: {notes}
+        Keep the question simple, just to test a basic understanding. Do not provide the answer.
+        """
+        question = llm.invoke(question_prompt).content
+
+        state["topic"] = {
+            "topic": topic,
+            "notes": notes,
+            "question": question,
+            "hint_taken": hint_taken,
+            "reply": "",
+            "messages": [],
+        }
+        return state
+
+    @staticmethod
+    def get_student_answer(state: AnswerState) -> AnswerState:
+        user_reply = interrupt(f"{state["topic"]["question"]}")
+        state["topic"]["reply"] = user_reply
+        return state
+
+    @staticmethod
+    def evaluate(
+        state: AnswerState,
+    ) -> Literal["hint", "satisfactory", "unsatisfactory"]:
+        """
+        Evaluate the user reply, using LLM.
+        Returns correct, retry or limits reached outputs
+        """
+        if not state["topic"]["hint_taken"]:
+            ai_prompt = f"""
+                You have to analyze the user's reply to a question to check the understanding of a concept and tell whether
+                it is acceptable using notes provided to you. 
+                Return: satisfactory or unsatisfactory, along with some comment on the users answer. 
+                If not satisfactory, give hint in the comment
+                without giving complete answer.
+                Keep user as the first person and address the answer to user only.
+                Question: {state["topic"]["question"]}
+                Notes: {state["topic"]["notes"]}
+                User's reply: {state["topic"]["reply"]}
+            """
+        else:
+            ai_prompt = f"""
+                You have to analyze the user's reply to a question to check the understanding of a concept and tell whether
+                it is acceptable using notes provided to you. 
+                Return: satisfactory or unsatisfactory, along with some comment on the users answer. 
+                If not satisfactory, give answer using notes.
+                Keep user as the first person and address the answer to user only.
+                
+                Question: {state["topic"]["question"]}
+                Notes: {state["topic"]["notes"]}
+                User's reply: {state["topic"]["reply"]}
+            """
+
+        llm_s = llm.with_structured_output(EvalSchema)
+        evaluation = llm_s.invoke(ai_prompt)
+        state["topic"]["messages"].append(AIMessage(content=evaluation.comment))
+
+        if evaluation.evaluation == "satisfactory":
+            return "satisfactory"
+        else:
+            if not state["topic"]["hint_taken"]:
+                return "hint"
+            else:
+                return "unsatisfactory"
+
+    @staticmethod
+    def satisfactory(state: AnswerState) -> AnswerState:
+        user_reply = interrupt(f"{state["topic"]["messages"][-1].content}")
+        return state
+
+    @staticmethod
+    def hint(state: AnswerState) -> AnswerState:
+        user_reply = interrupt(f"{state["topic"]["messages"][-1].content}")
+        state["topic"]["hint_taken"] = True
+        return state
+
+    @staticmethod
+    def unsatisfactory(state: AnswerState) -> AnswerState:
+        user_reply = interrupt(f"{state["topic"]["messages"][-1].content}")
+        return state
+
+    @staticmethod
+    def build_graph():
+
+        builder = StateGraph(DialogueState)
+
+        builder.add_node("initialize_graph", AnswerGraph.initialize_graph)
+        builder.add_node("set_index", AnswerGraph.set_index)
+        builder.add_node("set_question", AnswerGraph.set_question)
+        builder.add_node("get_student_answer", AnswerGraph.get_student_answer)
+        builder.add_node("satisfactory", AnswerGraph.satisfactory)
+        builder.add_node("hint", AnswerGraph.hint)
+        builder.add_node("unsatisfactory", AnswerGraph.unsatisfactory)
+
+        builder.set_entry_point("initialize_graph")
+
+        builder.add_conditional_edges(
+            "set_index",
+            AnswerGraph.check_termination,
+            {
+                "terminate": END,
+                "continue": "set_question",
+            },
+        )
+        builder.add_conditional_edges(
+            "get_student_answer",
+            AnswerGraph.evaluate,
+            {
+                "satisfactory": "satisfactory",
+                "unsatisfactory": "unsatisfactory",
+                "hint": "hint",
+            },
+        )
+        builder.add_edge("initialize_graph", "set_index")
+        builder.add_edge("set_question", "get_student_answer")
+        builder.add_edge("satisfactory", "set_index")
+        builder.add_edge("unsatisfactory", "set_index")
+        builder.add_edge("hint", "get_student_answer")
