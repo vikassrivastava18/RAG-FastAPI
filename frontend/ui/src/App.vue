@@ -24,32 +24,32 @@ import NavComponent from './components/NavComponent.vue';
 </script>
 
 <style scoped>
-#mainContent {
-    background: white;
-    border: 1px dotted #dfdfdf;
-    border-radius: 10px;
-    box-shadow: 0 5px 40px rgb(0, 0, 0, 4%);
-    height: 100%; 
-    
-}
+    #mainContent {
+        background: white;
+        border: 1px dotted #dfdfdf;
+        border-radius: 10px;
+        box-shadow: 0 5px 40px rgb(0, 0, 0, 4%);
+        height: 100%; 
+        
+    }
 
-#mainContent {
-    min-height: 100vh;
-}
+    #mainContent {
+        min-height: 100vh;
+    }
 
-h2, h3, h4 {
-    font-weight: 400;
-}
+    h2, h3, h4 {
+        font-weight: 400;
+    }
 
-#routeContent {
-    border: 1px dotted #4d4a4a;
-    border-radius: 10px;
-    min-height: 80vh;
-    background-color: #fff;
-    background-image: linear-gradient(#f8f8f8, #f8f8f8de), url('@/assets/Blue_Flames.jpg');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: top;
-}
+    #routeContent {
+        border: 1px dotted #4d4a4a;
+        border-radius: 10px;
+        min-height: 80vh;
+        background-color: #fff;
+        background-image: linear-gradient(#f8f8f8, #f8f8f8de), url('@/assets/Blue_Flames.jpg');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: top;
+    }
 
 </style>

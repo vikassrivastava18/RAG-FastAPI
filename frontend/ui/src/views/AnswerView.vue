@@ -12,7 +12,7 @@
                     <label for="bookSelect" class="form-label">Select a book</label>
                     <select name="bookSelect" id="bookSelect" 
                         v-model="selectedBook" class="form-select">
-                        <option :key="0" :value="0">------</option>
+                        <option :key="0" :value="0">Open the select menu</option>
                         <option v-for="book of books" :key="book.id" 
                         :value="book.id" class="form-control">{{ book.name }}
                         </option>
@@ -22,7 +22,7 @@
                     <label for="chapterSelect" class="form-label">Select a Chapter</label>
                     <select name="chapterSelect" id="chapterSelect" 
                         v-model="selectedChapter" class="form-select">
-                        <option :key="0" :value="0">------</option>
+                        <option :key="0" :value="0">Open the select menu</option>
                         <option v-for="chapter of bookChapters" :key="chapter.id" :value="chapter.id">
                             {{ chapter.chapter_name }}
                         </option>

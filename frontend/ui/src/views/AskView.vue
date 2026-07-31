@@ -6,11 +6,25 @@
                 <b>Ask me anything from Wistech Open books!</b>
             </label>
         </i>
-        <input class="form-control py-2 my-2" id="askInput" 
-            v-model="userInput" placeholder="Type your question and press enter"
-            @keyup.enter="answerUserQuery">
-        <div v-if="aiLoading" 
-            class="d-flex justify-content-center mt-4">
+        <div class="col-md-6">
+            <div class="input-group mb-3">
+                    
+                        <input type="text" 
+                        v-model="userInput"
+                        @keyup.enter="answerUserQuery"
+                        class="form-control" 
+                        placeholder="What do you want to learn today?" 
+                        aria-label="Recipient’s username"
+                        aria-describedby="button-addon2">
+                        <button class="btn btn-outline-success" 
+                            @click="answerUserQuery"
+                            type="button" id="button-addon2">Submit
+                        </button>
+            </div>
+        </div>            
+            
+
+        <div v-if="aiLoading" class="d-flex justify-content-center mt-4">
             <div class="spinner-grow text-primary" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
@@ -36,7 +50,7 @@ const aiLoading = ref(false)
 async function answerUserQuery() {
     aiLoading.value = true
     const res = await proxy.$axios.post(queryUrl, { "query": userInput.value })
-    aiLoading.value = false    
+    aiLoading.value = false
     queryAnswer.value = `<h4>AI Response</h4> ${res.data}  ${queryAnswer.value} <br><br>`
     queryAnswer.value = `<h4>Question</h4>${userInput.value} ${queryAnswer.value} <br><br>`
     userInput.value = "";

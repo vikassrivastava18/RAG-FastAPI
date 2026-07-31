@@ -24,10 +24,10 @@
         <!-- Paragraph -->
         <p class="text-secondary fs-5 lh-lg mb-4">
           WisTechfusion is an AI application created to help students in their study. 
-          The digital books made available through WistechOpen have been integrated and students can 
-          clear their doubts, have dialogues with an AI agent and learn from quizzes through this platform.
+          The digital books made available through WistechOpen have been integrated in the application. Students can 
+          ask questions through chat, start a dialogue with AI agent on topics, learn from quizzes
+          and prepare by answering AI generated questions.
         </p>
-
       </div>
     </div>
   </div>

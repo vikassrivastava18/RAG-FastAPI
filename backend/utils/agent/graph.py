@@ -256,7 +256,10 @@ class AnswerGraph:
 
     @staticmethod
     def get_student_answer(state: AnswerState) -> AnswerState:
-        user_reply = interrupt(f"{state["topic"]["question"]}")
+        if state["topic"]["hint_taken"]:
+            user_reply = interrupt(f"{state["topic"]["messages"][-1].content}")
+        else:
+            user_reply = interrupt(f"{state["topic"]["question"]}")
         state["topic"]["reply"] = user_reply
         return state
 
@@ -311,8 +314,7 @@ class AnswerGraph:
         return state
 
     @staticmethod
-    def hint(state: AnswerState) -> AnswerState:
-        user_reply = interrupt(f"{state["topic"]["messages"][-1].content}")
+    def hint(state: AnswerState) -> AnswerState:        
         state["topic"]["hint_taken"] = True
         return state
 
@@ -358,3 +360,5 @@ class AnswerGraph:
         builder.add_edge("satisfactory", "set_index")
         builder.add_edge("unsatisfactory", "set_index")
         builder.add_edge("hint", "get_student_answer")
+
+        return builder.compile(checkpointer)

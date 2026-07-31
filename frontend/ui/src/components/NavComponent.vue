@@ -1,15 +1,15 @@
 <template>
     <nav class="p-2 navbar">
         <div class="d-flex justify-content-end">
-            <router-link to="/ask" class="nav-link text_white px-4 py-1 me-4">
-                Ask
+            <router-link to="/ask" class="nav-link text_white px-4 py-1 me-2">
+              Ask
             </router-link>
 
-            <router-link to="/dialogue" class="nav-link text_white px-4 py-1 me-4 ms-2">
+            <router-link to="/dialogue" class="nav-link text_white px-4 py-1 me-2">
                 Dialogue
             </router-link>
 
-            <router-link to="/answer" class="nav-link text_white px-4 py-1 me-4 ms-2">
+            <router-link to="/answer" class="nav-link text_white px-4 py-1">
                 Answer
             </router-link>
         </div>
@@ -33,7 +33,7 @@ nav {
     font-weight: bold;
     background-color: rgb(146 220 146);
     border: none;
-    border-radius: 15px;
+    /* border-radius: 15px; */
 }
 
 .text_white {
