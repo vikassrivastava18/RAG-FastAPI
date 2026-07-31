@@ -23,16 +23,17 @@ def start_dialogue(request: ChapterInputRequest, db: Session = Depends(get_db)):
 
         topics = [
             {"notes": subtopic.content, 
-            "question": "", 
-            "reply": "", 
-            "hint_taken": False}
+             "topic": subtopic.subtopic_name,
+            }
             for subtopic in chapter.subtopics[:3]
         ]
-
         graph = AnswerGraph.build_graph()
         random_id = str(uuid.uuid4())
         config = {"configurable": {"thread_id": random_id}}
-        dialogues = {"topics": topics, "topic": {}}
+        dialogues = {"topics": topics, 
+                     "topic": {}, 
+                     "index": -1,
+                     "max_ind": len(topics)}
         result = graph.stream(dialogues, config)
 
         for chunk in result:

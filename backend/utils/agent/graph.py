@@ -168,16 +168,16 @@ topics = [
     {
         "topic": "Small Business Defined",
         "notes": f"""Small businesses are often the starting point for entrepreneurs as they develop their ideas and build a customer base. 
-    The Small Business Administration (SBA) defines a small business as a for-profit entity with fewer than 500 employees. This definition makes
-    these businesses eligible for various government programs and preferences. Small businesses play a crucial role in our economy and communities.""",
+        The Small Business Administration (SBA) defines a small business as a for-profit entity with fewer than 500 employees. This definition makes
+        these businesses eligible for various government programs and preferences. Small businesses play a crucial role in our economy and communities.""",
     },
     {
         "topic": "Small Business Impact",
         "notes": f"""There are over 33.2 million small businesses in the United States, making up 99.9% of all firms. From 1995 to 2021, small businesses created 
-    17.3 million net new jobs, significantly more than large businesses. Despite challenges like the COVID-19 recession, small businesses rebounded quickly,
-    demonstrating their resilience and importance to economic recovery. They contribute to local economies by reinvesting paychecks and taxes, supporting 
-    new businesses, and improving
-    public services. On average, small businesses offer competitive wages, averaging $30.42 per hour, translating to an annual income of $63,000.""",
+        17.3 million net new jobs, significantly more than large businesses. Despite challenges like the COVID-19 recession, small businesses rebounded quickly,
+        demonstrating their resilience and importance to economic recovery. They contribute to local economies by reinvesting paychecks and taxes, supporting 
+        new businesses, and improving
+        public services. On average, small businesses offer competitive wages, averaging $30.42 per hour, translating to an annual income of $63,000.""",
     },
     {
         "topic": "Small Business Demographics",
@@ -200,7 +200,7 @@ class TopicState(MessagesState):
 class AnswerState(MessagesState):
     index: int
     max_ind: int
-    topic: TopicState
+    topic: dict
     topics: list
 
 
@@ -213,9 +213,7 @@ class AnswerGraph:
 
     @staticmethod
     def initialize_graph(state: AnswerState) -> AnswerState:
-        state["topics"] = topics
-        state["max_ind"] = len(topics)
-        state["index"] = -1
+        print("state", state)
         return state
 
     @staticmethod
@@ -241,6 +239,7 @@ class AnswerGraph:
         Topic: {topic}
         Notes: {notes}
         Keep the question simple, just to test a basic understanding. Do not provide the answer.
+        Output format (Follow format strictly!!): Place the text within markup tags like <p>, highlight keywords with <b> tag, etc.
         """
         question = llm.invoke(question_prompt).content
 
@@ -282,6 +281,8 @@ class AnswerGraph:
                 Question: {state["topic"]["question"]}
                 Notes: {state["topic"]["notes"]}
                 User's reply: {state["topic"]["reply"]}
+                Output format (Follow format strictly!!): Place the text within markup tags like <p>, highlight keywords with <b> tag, etc.
+                
             """
         else:
             ai_prompt = f"""
@@ -294,6 +295,7 @@ class AnswerGraph:
                 Question: {state["topic"]["question"]}
                 Notes: {state["topic"]["notes"]}
                 User's reply: {state["topic"]["reply"]}
+                Output format (Follow format strictly!!): Place the text within markup tags like <p>, highlight keywords with <b> tag, etc.
             """
 
         llm_s = llm.with_structured_output(EvalSchema)
@@ -326,7 +328,7 @@ class AnswerGraph:
     @staticmethod
     def build_graph():
 
-        builder = StateGraph(DialogueState)
+        builder = StateGraph(AnswerState)
 
         builder.add_node("initialize_graph", AnswerGraph.initialize_graph)
         builder.add_node("set_index", AnswerGraph.set_index)
