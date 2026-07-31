@@ -8,7 +8,7 @@ from langgraph.graph import StateGraph, END, MessagesState
 from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.types import interrupt
 
-from core.config import llm
+from core.config import llm2 as llm
 from utils.agent.schemas import DialogueState, QuizSchema
 
 load_dotenv(override=True)

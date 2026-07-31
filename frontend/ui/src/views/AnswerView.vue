@@ -53,7 +53,7 @@ import { baseUrl } from '../config'
 const instance = getCurrentInstance()
 const proxy = instance && instance.proxy
 const bookChaptersUrl = baseUrl + "/chapter-subtopics/";
-const startDialogueUrl = baseUrl + "/answer/generate-question";
+const startDialogueUrl = baseUrl + "/answer/start-dialogue";
 const answerReviewUrl = baseUrl + "/answer/evaluate-response";
 
 const books = ref([]);
@@ -115,17 +115,21 @@ async function getChapters(bookId) {
 }
 
 async function fetchDialogue(chapterId) {
-    const res = await proxy.$axios.post(startDialogueUrl,
-        { "chapter_id": chapterId })
-    dialogue.value = res.data.dialogue
+    try {
+        const res = await proxy.$axios.post(startDialogueUrl, { "chapter_id": chapterId })
+        dialogue.value = res.data
 
-    message.value = `🚀<b>Welcome</b>, we will be learning some importance concepts related to the chapter, 
-                starting with the  topic <b>${dialogue.value["questions"][0]["topic"]} </b>` + `<br> <br>` +
-        `${dialogue.value["questions"][0]["question"]}`
-
-    aiLoading.value = false;
-    inputDisabled.value = false;
-}
+        message.value = `🚀<b>Welcome</b>, <p>${dialogue.value.question}</p>`
+        aiLoading.value = false;
+        inputDisabled.value = false;
+    } catch(e) {
+        console.log(`Error: ${e}`);        
+    } finally {
+        aiLoading.value = false;
+        inputDisabled.value = false;
+    }
+    }
+    
 
 async function reviewAnswer() {
     // prepare a plain JSON payload (strip Vue reactivity)
@@ -133,7 +137,6 @@ async function reviewAnswer() {
     message.value += "<br> <p>" + userInput.value + "</p>"
     const payload = { "answer": userInput.value, "session_id": dialogue.value.session_id }
     // const payload = JSON.parse(JSON.stringify(dialogue.value || {}));
-    // payload.user_answer = userInput.value;
     console.log("Sending evaluate-response payload:", payload);
 
     inputDisabled.value = true
@@ -142,18 +145,13 @@ async function reviewAnswer() {
     try {
         const res = await proxy.$axios.post(answerReviewUrl, payload)
         console.log('Review response:', res.data)
-        const evaluation = res.data.dialogue
-         message.value += "<br> <p>" + evaluation["llm_response"] + "</p>"
+        const evaluation = res.data
+         message.value += "<br> <p>" + evaluation["response"] + "</p>"
 
-        if (evaluation["state"] === "incorrect" || evaluation["state"] === "correct") {           
-            message.value += "<br> <p>" + evaluation["question"] + "</p>"
-        } else if (evaluation["state"] === "END") {           
-            message.value += "<br> <p>" + "Congratulation, you have completed the chapter" + "</p>"
-        }
-
-        userInput.value = "";
-        inputDisabled.value = false
-
+        if (evaluation.complete) {
+            inputDisabled.value = true
+            return
+        }         
     } catch (error) {
         console.error('evaluate-response error:', error)
         if (error.response) {
@@ -164,6 +162,8 @@ async function reviewAnswer() {
             message.value = `<span class="text-danger">Request failed</span>`
         }
     } finally {
+        userInput.value = "";
+        inputDisabled.value = false
         aiLoading.value = false
         inputDisabled.value = false
     }

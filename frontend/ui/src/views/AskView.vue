@@ -9,17 +9,16 @@
         <div class="col-md-6">
             <div class="input-group mb-3">
                     
-                        <input type="text" 
-                        v-model="userInput"
-                        @keyup.enter="answerUserQuery"
-                        class="form-control" 
-                        placeholder="What do you want to learn today?" 
-                        aria-label="Recipient’s username"
-                        aria-describedby="button-addon2">
-                        <button class="btn btn-outline-success" 
-                            @click="answerUserQuery"
-                            type="button" id="button-addon2">Submit
-                        </button>
+                <input type="text" 
+                v-model="userInput"
+                @keyup.enter="answerUserQuery"
+                class="form-control" 
+                aria-label="Recipient’s username"
+                aria-describedby="button-addon2">
+                <button class="btn btn-outline-success" 
+                    @click="answerUserQuery"
+                    type="button" id="button-addon2">Submit
+                </button>
             </div>
         </div>            
             
