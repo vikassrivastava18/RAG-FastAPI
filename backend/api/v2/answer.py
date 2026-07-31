@@ -8,10 +8,7 @@ from core.db.models import Chapter
 from core.db.schemas import AnswerSchema, ChapterInputRequest
 
 from utils.agent.graph import AnswerGraph
-from utils.llm.generate import (
-    create_questions,
-    evaluate,
-)
+
 
 answer_routes = APIRouter()
 
@@ -25,7 +22,7 @@ def start_dialogue(request: ChapterInputRequest, db: Session = Depends(get_db)):
             {"notes": subtopic.content, 
              "topic": subtopic.subtopic_name,
             }
-            for subtopic in chapter.subtopics[:3]
+            for subtopic in chapter.subtopics
         ]
         graph = AnswerGraph.build_graph()
         random_id = str(uuid.uuid4())
