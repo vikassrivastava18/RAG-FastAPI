@@ -249,6 +249,7 @@ class AnswerGraph:
             "question": question,
             "hint_taken": hint_taken,
             "reply": "",
+            "assessment": "",
             "messages": [],
         }
         return state
@@ -263,9 +264,7 @@ class AnswerGraph:
         return state
 
     @staticmethod
-    def evaluate(
-        state: AnswerState,
-    ) -> Literal["hint", "satisfactory", "unsatisfactory"]:
+    def evaluate(state: AnswerState,) -> Literal["hint", "satisfactory", "unsatisfactory"]:
         """
         Evaluate the user reply, using LLM.
         Returns correct, retry or limits reached outputs
@@ -281,8 +280,7 @@ class AnswerGraph:
                 Question: {state["topic"]["question"]}
                 Notes: {state["topic"]["notes"]}
                 User's reply: {state["topic"]["reply"]}
-                Output format (Follow format strictly!!): Place the text within markup tags like <p>, highlight keywords with <b> tag, etc.
-                
+                Output format (Follow format strictly!!): Place the text within markup tags like <p>, highlight keywords with <b> tag, etc.                
             """
         else:
             ai_prompt = f"""
@@ -291,6 +289,7 @@ class AnswerGraph:
                 Return: satisfactory or unsatisfactory, along with some comment on the users answer. 
                 If not satisfactory, give answer using notes.
                 Keep user as the first person and address the answer to user only.
+                Also end the comment with: "<p><b>Continue?<b></p>"
                 
                 Question: {state["topic"]["question"]}
                 Notes: {state["topic"]["notes"]}
@@ -312,16 +311,19 @@ class AnswerGraph:
 
     @staticmethod
     def satisfactory(state: AnswerState) -> AnswerState:
+        state["topic"]["assessment"] = "satisfactory"
         user_reply = interrupt(f"{state["topic"]["messages"][-1].content}")
         return state
 
     @staticmethod
     def hint(state: AnswerState) -> AnswerState:        
         state["topic"]["hint_taken"] = True
+        state["topic"]["assessment"] = "hint"
         return state
 
     @staticmethod
     def unsatisfactory(state: AnswerState) -> AnswerState:
+        state["topic"]["assessment"] = "unsatisfactory"
         user_reply = interrupt(f"{state["topic"]["messages"][-1].content}")
         return state
 

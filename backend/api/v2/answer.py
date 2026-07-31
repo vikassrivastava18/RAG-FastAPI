@@ -70,10 +70,13 @@ def review_response(request: AnswerSchema):
     for chunk in result:
         if "__interrupt__" in chunk:
             response = chunk["__interrupt__"][0].value
+            snapshot = graph.get_state(config).values
+            assessment = snapshot["topic"]["assessment"]
             return {
                 "response": response,
                 "session_id": session_id,
                 "complete": False,
+                "assessment": assessment
             }
 
     return {

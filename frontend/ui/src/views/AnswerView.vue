@@ -130,14 +130,12 @@ async function fetchDialogue(chapterId) {
     }
     }
     
-
 async function reviewAnswer() {
     // prepare a plain JSON payload (strip Vue reactivity)
     dialogue.value["user_answer"] = userInput.value;
-    message.value += "<br> <p>" + userInput.value + "</p>"
+    message.value += "<b>You:</b><br> <p>" + userInput.value + "</p>"
     const payload = { "answer": userInput.value, "session_id": dialogue.value.session_id }
     // const payload = JSON.parse(JSON.stringify(dialogue.value || {}));
-    console.log("Sending evaluate-response payload:", payload);
 
     inputDisabled.value = true
     aiLoading.value = true
@@ -146,7 +144,7 @@ async function reviewAnswer() {
         const res = await proxy.$axios.post(answerReviewUrl, payload)
         console.log('Review response:', res.data)
         const evaluation = res.data
-         message.value += "<br> <p>" + evaluation["response"] + "</p>"
+        message.value += "<b>AI</b> <br> <p>" + evaluation["response"] + "</p>"
 
         if (evaluation.complete) {
             inputDisabled.value = true
