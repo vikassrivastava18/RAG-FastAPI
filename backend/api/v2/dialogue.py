@@ -12,7 +12,7 @@ from core.db.schemas import (
     ChapterInputRequest,
     NextTopicSchema
 )
-
+    
 dialogue_routes = APIRouter()
 
 
@@ -32,7 +32,6 @@ def start_dialogue(request: ChapterInputRequest, db: Session = Depends(get_db)):
         }
         for subtopic in chapter.subtopics
     ]
-    print("Subtopics length: ", len(topics))
 
     graph = Graph.build_graph()
     random_id = get_uuid_string()
@@ -93,7 +92,6 @@ def review_response(request: AnswerSchema):
 @dialogue_routes.post("/next-topic")
 def next_topic(request: NextTopicSchema):
     session_id = request.session_id
-    print("Session ID: ", session_id)
     config = {"configurable": {"thread_id": session_id}}
     graph = Graph.build_graph()
 
