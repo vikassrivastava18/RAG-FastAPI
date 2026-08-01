@@ -50,8 +50,8 @@ async function answerUserQuery() {
     aiLoading.value = true
     const res = await proxy.$axios.post(queryUrl, { "query": userInput.value })
     aiLoading.value = false
-    queryAnswer.value = `<h4>AI Response</h4> ${res.data}  ${queryAnswer.value} <br><br>`
-    queryAnswer.value = `<h4>Question</h4>${userInput.value} ${queryAnswer.value} <br><br>`
+    queryAnswer.value = `<h4>Question</h4>${userInput.value}  <br><br>
+                        <h4>AI Response</h4> ${res.data} <br><br>`
     userInput.value = "";
 }
 

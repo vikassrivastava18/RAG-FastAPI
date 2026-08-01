@@ -31,7 +31,7 @@ nav {
 
 .router-link-exact-active, .router-link-active {
     font-weight: bold;
-    background-color: rgb(146 220 146);
+    background-color: #7ef473;
     border: none;
     /* border-radius: 15px; */
 }

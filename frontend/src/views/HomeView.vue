@@ -9,7 +9,7 @@
         <img
           src="https://cdn.prod.website-files.com/679c2851aa61fe501c78835f/684209eccec40c45cade6906_CVTC%202.avif"
           alt="About WisTech Open"
-          class="rounded-4 shadow-lg w-100 object-fit-cover mt-4"
+          class="rounded-4 shadow-lg w-100 object-fit-cover mt-0"
         />
       </div>
 

@@ -637,7 +637,6 @@ def create_questions(content: ChapterContentRequest):
     return response
 
 
-
 def evaluate(data, hint=True) -> dict:
     """
     Evaluate the user reply, using LLM.
@@ -681,6 +680,7 @@ def evaluate(data, hint=True) -> dict:
 
     response = structured_llm.invoke(messages)
     return response
+
 
 def dummy_evaluate():
     import random
