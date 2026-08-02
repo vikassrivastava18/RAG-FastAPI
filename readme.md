@@ -6,9 +6,11 @@
 - Socratic dialogue style tutor for learning concepts using LangGraph.
 - Ask user concept related question, give hint if the answer is not satifactory.
 
-## LangGraph Workflow Diagram
+## Dialogue Workflow Diagram
 <img src="assets/dialogue_graph.png" alt="LangGraph workflow diagram" width="400"/>
 
+## Answer Workflow Diagram
+<img src="assets/answer.png" alt="LangGraph workflow diagram" width="400"/>
 
 ## Configuration
 Add .env file in the backend directory and add following along with your OpenAI API key
