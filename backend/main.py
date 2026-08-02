@@ -1,18 +1,27 @@
+import os
+import sys
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
+
 from dotenv import load_dotenv
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from core.config import engine, Base
+from core.db.models import (Book, 
+                            Chapter, 
+                            Subtopic, 
+                            User, 
+                            Dialogue)
 
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-origins = [
-    "http://localhost:8080",
-]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -24,7 +33,6 @@ app.add_middleware(
 
 
 load_dotenv()
-# app.mount("/assets", StaticFiles(directory="../frontend/assets"))
 
 # Include the home routers (loaded immediately)
 from api.v1.books import book_routes
@@ -92,4 +100,3 @@ async def startup():
     load_ask_router()
     load_answer_router()
     load_dialogue_router()
-    # load_admin_router()

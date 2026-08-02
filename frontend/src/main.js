@@ -11,17 +11,14 @@ import App from './App.vue'
 const routes = [
   { path: '/', component: HomeView },
   { path: '/ask', component: () => import('./views/AskView.vue')},
-  { path: '/quiz', component: () => import('./views/QuizView.vue')},
   { path: '/answer', component: () => import('./views/AnswerView.vue')},
-  { path: '/dialogue', component: () => import('./views/DialogueView.vue')},
-  { path: '/select', component: () => import('./components/SelectComponent.vue')}
+  { path: '/dialogue', component: () => import('./views/DialogueView.vue')}
 ]
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
 })
-
 
 let app = createApp(App)
             .use(router)

@@ -26,29 +26,20 @@ nav {
 .nav-link {
     margin-right: 10px;
     font-size: large;
-    color: #fff;
+    color: #000;
 }
 
 .router-link-exact-active, .router-link-active {
-    font-weight: bold;
     background-color: #7ef473;
     border: none;
-    /* border-radius: 15px; */
+    color: #000;
 }
 
 .text_white {
-    color: white;
+    color: #000;
 }
 
-
-:deep(.router-link-active) {
-    color: #fff;
-}
-
-:deep(a:active) {
-    color: #fff;
-}
 .navbar {
-    color: #fff;
+    color: #000;
 }
 </style>

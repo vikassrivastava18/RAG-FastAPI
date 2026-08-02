@@ -1,13 +1,12 @@
 <template>
     <div>
-        <div class="container px-4">
+        <div class="container px-4 selectBox">
             <i class="py-4">
             <label for="askInput" class="control-label p-2 py-4">
                 <b>Start a dialogue on any topic!</b>
             </label>
             </i>
-            <SelectComponent @startDialogue="fetchDialogue" />
-
+            <SelectComponent @startDialogue="fetchDialogue" class="px-2" />
         </div>
         
         <div class="container">
@@ -52,20 +51,17 @@ const quizzes = ref({})
 
 async function fetchDialogue(chapterId) {
     aiLoading.value = true
-    const res = await proxy.$axios.post(startDialogueUrl,{"chapter_id": chapterId })
-    console.log("data: ", res.data);
-    
+    const res = await proxy.$axios.post(startDialogueUrl,{"chapter_id": chapterId })    
     dialogue.value = res.data
 
     message.value = `🚀<b>Welcome</b>, we will be learning importance concepts related to the 
                     chapter.<br> <p>${dialogue.value.dialogue}</p>`
-
     aiLoading.value = false;
     inputDisabled.value = false;
 }
 
 async function sendResponse() {
-   
+    window.scrollTo(0, document.body.scrollHeight)
     message.value += "<br> <p>" + userInput.value + "</p>"
     const payload = { "answer": userInput.value, "session_id": dialogue.value.session_id }
     inputDisabled.value = true
@@ -133,4 +129,5 @@ async function nextTopic() {
     #chapterSelect {
         min-width: 20vw;
     }
+
 </style>

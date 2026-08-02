@@ -45,11 +45,7 @@ import NavComponent from './components/NavComponent.vue';
         border: 1px dotted #4d4a4a;
         border-radius: 10px;
         min-height: 80vh;
-        background-color: #fff;
-        background-image: linear-gradient(#f8f8f8, #f8f8f8de), url('@/assets/Blue_Flames.jpg');
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: top;
+        background-color: #f3f3f3;       
     }
 
 </style>

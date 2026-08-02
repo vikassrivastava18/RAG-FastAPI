@@ -7,7 +7,7 @@
                 <b>Answer subjective questions on a topic!</b>
             </label>
         </i>
-            <SelectComponent @startDialogue="fetchDialogue" />
+            <SelectComponent @startDialogue="fetchDialogue" class="px-2" />
         </div>
 
         <div class="container">
@@ -107,5 +107,4 @@ async function reviewAnswer() {
 #chapterSelect {
     min-width: 20vw;
 }
-
 </style>

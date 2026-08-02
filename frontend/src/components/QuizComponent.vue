@@ -96,7 +96,7 @@
   </div>
 
   <button v-if="submitted" class="btn btn-primary my-3"
-    @click="this.$emit('next-summary')">Continue</button>
+    @click="nextItem">Continue</button>
   <button v-else class="btn btn-primary my-3" @click="submitQuiz">
     Submit Answers
   </button>
@@ -106,12 +106,18 @@
 
 <script setup>
 
-import { reactive, ref, defineProps } from "vue"
+import { reactive, ref, defineProps, defineEmits } from "vue"
 import ResultBlock from "./ResultBlock.vue"
 
 defineProps({
   quizzes: Object
 })
+
+const emit = defineEmits(['next'])
+
+function nextItem() {
+  emit('next-summary')
+}
 
 const submitted = ref(false)
 

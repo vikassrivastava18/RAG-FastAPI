@@ -20,7 +20,7 @@ services:
   db:
     image: postgres:16
 
-    container_name: postgres_db
+    container_name: postgres_new
 
     restart: always
 
@@ -35,5 +35,13 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  frontend:
+    build: ./frontend
+
+    depends_on:
+      - backend
+
+    ports:
+      - "80:80"
 volumes:
   postgres_data:

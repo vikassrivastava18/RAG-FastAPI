@@ -128,7 +128,6 @@ async def summarizer(content, language: str, notes: Optional[str] = None):
         Please summarize the following text in a concise manner and return it as a 250-300 words description. Do not exceed word limit.
         Generate summary in **{language}**. If the {notes} mention a language, prioritize that over the default language input.
     
-
         ### Output:
         Return a well-written summary, avoiding unnecessary repetition or excessive detail. Ensure the summary reads naturally and is appropriate for the target language audience.
         """
