@@ -11,16 +11,15 @@
         </div>
 
         <div class="container">
-            <p v-html="message" class="p-4"></p>
-
-            <input class="form-control py-2 my-2" id="askInput" 
-                v-model="userInput" placeholder="Enter your answer here..."
-                @keyup.enter="reviewAnswer" :hidden="inputDisabled">
+            <p v-html="message" class="p-4 mb-5"></p>
             <div v-if="aiLoading" class="d-flex justify-content-center mt-4">
                 <div class="spinner-grow text-primary" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
+            <input class="form-control py-2 my-2" id="askInput" 
+                v-model="userInput" placeholder="Enter your answer here..."
+                @keyup.enter="reviewAnswer" :hidden="inputDisabled">            
         </div>
     </div>
 </template>
