@@ -60,8 +60,7 @@ async function fetchDialogue(chapterId) {
     inputDisabled.value = false;
 }
 
-async function sendResponse() {
-    window.scrollTo(0, document.body.scrollHeight)
+async function sendResponse() {    
     message.value += "<br> <p>" + userInput.value + "</p>"
     const payload = { "answer": userInput.value, "session_id": dialogue.value.session_id }
     inputDisabled.value = true
@@ -75,6 +74,7 @@ async function sendResponse() {
             quizzes.value = result
         } else message.value = result
 
+        window.scrollTo(0, document.body.scrollHeight)
 
     } catch (error) {
         console.error('evaluate-response error:', error)
@@ -101,7 +101,7 @@ async function nextTopic() {
         const result = res.data.response
         quizMode.value = false
         message.value = result
-        
+        window.scrollTo(0, document.body.scrollHeight)
 
     } catch (error) {
         if (error.response) {

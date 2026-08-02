@@ -92,6 +92,8 @@ async function reviewAnswer() {
         userInput.value = "";
         inputDisabled.value = false
         aiLoading.value = false
+        window.scrollTo(0, document.body.scrollHeight)
+
     }
 }
 

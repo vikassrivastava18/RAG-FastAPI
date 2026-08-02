@@ -8,7 +8,7 @@ from langgraph.graph import StateGraph, END, MessagesState
 from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.types import interrupt
 
-from core.config import llm2 as llm
+from core.config import llm2 as llm, llm_nano
 from utils.agent.schemas import DialogueState, QuizSchema
 
 load_dotenv(override=True)
@@ -48,7 +48,7 @@ class Graph:
         Notes: {state["dialogues"][state["index"]]["notes"]}
         Context: {context}
     
-        End the output with something like "Do you have any doubts?".
+        End the output with something like "<p><b>Do you have any doubts?</b></p>".
         Output Sample (Follow format strictly!!): 
             <b>Topic</b>  <p>How to get rich in 100 days?</p> <p>There are many ways, best
             path is to work hard....</p>
@@ -85,7 +85,7 @@ class Graph:
         User Reply:
         {user_reply}
         """
-        structured_llm = llm.with_structured_output(IntentSchema)
+        structured_llm = llm_nano.with_structured_output(IntentSchema)
         response = structured_llm.invoke(intent_prompt)
         state["dialogues"][state["index"]]["state"] = response.intent
         return response.intent
@@ -122,7 +122,6 @@ class Graph:
         messages = [SystemMessage(content=prompt)]
 
         quizzes = structured_llm.invoke(messages)
-
         state["dialogues"][state["index"]]["quizzes"] = quizzes
 
         return state
@@ -130,7 +129,6 @@ class Graph:
     @staticmethod
     def quiz_response(state: DialogueState) -> DialogueState:
         quizzes = state["dialogues"][state["index"]]["quizzes"]
-        # Get user's reply to quiz
         user_reply = interrupt(f"{quizzes}")
         return state
 
@@ -162,31 +160,6 @@ class Graph:
         builder.add_edge("quiz_response", "set_topic_index")
 
         return builder.compile(checkpointer)
-
-
-topics = [
-    {
-        "topic": "Small Business Defined",
-        "notes": f"""Small businesses are often the starting point for entrepreneurs as they develop their ideas and build a customer base. 
-        The Small Business Administration (SBA) defines a small business as a for-profit entity with fewer than 500 employees. This definition makes
-        these businesses eligible for various government programs and preferences. Small businesses play a crucial role in our economy and communities.""",
-    },
-    {
-        "topic": "Small Business Impact",
-        "notes": f"""There are over 33.2 million small businesses in the United States, making up 99.9% of all firms. From 1995 to 2021, small businesses created 
-        17.3 million net new jobs, significantly more than large businesses. Despite challenges like the COVID-19 recession, small businesses rebounded quickly,
-        demonstrating their resilience and importance to economic recovery. They contribute to local economies by reinvesting paychecks and taxes, supporting 
-        new businesses, and improving
-        public services. On average, small businesses offer competitive wages, averaging $30.42 per hour, translating to an annual income of $63,000.""",
-    },
-    {
-        "topic": "Small Business Demographics",
-        "notes": f"""43.4% of small businesses are owned by females, reflecting progress toward gender equality in entrepreneurship.
-    20.4% are owned by racial minorities, including 14.5% by Hispanics.
-    6.1% are owned by veterans, contributing diverse perspectives to the U.S. economy.
-    Hispanic-owned businesses, for example, pay over $100 billion annually in payroll to their 1 million workers.""",
-    },
-]
 
 
 class TopicState(MessagesState):

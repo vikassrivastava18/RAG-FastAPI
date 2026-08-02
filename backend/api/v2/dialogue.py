@@ -77,7 +77,7 @@ def review_response(request: AnswerSchema):
 
     if graph_query is None:
         return {
-            "response": "The dialogue ends here.",
+            "response": "<p><b>The dialogue ends here.</b></p>",
             "session_id": session_id,
             "state": state
         }
@@ -110,7 +110,7 @@ def next_topic(request: NextTopicSchema):
         }
 
     return {
-        "response": "<p>The dialogue ends here.</p>",
+        "response": "<p><b>The dialogue ends here.</b></p>",
         "session_id": session_id
     }     
     

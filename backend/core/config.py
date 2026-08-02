@@ -38,6 +38,7 @@ api_key= os.getenv("OPENAI_API_KEY")
 groq_key = os.getenv("GROQ_KEY")
 GROQ = os.getenv("LLAMA_MODEL")
 GPT = os.getenv("GPT_MODEL")
+NANO = os.getenv("GPT_NANO")
 
 
 # Method for session creation used with dependency injection
@@ -64,6 +65,15 @@ llm = ChatGroq(
 
 llm2 = ChatOpenAI(
     model= GPT,
+    temperature=0,
+    max_tokens=None,
+    timeout=None,
+    max_retries=2,
+    api_key= api_key,
+)
+
+llm_nano = ChatOpenAI(
+    model= NANO,
     temperature=0,
     max_tokens=None,
     timeout=None,
