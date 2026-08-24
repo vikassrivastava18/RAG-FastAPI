@@ -1,7 +1,7 @@
 from typing import List
 
-from core.config import Session, logger
-from utils.utils import verify_password
+from config import Session, logger
+from utils.common.common import verify_password
 from core.db.schemas import ChapterCreate
 from .models import Book, Chapter, Subtopic, User
 
