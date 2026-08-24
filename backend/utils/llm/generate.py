@@ -6,7 +6,7 @@ from typing import (Optional,
                     Any)
 from fastapi import HTTPException
 
-from core.config import llm2, logger
+from config import llm2, logger
 from utils.llm.vector import faiss_db
 from core.db.schemas import (ChapterContentRequest, 
                              QueryResponse, 

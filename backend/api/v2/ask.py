@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 
 from core.db.schemas import UserQuery
-from core.config import logger
+from config import logger
 from utils.llm.generate import answer_query_util
 
 ask_routes = APIRouter()

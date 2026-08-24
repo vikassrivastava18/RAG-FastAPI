@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from core.config import engine, Base
+from config import engine, Base
 from core.db.models import (Book, 
                             Chapter, 
                             Subtopic, 

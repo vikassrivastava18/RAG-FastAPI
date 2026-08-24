@@ -5,7 +5,7 @@ from cachetools import TTLCache
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.encoders import jsonable_encoder
 
-from core.config import logger, Session, get_db
+from config import logger, Session, get_db
 from core.db.models import Chapter, Dialogue
 from core.db.query import get_content
 from core.db.schemas import (

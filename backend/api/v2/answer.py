@@ -3,7 +3,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi import APIRouter
 from langgraph.types import Command
 
-from core.config import Session, get_db, logger
+from config import Session, get_db, logger
 from core.db.models import Chapter
 from core.db.schemas import AnswerSchema, ChapterInputRequest
 

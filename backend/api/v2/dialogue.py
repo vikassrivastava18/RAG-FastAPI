@@ -5,7 +5,7 @@ from langgraph.types import Command
 from utils.agent.graph import Graph
 from utils.utils import get_uuid_string
 
-from core.config import Session, get_db, logger
+from config import Session, get_db, logger
 from core.db.models import Chapter
 from core.db.schemas import (
     AnswerSchema,

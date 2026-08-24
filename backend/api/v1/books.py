@@ -8,7 +8,7 @@ from fastapi.responses import (HTMLResponse,
                                JSONResponse)
 from fastapi.templating import Jinja2Templates
 
-from core.config import Session, get_db, logger
+from config import Session, get_db, logger
 from core.db.models import Book, Chapter, Subtopic
 from core.db.schemas import (BookDetailFooterResponse,
                         BookDetailResponse,
