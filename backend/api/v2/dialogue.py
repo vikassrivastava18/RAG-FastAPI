@@ -3,7 +3,7 @@ from fastapi.encoders import jsonable_encoder
 
 from langgraph.types import Command
 from utils.agent.graph import Graph
-from utils.utils import get_uuid_string
+from utils.common.common import get_uuid_string
 
 from config import Session, get_db, logger
 from core.db.models import Chapter

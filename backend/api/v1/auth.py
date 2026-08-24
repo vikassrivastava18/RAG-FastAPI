@@ -11,7 +11,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.templating import Jinja2Templates
 
 from config import logger, oauth2_scheme
-from utils.utils import create_access_token
+from utils.common.common import create_access_token
 from core.db.query import authenticate_user
 
 auth_routes = APIRouter()

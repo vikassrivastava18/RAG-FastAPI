@@ -12,7 +12,7 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 
 from backend.core.llm.generate import process_llm_response
-from backend.utils.utils import extract_text_from_pdf
+from utils.common.common import extract_text_from_pdf
 from backend.core.config import logger, Session, get_db
 from backend.core.db.models import Book
 from backend.core.db.schemas import BookResponse
