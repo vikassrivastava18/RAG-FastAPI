@@ -559,7 +559,6 @@ def create_quizzes(content: ChapterContentRequest):
     You are a quiz master. Use the content of a chapter to create quizzes that help students study.
     The content is divided into multiple subchapters, each with its source url and the text.
     You do not need to visit the url for a subchapter, but tag every quiz with its source url.
-
     Return the response in the format specified.    
 
     Content: {content}
@@ -582,7 +581,7 @@ def answer_query_util(query: str):
     # filter relevant document with similarity search
     docs_and_scores = faiss_db.similarity_search_with_score(
         u_query,
-        k=10  # retrieve more candidates
+        k=5  # retrieve more candidates
     )
 
     threshold = 0.7  # adjust based on your embedding model
@@ -667,7 +666,6 @@ def evaluate(data, hint=True) -> dict:
             Notes: {data["notes"]}
             User's reply: {data["users_answer"]}
         """
-
     
     structured_llm = llm2.with_structured_output(QueryResponse)
     messages = [
