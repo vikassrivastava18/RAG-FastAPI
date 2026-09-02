@@ -19,8 +19,9 @@
 <style>
 nav {
     text-align: left;
+    border: 1px dotted grey;
     border-radius: 5px;
-    background: linear-gradient(90deg, #dcdfe2 0%, #5e98cb 50%, #3f82bd 100%);
+    /* background: linear-gradient(90deg, #dcdfe2 0%, #5e98cb 50%, #3f82bd 100%); */
 }
 
 .nav-link {

@@ -28,7 +28,7 @@ import NavComponent from './components/NavComponent.vue';
         background: white;
         border: 1px dotted #dfdfdf;
         border-radius: 10px;
-        box-shadow: 0 5px 40px rgb(0, 0, 0, 4%);
+        /* box-shadow: 0 5px 40px rgb(0, 0, 0, 4%); */
         height: 100%; 
         
     }
@@ -45,7 +45,7 @@ import NavComponent from './components/NavComponent.vue';
         border: 1px dotted #4d4a4a;
         border-radius: 10px;
         min-height: 80vh;
-        background-color: #f3f3f3;       
+        /* background-color: #f3f3f3;        */
     }
 
 </style>
