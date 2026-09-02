@@ -25,7 +25,7 @@
 
 <script setup>
 import { ref, onMounted, getCurrentInstance, watch, defineEmits } from 'vue'
-import { baseUrl } from '../config'
+import { baseUrl } from '../../config'
 
 const instance = getCurrentInstance()
 const proxy = instance && instance.proxy

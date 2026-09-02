@@ -107,7 +107,7 @@
 <script setup>
 
 import { reactive, ref, defineProps, defineEmits } from "vue"
-import ResultBlock from "./ResultBlock.vue"
+import ResultBlock from "./old-components/ResultBlock.vue"
 
 defineProps({
   quizzes: Object

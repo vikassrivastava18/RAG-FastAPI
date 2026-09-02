@@ -4,12 +4,15 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import axios from 'axios'
 import { createWebHistory, createRouter } from 'vue-router'
 import { createApp } from 'vue'
+
 import HomeView from './views/HomeView.vue'
 import App from './App.vue'
+import PythonComponent from './components/PythonComponent.vue'
 
 
 const routes = [
   { path: '/', component: HomeView },
+  { path: '/python', component: PythonComponent}
 ]
 
 const router = createRouter({
