@@ -10,9 +10,6 @@ import App from './App.vue'
 
 const routes = [
   { path: '/', component: HomeView },
-  { path: '/ask', component: () => import('./views/AskView.vue')},
-  { path: '/answer', component: () => import('./views/AnswerView.vue')},
-  { path: '/dialogue', component: () => import('./views/DialogueView.vue')}
 ]
 
 const router = createRouter({

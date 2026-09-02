@@ -14,14 +14,14 @@
         <div class="col-lg-6">
 
           <!-- Main Heading -->
-          <h4 class="display-6 fw-bold mt-2 mb-4">
+          <h2 class="fw-bold mt-2 mb-4">
             About
-          </h4>
-
+          </h2>
+          
           <!-- Paragraph -->
           <p class="text-secondary fs-5 lh-lg mb-4">
             CS-50 Tutor is an artificial intelligence–powered educational application designed to support student
-            learning. Through an interactive conversational interface, students can pose questions, engage in
+            learning. Through a Socratic style conversational interface, students can pose questions, engage in
             AI-assisted discussions on
             academic topics, reinforce their understanding through quizzes, and prepare for assessments by responding to
            practice questions.
@@ -35,7 +35,7 @@
 </template>
 
 <style scoped>
-h4 {
+h2 {
   color: maroon;
 }
 .letter-spacing {

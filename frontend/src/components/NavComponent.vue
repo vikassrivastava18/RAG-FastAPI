@@ -1,16 +1,17 @@
 <template>
     <nav class="p-2 navbar">
         <div class="d-flex justify-content-end">
-            <router-link to="/ask" class="nav-link text_white px-4 py-1 me-2">
-              Ask
+            <router-link to="/" class="nav-link text_white px-4 py-1 me-2">
+              HOME
             </router-link>
-
-            <router-link to="/dialogue" class="nav-link text_white px-4 py-1 me-2">
-                Dialogue
+             <router-link to="/python" class="nav-link text_white px-4 py-1 me-2">
+                PYTHON
             </router-link>
-
-            <router-link to="/answer" class="nav-link text_white px-4 py-1">
-                Answer
+            <router-link to="/python" class="nav-link text_white px-4 py-1 me-2">
+                SQL
+            </router-link>
+            <router-link to="/sql" class="nav-link text_white px-4 py-1">
+                CYBERSECURITY
             </router-link>
         </div>
     </nav>
