@@ -1,13 +1,11 @@
+import { loadPyodide } from "pyodide";
+
 let pyodide = null;
 
 export async function initializePython() {
   if (!pyodide) {
-    if (typeof window.loadPyodide !== "function") {
-      throw new Error("Pyodide failed to load.");
-    }
-
-    pyodide = await window.loadPyodide({
-      indexURL: "https://cdn.jsdelivr.net/pyodide/v0.27.2/full/",
+    pyodide = await loadPyodide({
+      indexURL: `${process.env.BASE_URL}pyodide/`,
     });
   }
 
