@@ -235,3 +235,16 @@ class QueryResponse(BaseModel):
 class NextTopicSchema(BaseModel):
     session_id: str
 
+
+class TopicRequest(BaseModel):
+    content: str
+
+
+class TopicResponse(BaseModel):
+    topic: str
+    summary: str
+    snippet: str
+
+
+class TopicsCheatSheetResponse(BaseModel):
+    topics: list[TopicResponse]

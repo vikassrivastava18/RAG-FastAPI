@@ -2,7 +2,7 @@
 
 <PythonTheory />
 <!-- <PythonComponent /> -->
-<div class="container mt-4">
+<div class="container my-4 p-2">
             <button class="btn btn-danger">Clear My Doubt</button>&nbsp;
             <button class="btn btn-primary">Quizz Me</button>&nbsp;
             <button class="btn btn-secondary">

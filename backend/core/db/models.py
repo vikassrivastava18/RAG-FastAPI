@@ -39,6 +39,7 @@ class Subtopic(Base):
     source = Column(String)
 
 
+
 class User(Base):
     __tablename__ = "users"
 

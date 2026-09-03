@@ -1,7 +1,7 @@
 <template>
     <div class="theory-container">
-        <h3 style="text-align: center;">Cheat Sheet (Week 0) </h3>
-        <div class="container">
+        <h3>Cheat Sheet (Week 0) </h3>
+        <div class="container mt-4">
             <div>
                 <h4>1. Running Python</h4>
                 <p>Write Python code in a <code>.py</code> file and run it from the terminal:</p>
