@@ -28,8 +28,7 @@ import NavComponent from './components/NavComponent.vue';
         background: white;
         border: 1px dotted #dfdfdf;
         border-radius: 10px;
-        height: 100%; 
-        
+        height: 100%;         
     }
 
     #mainContent {

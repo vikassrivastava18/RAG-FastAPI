@@ -1,12 +1,8 @@
 <script setup>
 import { ref } from "vue";
-import { runPython } from "../services/pythonRunner";
+import { runPython } from "../../services/pythonRunner";
 
-const code = ref(`
-for i in range(10):
-    if i % 2 == 0:
-        return i
-`);
+const code = ref(`print("Hello World")`);
 
 const output = ref("");
 const loading = ref(false);
@@ -29,7 +25,6 @@ async function executeCode() {
 <template>
   <div>
     <textarea v-model="code" rows="10" cols="60"></textarea>
-
     <br />
 
     <button @click="executeCode" :disabled="loading">

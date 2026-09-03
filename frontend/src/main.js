@@ -7,12 +7,15 @@ import { createApp } from 'vue'
 
 import HomeView from './views/HomeView.vue'
 import App from './App.vue'
-import PythonComponent from './components/PythonComponent.vue'
+import PythonView from './views/python/PythonView.vue'
+import PythonTopicsView from './views/python/PythonTopicsView.vue'
 
 
 const routes = [
   { path: '/', component: HomeView },
-  { path: '/python', component: PythonComponent}
+  { path: '/python-topics', component: PythonTopicsView},
+  { path: '/python', component: PythonView}
+  
 ]
 
 const router = createRouter({

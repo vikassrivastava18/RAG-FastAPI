@@ -35,7 +35,7 @@ export async function runPython(code) {
       sys.stdout = __stdout
       sys.stderr = __stderr
 
-  (__output, __error)
+  (__output, __error) if not __error == "" else __output
   `;
 
     return await python.runPythonAsync(wrappedCode);
