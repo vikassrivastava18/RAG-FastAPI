@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import { runPython } from "../../services/pythonRunner";
+import { runPython } from "../../../services/pythonRunner";
 
 const code = ref(`print("Hello World")`);
 
