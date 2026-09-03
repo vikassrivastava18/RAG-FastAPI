@@ -20,8 +20,8 @@
 
           <!-- Paragraph -->
           <p class="text-secondary fs-5 lh-lg mb-4">
-            CS50 Tutor is an artificial intelligence–powered educational application designed to support student
-            learning. Through a Socratic style conversational interface, students can pose questions, engage in
+            <i>CS50 Tutor</i> is an artificial intelligence–powered educational application designed to support student
+            learning. Through a <i>Socratic</i> style conversational interface, students can pose questions, engage in
             AI-assisted discussions on
             academic topics, reinforce their understanding through quizzes, and prepare for assessments by responding to
            practice questions.
