@@ -10,14 +10,14 @@
             <router-link to="/sql" class="nav-link text_white px-4 py-1 me-2">
                 SQL
             </router-link>
-            <router-link to="/cybersecurity" class="nav-link text_white px-4 py-1">
-                CYBERSECURITY
-            </router-link>
+            
+            <!-- <img src="../assets/logo.svg" width="100" alt=""> -->
+
         </div>
     </nav>
 </template>
 
-<style>
+<style scoped>
 nav {
     text-align: left;
     border: 1px dotted grey;
@@ -43,5 +43,8 @@ nav {
 
 .navbar {
     color: #000;
+}
+img {
+    float: right;
 }
 </style>

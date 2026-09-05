@@ -5,13 +5,25 @@ const { defineConfig } = require('@vue/cli-service')
 
 module.exports = defineConfig({
   transpileDependencies: true,
+  devServer: {
+    port: 8080,
+  },
+  chainWebpack: (config) => {
+    config.module.rule('js').exclude.add(
+      /node_modules[\\/]pyodide[\\/]pyodide\.asm\.mjs$/,
+    )
+  },
   configureWebpack: {
     resolve: {
       fallback: {
         child_process: false,
         crypto: false,
         fs: false,
+        module: false,
+        net: false,
         path: false,
+        stream: false,
+        tls: false,
         url: false,
         vm: false,
       },

@@ -1,4 +1,5 @@
 import { loadPyodide } from "pyodide";
+import createPyodideModule from "pyodide/pyodide.asm.mjs";
 
 let pyodide = null;
 
@@ -6,6 +7,7 @@ export async function initializePython() {
   if (!pyodide) {
     pyodide = await loadPyodide({
       indexURL: `${process.env.BASE_URL}pyodide/`,
+      createPyodideModule,
     });
   }
 
@@ -33,7 +35,7 @@ export async function runPython(code) {
       sys.stdout = __stdout
       sys.stderr = __stderr
 
-  (__output, __error)
+  (__output, __error) if not __error == "" else __output
   `;
 
     return await python.runPythonAsync(wrappedCode);
