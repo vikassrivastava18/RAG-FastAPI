@@ -23,7 +23,7 @@ class SubTopic(models.Model):
      content = models.JSONField(null=True, blank=True)
 
      def __str__(self) -> str:
-        return (f"({self.topic.title})-{self.summary}")[:50]
+        return (f"{self.title}")[:100]
      
 
 
