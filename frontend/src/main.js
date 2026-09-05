@@ -7,12 +7,11 @@ import { createApp } from 'vue'
 
 import HomeView from './views/HomeView.vue'
 import App from './App.vue'
-import PythonView from './views/python/PythonView.vue'
 
 
 const routes = [
   { path: '/', component: HomeView },
-  { path: '/python', component: PythonView}
+  { path: '/python', component: () => import('./views/python/PythonView.vue')}
   
 ]
 
