@@ -1,5 +1,6 @@
 <template>
     <div class="container my-2 p-2">
+        <h3>Pick a topic to master</h3>
             <div v-for="topic in topics" :key="topic.id">                
                 <router-link class="topic-link" :to="`/python/topic-summary/${topic.id}`">
                     #{{ topic.title }}
@@ -40,7 +41,6 @@ h3 {
     margin: 0 0 16px;
     /* font-size: 1.5rem; */
     color: maroon;
-    text-align: center;
 }
 
 .theory-iframe {

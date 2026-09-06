@@ -28,15 +28,28 @@
               v-model="code"
               class="form-control"
               rows="10"
+              @paste.prevent
+              spellcheck="false"
+              @keydown.tab.prevent="insertIndentation"
             ></textarea>
 
-            <button
-              class="btn btn-primary mt-3"
-              @click="executeCode"
-              :disabled="loading"
-            >
-              {{ loading ? "Running..." : "Run Python" }}
-            </button>
+            <div class="d-flex align-items-center mt-3 gap-3">
+              <button
+                class="btn btn-primary"
+                @click="executeCode"
+                :disabled="loading"
+              >
+                {{ loading ? "Running..." : "Run Python" }}
+              </button>
+
+              <div
+                v-if="output"
+                class="alert mb-0 p-2"
+                :class="answerMatches ? 'alert-success' : 'alert-danger'"
+              >
+                {{ answerMatches ? "Correct answer" : "Answers do not match" }}
+              </div>
+            </div>
 
             <h5 class="mt-4">Your Output</h5>
             <pre class="bg-light p-3">{{ output }}</pre>
@@ -57,16 +70,10 @@
               id="expectedAnswer"
               v-model="expectedAnswer"
               class="form-control"
-              rows="4"
+              rows="4"              
             ></textarea>
 
-            <div
-              v-if="output"
-              class="alert mt-3"
-              :class="answerMatches ? 'alert-success' : 'alert-danger'"
-            >
-              {{ answerMatches ? "Correct answer" : "Answers do not match" }}
-            </div>
+            
           </div>
         </div>
       </div>
@@ -78,9 +85,14 @@
 import { computed, ref } from "vue";
 import { runPython } from "../../../services/pythonRunner";
 
-const code = ref(`print("Hello World")`);
+
+const code = ref(`def is_even(n):
+    return n % 2 == 0
+
+print(is_even(3))
+print(is_even(2))`);
 const output = ref("");
-const expectedAnswer = ref("Hello World");
+const expectedAnswer = ref("False\nTrue");
 const loading = ref(false);
 
 async function executeCode() {
@@ -100,5 +112,22 @@ async function executeCode() {
 const answerMatches = computed(() =>
   output.value.trim() === expectedAnswer.value.trim()
 );
+
+function insertIndentation(event) {
+  const textarea = event.target;
+  const indentation = "    ";
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+
+  code.value =
+    code.value.substring(0, start) +
+    indentation +
+    code.value.substring(end);
+
+  requestAnimationFrame(() => {
+    textarea.selectionStart = textarea.selectionEnd =
+      start + indentation.length;
+  });
+}
 </script>
 

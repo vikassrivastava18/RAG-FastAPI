@@ -2,11 +2,8 @@
 
 <!-- <PythonComponent /> -->
  <div class="container">
-        <h3 class="p-2">
-            <img src="../../assets/snake_svg.svg" alt="" width="40">
-            Python
-        </h3>
-        
+            <!-- <img src="../../assets/snake_svg.svg" class="p-2" alt="" width="40">             -->
+
         <RouterView />
         
     </div>
@@ -22,13 +19,6 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); */
 }
 
-h3 {
-    margin: 0 0 16px;
-    /* font-size: 1.5rem; */
-    color: maroon;
-    text-align: center;
-    text-decoration: underline;
-}
 
 .theory-iframe {
     width: 100%;
