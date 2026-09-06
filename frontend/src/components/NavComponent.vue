@@ -4,7 +4,7 @@
             <router-link to="/" class="nav-link text_white px-4 py-1 me-2">
               HOME
             </router-link>
-             <router-link to="/python/topics" class="nav-link text_white px-4 py-1 me-2">
+             <router-link to="/python/topics" class="nav-link text_white px-4 py-1 me-2" :class="{ 'python-active': $route.fullPath.includes('python') }">
                 PYTHON
             </router-link>
             <router-link to="/sql" class="nav-link text_white px-4 py-1 me-2">
@@ -31,7 +31,7 @@ nav {
     color: #000;
 }
 
-.router-link-exact-active, .router-link-active {
+.router-link-exact-active, .router-link-active, .python-active {
     background-color: #7ef473;
     border: none;
     color: #000;
