@@ -2,23 +2,15 @@
   <div class="container summary-container">
     <h3 class="p-2">{{ topic.title }}</h3>
 
-    <div
-      v-if="topic.summary"
-      class="topic-summary my-2 p-2"
-      v-html="renderedSummary"
-    ></div>
+    <div v-if="topic.summary" class="topic-summary my-2 p-2" v-html="renderedSummary"></div>
 
     <p v-else>Loading summary...</p>
 
-    <div class="input-group mt-auto mb-3">
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Ask a question..."
-        aria-label="Ask a question"
-      />
-      <button class="btn btn-outline-success" type="button">
-        Send
+    <div class="d-flex gap-2 mt-auto mb-3">
+      <input type="text" class="form-control" placeholder="Ask a question..." aria-label="Ask a question" />
+
+      <button class="btn btn-danger text-white ms-4" type="button">
+        Continue
       </button>
     </div>
   </div>
@@ -57,9 +49,11 @@ onMounted(async () => {
 .topic-summary {
   line-height: 1.7;
 }
+
 h3 {
   color: maroon;
 }
+
 .summary-container {
   /* min-height: 75vh; */
   display: flex;

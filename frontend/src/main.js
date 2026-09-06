@@ -22,6 +22,10 @@ const routes = [
       {
         path: 'topics',
         component: () => import('./views/python/components/TopicsComponent.vue')
+      },
+      {
+        path: 'code',
+        component: () => import('./views/python/components/CodeComponent.vue')
       }
     ]
     },

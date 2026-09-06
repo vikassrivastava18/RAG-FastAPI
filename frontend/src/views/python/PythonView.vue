@@ -3,7 +3,7 @@
 <!-- <PythonComponent /> -->
  <div class="container">
         <h3 class="p-2">
-            <img src="../../assets/snake_svg.svg" alt="" width="50">
+            <img src="../../assets/snake_svg.svg" alt="" width="40">
             Python
         </h3>
         
@@ -27,6 +27,7 @@ h3 {
     /* font-size: 1.5rem; */
     color: maroon;
     text-align: center;
+    text-decoration: underline;
 }
 
 .theory-iframe {
