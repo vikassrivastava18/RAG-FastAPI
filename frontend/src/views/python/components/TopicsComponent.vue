@@ -1,15 +1,11 @@
 <template>
-    <div class="container">
-        <h3 class="p-2">Topics</h3>
-        <div class="container my-4 p-2">
-            <div v-for="topic in topics" :key="topic.id">
-                <router-link class="topic-link" :to="`/topics/${topic.id}`">
-                    {{ topic.title }}
+    <div class="container my-2 p-2">
+            <div v-for="topic in topics" :key="topic.id">                
+                <router-link class="topic-link" :to="`/python/topic-summary/${topic.id}`">
+                    #{{ topic.title }}
                 </router-link>
             </div>
         </div>
-    </div>
-
 </template>
 
 <script setup>
@@ -44,6 +40,7 @@ h3 {
     margin: 0 0 16px;
     /* font-size: 1.5rem; */
     color: maroon;
+    text-align: center;
 }
 
 .theory-iframe {

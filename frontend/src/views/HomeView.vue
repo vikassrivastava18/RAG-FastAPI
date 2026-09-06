@@ -12,7 +12,6 @@
 
         <!-- Content Column -->
         <div class="col-lg-6">
-
           <!-- Main Heading -->
           <h2 class="fw-bold mt-2 mb-4">
             About
@@ -20,7 +19,7 @@
 
           <!-- Paragraph -->
           <p class="text-secondary fs-5 lh-lg mb-4">
-            <i>CS50 Tutor</i> is an artificial intelligence–powered educational application designed to support student
+            <i>CS50 Tutor</i> is an artificial intelligence powered educational application designed to support student
             learning. Through a <i>Socratic</i> style conversational interface, students can pose questions, engage in
             AI-assisted discussions on
             academic topics, reinforce their understanding through quizzes, and prepare for assessments by responding to
@@ -34,16 +33,16 @@
 </template>
 
 <style scoped>
-h2 {
-  color: maroon;
-}
-.letter-spacing {
-  letter-spacing: 1px;
-}
+  h2 {
+    color: maroon;
+  }
+  .letter-spacing {
+    letter-spacing: 1px;
+  }
 
-.object-fit-cover {
-  object-fit: cover;
-  max-height: 650px;
-}
+  .object-fit-cover {
+    object-fit: cover;
+    max-height: 650px;
+  }
 
 </style>

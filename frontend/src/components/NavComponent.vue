@@ -4,7 +4,7 @@
             <router-link to="/" class="nav-link text_white px-4 py-1 me-2">
               HOME
             </router-link>
-             <router-link to="/python" class="nav-link text_white px-4 py-1 me-2">
+             <router-link to="/python/topics" class="nav-link text_white px-4 py-1 me-2">
                 PYTHON
             </router-link>
             <router-link to="/sql" class="nav-link text_white px-4 py-1 me-2">

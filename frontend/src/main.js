@@ -11,7 +11,20 @@ import App from './App.vue'
 
 const routes = [
   { path: '/', component: HomeView },
-  { path: '/python', component: () => import('./views/python/PythonView.vue')}
+  {
+    path: '/python',
+    component: () => import('./views/python/PythonView.vue'),
+    children: [
+      {
+        path: 'topic-summary/:id',
+        component: () => import('./views/python/components/SummaryComponent.vue')
+      },
+      {
+        path: 'topics',
+        component: () => import('./views/python/components/TopicsComponent.vue')
+      }
+    ]
+    },
   
 ]
 
