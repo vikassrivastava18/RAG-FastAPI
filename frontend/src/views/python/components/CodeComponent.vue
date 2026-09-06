@@ -8,10 +8,7 @@
             Question
           </div>
           <div class="card-body">
-            <p>
-              Write a Python program that prints
-              <strong>Hello World</strong>.
-            </p>
+            <p>{{ question || "Loading question..." }}</p>
           </div>
         </div>
       </div>
@@ -44,7 +41,7 @@
 
               <div
                 v-if="output"
-                class="alert mb-0 p-2"
+                class="alert mb-0 p-2 "
                 :class="answerMatches ? 'alert-success' : 'alert-danger'"
               >
                 {{ answerMatches ? "Correct answer" : "Answers do not match" }}
@@ -82,18 +79,33 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { runPython } from "../../../services/pythonRunner";
+import { baseUrl } from "../../../config";
 
-
-const code = ref(`def is_even(n):
-    return n % 2 == 0
-
-print(is_even(3))
-print(is_even(2))`);
+const question = ref("");
+const code = ref("");
 const output = ref("");
-const expectedAnswer = ref("False\nTrue");
+const expectedAnswer = ref("");
 const loading = ref(false);
+
+onMounted(async () => {
+  try {
+    const response = await fetch(`${baseUrl}/code-snippets/1`);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    const snippet = await response.json();
+
+    question.value = snippet.question;
+    code.value = snippet.snippet;
+    expectedAnswer.value = String(snippet.expected_answer);
+  } catch (error) {
+    console.error("Failed to load code snippet:", error);
+  }
+});
 
 async function executeCode() {
   loading.value = true;

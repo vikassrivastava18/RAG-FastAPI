@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import SubTopic, Topic
+from .models import CodeSnippet, SubTopic, Topic
 
 
 class TopicSerializer(serializers.ModelSerializer):
@@ -19,3 +19,9 @@ class SubTopicSerializer(serializers.ModelSerializer):
     class Meta:
         model = SubTopic
         fields = ('title', 'summary')
+
+
+class CodeSnippetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CodeSnippet
+        fields = '__all__'

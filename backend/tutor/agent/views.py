@@ -1,7 +1,12 @@
 from rest_framework import generics
 
-from .models import SubTopic, Topic
-from .serializers import SubTopicSerializer, TopicDetailSerializer, TopicSerializer
+from .models import CodeSnippet, SubTopic, Topic
+from .serializers import (
+	CodeSnippetSerializer,
+	SubTopicSerializer,
+	TopicDetailSerializer,
+	TopicSerializer,
+)
 
 
 class TopicListView(generics.ListAPIView):
@@ -17,3 +22,8 @@ class TopicDetailView(generics.RetrieveAPIView):
 class SubTopicDetailView(generics.RetrieveAPIView):
 	queryset = SubTopic.objects.all()
 	serializer_class = SubTopicSerializer
+
+
+class CodeSnippetDetailView(generics.RetrieveAPIView):
+	queryset = CodeSnippet.objects.all()
+	serializer_class = CodeSnippetSerializer
