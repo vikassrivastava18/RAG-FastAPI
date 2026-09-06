@@ -9,6 +9,12 @@ class TopicSerializer(serializers.ModelSerializer):
         fields = ('id', 'title')
 
 
+class TopicDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Topic
+        fields = ('id', 'title', 'summary')
+
+
 class SubTopicSerializer(serializers.ModelSerializer):
     class Meta:
         model = SubTopic
