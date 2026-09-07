@@ -6,16 +6,34 @@
 
     <p v-else>Loading summary...</p>
 
-    <div class="input-group mt-auto">
+    <div class="chat-messages my-3">
+      <div
+        v-for="(message, index) in messages"
+        :key="index"
+        class="chat-message mb-3"
+      >
+        <div class="query p-2">
+          <strong>You</strong>
+          <div>{{ message.query }}</div>
+        </div>
+        <div class="response p-2" v-html="message.renderedResponse"></div>
+      </div>
+    </div>
+
+    <form class="input-group mt-auto" @submit.prevent="sendQuery">
       <input
         type="text"
         class="form-control"
         placeholder="Ask your query"
+        v-model="userQuery"
+        :disabled="isLoading"
       />
-      <button type="submit" class="btn btn-primary">
+      <button type="submit" class="btn btn-primary" :disabled="isLoading || !userQuery.trim()">
         Submit
       </button>
-    </div>
+    </form>
+
+    <p v-if="errorMessage" class="text-danger mt-2">{{ errorMessage }}</p>
 
     <div class="summary-actions mt-2 mb-3">
       <button type="button" class="btn btn-danger">
@@ -29,18 +47,73 @@
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { marked } from "marked";
+import { baseUrl } from "../../../config";
 
 const route = useRoute();
 const topic = ref({});
+const userQuery = ref("");
+const messages = ref([]);
+const threadId = ref(null);
+const isLoading = ref(false);
+const errorMessage = ref("");
 
 const renderedSummary = computed(() =>
   marked.parse(topic.value.summary || "")
 );
 
+async function sendQuery() {
+  const query = userQuery.value.trim();
+
+  if (!query || isLoading.value) {
+    return;
+  }
+
+  isLoading.value = true;
+  errorMessage.value = "";
+
+  const requestBody = { query };
+  if (threadId.value !== null) {
+    requestBody.thread_id = threadId.value;
+  }
+
+  try {
+    const response = await fetch(
+      `${baseUrl}/subtopics/${route.params.id}/chat/`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestBody),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    const data = await response.json();
+    const responseText = data.response ?? data.answer ?? data.message ?? data;
+
+    if (data.thread_id !== undefined) {
+      threadId.value = data.thread_id;
+    }
+
+    messages.value.push({
+      query,
+      renderedResponse: marked.parse(String(responseText)),
+    });
+    userQuery.value = "";
+  } catch (error) {
+    errorMessage.value = "Unable to get a response. Please try again.";
+    console.error("Failed to send subtopic query:", error);
+  } finally {
+    isLoading.value = false;
+  }
+}
+
 onMounted(async () => {
   try {
     const response = await fetch(
-      `http://127.0.0.1:8000/subtopics/${route.params.id}`
+      `${baseUrl}/subtopics/${route.params.id}`
     );
 
     if (!response.ok) {

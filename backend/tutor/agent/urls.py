@@ -1,6 +1,7 @@
 from django.urls import path
 
 from .views import (
+	ChatQueryView,
     CodeSnippetDetailView,
     SubTopicDetailView,
     TopicDetailView,
@@ -17,4 +18,5 @@ urlpatterns = [
 # Subtopics URL
 urlpatterns += [
     path('subtopics/<int:pk>/', SubTopicDetailView.as_view(), name='subtopic-detail'),
+    path('subtopics/<int:subtopic_id>/chat/', ChatQueryView.as_view(), name='subtopic-chat'),
 ]

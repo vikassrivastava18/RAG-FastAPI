@@ -35,41 +35,77 @@ class TutorState(MessagesState):
     answer: Optional[str]
 
 
-def answer_query(state: TutorState) -> dict:
-    # Only send the previous 10 conversation messages to the LLM.
-    previous_messages = state.get("messages", [])[-10:]
+class TutorGraph:
+    def __init__(self):
+        self.llm = llm
 
-    system_prompt = """You are a CS tutor.
-    Help the user understand the Regex.
-    Use the supplied context if it is relevant.
-    """
+        self.checkpointer = InMemorySaver()
+        self.graph = self._build_graph()
 
-    if state.get("context"):
-        system_prompt += f"\nContext:\n{state['context']}"
+    def answer_query(self, state: TutorState) -> dict:
+        previous_messages = state.get("messages", [])[-10:]
 
-    messages = [
-        SystemMessage(content=system_prompt),
-        *previous_messages,
-        HumanMessage(content=state["query"]),
-    ]
+        system_prompt = """You are a CS tutor.
+        Help the user understand Regex.
+        Use the supplied context if it is relevant.
+        """
 
-    response = llm.invoke(messages)
+        if state.get("context"):
+            system_prompt += f"\nContext:\n{state['context']}"
 
-    return {
-        "messages": [
+        messages = [
+            SystemMessage(content=system_prompt),
+            *previous_messages,
             HumanMessage(content=state["query"]),
-            AIMessage(content=response.content),
-        ],
-        "answer": response.content,
-    }
+        ]
+
+        response = self.llm.invoke(messages)
+
+        return {
+            "messages": [
+                HumanMessage(content=state["query"]),
+                AIMessage(content=response.content),
+            ],
+            "answer": response.content,
+        }
+
+    def _build_graph(self):
+        builder = StateGraph(TutorState)
+
+        builder.add_node("answer_query", self.answer_query)
+        builder.add_edge(START, "answer_query")
+        builder.add_edge("answer_query", END)
+
+        return builder.compile(checkpointer=self.checkpointer)
+
+    def invoke(
+        self,
+        query: str,
+        context: Optional[str] = None,
+        thread_id: str = "default",
+    ) -> dict:
+        return self.graph.invoke(
+            {
+                "query": query,
+                "context": context,
+            },
+            config={
+                "configurable": {
+                    "thread_id": thread_id,
+                }
+            },
+        )
 
 
-builder = StateGraph(TutorState)
 
-builder.add_node("answer_query", answer_query)
 
-builder.add_edge(START, "answer_query")
-builder.add_edge("answer_query", END)
 
-checkpointer = InMemorySaver()
-graph = builder.compile(checkpointer=checkpointer)
+# tutor = TutorGraph()
+
+# result = tutor.invoke(
+#     query="What is a regular expression?",
+#     context="The student is learning Python.",
+#     thread_id="student-123",
+# )
+
+# print(result["answer"])

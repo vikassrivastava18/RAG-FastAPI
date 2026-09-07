@@ -9,10 +9,8 @@
             </router-link>
             <router-link to="/sql" class="nav-link text_white px-4 py-1 me-2">
                 SQL
-            </router-link>
-            
+            </router-link>            
             <!-- <img src="../assets/logo.svg" width="100" alt=""> -->
-
         </div>
     </nav>
 </template>

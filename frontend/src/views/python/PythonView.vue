@@ -2,10 +2,7 @@
 
 <!-- <PythonComponent /> -->
  <div class="container">
-            <!-- <img src="../../assets/snake_svg.svg" class="p-2" alt="" width="40">             -->
-
-        <RouterView />
-        
+        <RouterView />        
     </div>
     
 </template>
