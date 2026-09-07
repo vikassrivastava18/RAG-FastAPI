@@ -6,7 +6,7 @@
 
     <p v-else>Loading summary...</p>
 
-    <div class="d-flex gap-2 mt-auto mb-3">      
+    <div class="d-flex gap-2 mt-auto mb-3">
        <img src="../../../assets/socrates_blink_less.gif" width="25" alt=""> 
        <router-link to="/python/subtopic/1/summary"> 
         Start Session 
