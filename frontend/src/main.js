@@ -26,6 +26,10 @@ const routes = [
       {
         path: 'code',
         component: () => import('./views/python/components/CodeComponent.vue')
+      },
+      {
+        path: 'subtopic/:id/summary',
+        component: () => import('./views/python/components/SubtopicSummary.vue')
       }
     ]
     },
