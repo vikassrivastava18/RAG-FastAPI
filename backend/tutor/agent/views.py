@@ -15,7 +15,6 @@ from .serializers import (
 from .utils.agents.ask import TutorGraph
 
 
-
 class TopicListView(generics.ListAPIView):
 	queryset = Topic.objects.all()
 	serializer_class = TopicSerializer
@@ -58,3 +57,5 @@ class ChatQueryView(APIView):
 			'answer': result['answer'],
 			'thread_id': thread_id,
 		})
+
+

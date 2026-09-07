@@ -36,6 +36,31 @@ class CodeSnippet(models.Model):
 
     def __str__(self) -> str:
         return (f"{self.question}")[:100]
-     
 
 
+class TrueFalseQuiz(models.Model):
+    subtopic = models.ForeignKey(SubTopic, on_delete=models.CASCADE)
+    quiz = models.CharField(max_length=256)
+    answer = models.BooleanField()
+
+    def __str__(self) -> str:
+        return self.quiz[:100]
+
+
+class SelectOptionQuiz(models.Model):
+    subtopic = models.ForeignKey(SubTopic, on_delete=models.CASCADE)
+    quiz = models.CharField(max_length=256)
+    options = models.JSONField(default=list, blank=True)
+    anser = models.IntegerField()
+
+    def __str__(self) -> str:
+        return self.quiz[:100]
+
+
+class FillBlankQuiz(models.Model):
+    subtopic = models.ForeignKey(SubTopic, on_delete=models.CASCADE)
+    quiz = models.CharField(max_length=256)
+    answer = models.CharField(max_length=64)
+
+    def __str__(self) -> str:
+        return self.quiz[:100]

@@ -19,4 +19,5 @@ urlpatterns = [
 urlpatterns += [
     path('subtopics/<int:pk>/', SubTopicDetailView.as_view(), name='subtopic-detail'),
     path('subtopics/<int:subtopic_id>/chat/', ChatQueryView.as_view(), name='subtopic-chat'),
+    # path('subtopics/<int:subtopic_id>/quiz/', ChatQueryView.as_view(), name='subtopic-chat'),
 ]
