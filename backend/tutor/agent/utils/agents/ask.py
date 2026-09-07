@@ -96,13 +96,3 @@ class TutorGraph:
             },
         )
 
-
-# tutor = TutorGraph()
-
-# result = tutor.invoke(
-#     query="What is a regular expression?",
-#     context="The student is learning Python.",
-#     thread_id="student-123",
-# )
-
-# print(result["answer"])

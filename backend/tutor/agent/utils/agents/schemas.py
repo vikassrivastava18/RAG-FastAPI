@@ -11,6 +11,11 @@ class TrueFalse(BaseModel):
     answer: bool
     explanation: str
 
+class FillBlank(BaseModel):
+    quiz: str
+    answer: str
+
 class QuizSchema(BaseModel):
     mcq: list[MCQ]
     true_false: list[TrueFalse]
+    fill_blank: list[FillBlank]

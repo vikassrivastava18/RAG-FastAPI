@@ -13,6 +13,7 @@ from .serializers import (
 	TopicSerializer,
 )
 from .utils.agents.ask import TutorGraph
+from .utils.agents.quiz import create_quizzes
 
 
 class TopicListView(generics.ListAPIView):
@@ -59,3 +60,9 @@ class ChatQueryView(APIView):
 		})
 
 
+class QuizCreateView(APIView):
+	def post(self, request, subtopic_id):
+		subtopic = get_object_or_404(SubTopic, pk=subtopic_id)
+		quizzes = create_quizzes(subtopic.summary)
+
+		return Response(quizzes.model_dump())
