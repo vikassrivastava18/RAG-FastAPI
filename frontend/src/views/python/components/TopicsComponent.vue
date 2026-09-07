@@ -1,6 +1,11 @@
 <template>
     <div class="container my-2 p-2">
-        <h3> <img src="../../../assets/snake_svg.svg" width="50" alt="snake logo for Python">&nbsp;Topics</h3>
+        <h3> 
+            <img src="../../../assets/snake_svg.svg" 
+            width="50" 
+            alt="snake logo for Python">&nbsp;&nbsp;
+            Topics
+        </h3>
             <div v-for="topic in topics" :key="topic.id">                
                 <router-link class="topic-link" :to="`/python/topic-summary/${topic.id}`">
                     #{{ topic.title }}
@@ -11,12 +16,13 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
+import { baseUrl } from "../../../config";
 
 const topics = ref([]);
 
 onMounted(async () => {
     try {
-        const response = await fetch("http://127.0.0.1:8000/topics/");
+        const response = await fetch(`${baseUrl}/topics/`);
 
         if (!response.ok) {
             throw new Error(`Request failed with status ${response.status}`);

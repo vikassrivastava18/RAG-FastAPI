@@ -1,9 +1,9 @@
 <template>
 
 <!-- <PythonComponent /> -->
- <div class="container">
-        <RouterView />        
-    </div>
+<div class="container">
+    <RouterView />        
+</div>
     
 </template>
 

@@ -19,6 +19,7 @@
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { marked } from "marked";
+import { baseUrl } from "../../../config";
 
 const route = useRoute();
 const topic = ref({});
@@ -30,7 +31,7 @@ const renderedSummary = computed(() =>
 onMounted(async () => {
   try {
     const response = await fetch(
-      `http://127.0.0.1:8000/topics/${route.params.id}`
+      `${baseUrl}/topics/${route.params.id}`
     );
 
     if (!response.ok) {

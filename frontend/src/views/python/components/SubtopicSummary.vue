@@ -37,7 +37,7 @@
 
     <div class="summary-actions mt-2 mb-3">
       <button type="button" class="btn btn-danger">
-        Continue
+        Continue to quiz
       </button>
     </div>
   </div>
